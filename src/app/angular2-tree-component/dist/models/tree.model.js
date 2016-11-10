@@ -377,6 +377,7 @@ var TreeModel = (function () {
     };
     // TODO: move to a different service:
     TreeModel.prototype.setDragNode = function (dragNode) {
+        console.log("set dragNode");
         this._dragNode = dragNode;
     };
     TreeModel.prototype.getDragNode = function () {

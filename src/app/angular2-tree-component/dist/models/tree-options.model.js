@@ -17,6 +17,7 @@ exports.TREE_ACTIONS = {
     PREVIOUS_NODE: function (tree, node, $event) { return tree.focusPreviousNode(); },
     MOVE_NODE: function (tree, node, $event, to) {
         console.log("trigger")
+        console.log(tree._dragNode);
         tree.moveNode({ from: tree.getDragNode(), to: to });
     }
 };
