@@ -45,88 +45,55 @@ export class MyTreeComponent  {
             this.nodes = [
                 {
                     expanded: true,
-                    name: 'root expanded',
+                    name: '这是第一个任务包',
                     subTitle: 'the root',
+                    id:123131,
                     children: [
                         {
-                            name: 'child1',
+                            name: '这是任务1',
                             subTitle: 'a good child',
                             hasChildren: false
                         }, {
 
-                            name: 'child2',
+                            name: '这是任务2',
                             subTitle: 'a bad child',
                             hasChildren: false
                         }
                     ]
                 },
-                {
-                    name: 'root2',
-                    subTitle: 'the second root',
+                 {
+                    expanded: true,
+                    name: '这是第三个任务包',
+                    subTitle: 'the root',
                     children: [
                         {
-                            name: 'child2.1',
-                            subTitle: 'new and improved',
+                            name: '这是任务1.1',
+                            subTitle: 'a good child',
                             hasChildren: false
-                        },
-                        {
+                        }, {
 
-                            name: 'child2.2',
-                            subTitle: 'new and improved2',
-                            children: [
-                                {
-                                    uuid: 1001,
-                                    name: 'subsub',
-                                    subTitle: 'subsub',
-                                    hasChildren: false
-                                }
-                            ]
+                            name: '这是任务2.1',
+                            subTitle: 'a bad child',
+                            hasChildren: false
                         }
                     ]
                 },
-                {
-                    name: 'asyncroot',
-                    hasChildren: true
-                }];
+                ];
                 this.secondNodes = [
                 {
                     expanded: true,
-                    name: 'root expanded',
+                    name: '这是第二个任务包',
                     subTitle: 'the root',
                     children: [
                         {
-                            name: 'child1',
+                            name: 'first task',
                             subTitle: 'a good child',
                             hasChildren: false
                         }, {
 
-                            name: 'child2',
+                            name: 'second task',
                             subTitle: 'a bad child',
                             hasChildren: false
-                        }
-                    ]
-                },
-                {
-                    name: 'root2',
-                    subTitle: 'the second root',
-                    children: [
-                        {
-                            name: 'child2.1',
-                            subTitle: 'new and improved',
-                            hasChildren: false
-                        },
-                        {
-
-                            name: 'child2.2',
-                            subTitle: 'new and improved2',
-                            children: [
-                                {
-                                    uuid: 1001,
-                                    name: 'subsub',
-                                    subTitle: 'subsub',
-                                    hasChildren: false
-                                }
-                            ]
                         }
                     ]
                 },

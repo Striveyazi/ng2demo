@@ -3,25 +3,30 @@
     "configurations": [
         {
             "name": "Launch Chrome against localhost, with sourcemaps",
-            "type": "chrome",
+            "type": "node",
             "request": "launch",
-            "url": "http://localhost:3000/*",
             "runtimeArgs": [
               "--disable-web-security",
               "--user-data-dir",
               "--remote-debugging-port=9222"
             ],
+            "program": "${workspaceRoot}/src/app/angular2-tree-component/dist/models/tree.model.ts",
             "sourceMaps": true,
-            "webRoot": "${workspaceRoot}"
+            "cwd": "${workspaceRoot}"
         },
         {
             "name": "Attach to Chrome, with sourcemaps",
-            "type": "chrome",
+          
+            "type": "node",
             "request": "attach",
-            "url": "http://localhost:3000/*",
-            "port": 9222,
+            "runtimeArgs": [
+              "--disable-web-security",
+              "--user-data-dir",
+              "--remote-debugging-port=9222"
+            ],
+            "program": "${workspaceRoot}/src/app/angular2-tree-component/dist/models/tree.model.ts",
             "sourceMaps": true,
-            "webRoot": "${workspaceRoot}"
+            "cwd": "${workspaceRoot}"
         }
     ]
 }

@@ -23,7 +23,9 @@ export class TreeNode implements ITreeNode {
   get originalNode() { return this._originalNode };
 
   constructor(public data:any, public parent:TreeNode, public treeModel:TreeModel) {
+    console.log(this.id);
     this.id = this.id || uuid(); // Make sure there's a unique ID
+    console.log(this.id);
     this.level = this.parent ? this.parent.level + 1 : 0;
     this.path = this.parent ? [...this.parent.path, this.id] : [];
 
@@ -296,7 +298,7 @@ export class TreeNode implements ITreeNode {
 
     // TODO: move to the action itself:
     if (actionName === 'drop') {
-      this.treeModel.cancelDrag();
+      //this.treeModel.cancelDrag();
     }
   }
 

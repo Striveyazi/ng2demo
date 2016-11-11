@@ -13,7 +13,7 @@
 </Tree>
 
 
-<Tree #trees [nodes]="nodes"  [focused]="true" [options]="customTemplateStringOptions"  (onEvent)="onEvent($event)">
+<Tree #trees [nodes]="secondNodes"  [focused]="true" [options]="customTemplateStringOptions"  (onEvent)="onEvent($event)">
     <template #treeNodeTemplate let-node>
         <span title="{{node.data.subTitle}}">{{ node.data.name }}</span>
         <span class="pull-right">{{ childrenCount(node) }}</span>
