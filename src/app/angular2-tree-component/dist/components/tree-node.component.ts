@@ -120,7 +120,7 @@ export class TreeNodeComponent implements AfterViewInit {
   // TODO: move to draggable directive
   onDragStart($event) {
      console.log("onDragStart");
-         this.node.treeModel.setDragNode({ node: this.node, index: this.nodeIndex });
+         this.node.treeModel.setDragNode({ node: this.node.parent, index: this.nodeIndex });
     // setTimeout(
       
     //   () => {
