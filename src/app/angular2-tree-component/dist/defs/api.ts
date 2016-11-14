@@ -251,3 +251,12 @@ export interface ITreeModel {
    */
   getDragNode():{ node: ITreeNode, index:number };
 }
+/**
+ * This is the interface of the TreeContainer
+ */
+export interface ITreeContainer{
+  trees:{
+    nodes:ITreeNode[],
+    options:ITreeOptions
+  }[]
+}

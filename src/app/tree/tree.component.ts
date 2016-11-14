@@ -36,18 +36,18 @@ const actionMapping: IActionMapping = {
     ],
     templateUrl: 'tree.component.html'
 })
-export class MyTreeComponent  {
+export class MyTreeComponent {
     // @Input()
     nodes: any[];
-    secondNodes:any[];
+    secondNodes: any[];
+    trees: any[];
     constructor() {
-        setTimeout(()=>{
-            this.nodes = [
-                {
+        this.trees = [{
+                nodes:[{
                     expanded: true,
                     name: '这是第一个任务包',
                     subTitle: 'the root',
-                    id:123131,
+                    id: 123131,
                     children: [
                         {
                             name: '这是任务1',
@@ -61,7 +61,33 @@ export class MyTreeComponent  {
                         }
                     ]
                 },
-                 {
+                {
+                    name: 'asyncroot',
+                    hasChildren: true
+                }],
+                options: this.customTemplateStringOptions
+            }]
+        setTimeout(() => {
+            this.nodes = [
+                {
+                    expanded: true,
+                    name: '这是第一个任务包',
+                    subTitle: 'the root',
+                    id: 123131,
+                    children: [
+                        {
+                            name: '这是任务1',
+                            subTitle: 'a good child',
+                            hasChildren: false
+                        }, {
+
+                            name: '这是任务2',
+                            subTitle: 'a bad child',
+                            hasChildren: false
+                        }
+                    ]
+                },
+                {
                     expanded: true,
                     name: '这是第三个任务包',
                     subTitle: 'the root',
@@ -78,8 +104,9 @@ export class MyTreeComponent  {
                         }
                     ]
                 },
-                ];
-                this.secondNodes = [
+            ];
+            
+            this.secondNodes = [
                 {
                     expanded: true,
                     name: '这是第二个任务包',
@@ -101,7 +128,7 @@ export class MyTreeComponent  {
                     name: 'asyncroot',
                     hasChildren: true
                 }]
-        },0,);
+        }, 0, );
 
     }
     asyncChildren = [

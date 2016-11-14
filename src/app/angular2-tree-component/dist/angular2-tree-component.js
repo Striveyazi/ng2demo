@@ -22,7 +22,11 @@ var loading_component_1 = require('./components/loading.component');
 exports.LoadingComponent = loading_component_1.LoadingComponent;
 var deprecated_loading_component_1 = require('./components/deprecated-loading.component');
 var tree_component_1 = require('./components/tree.component');
-exports.TreeComponent = tree_component_1.TreeComponent;
+exports.TreeComponent = tree_component_1.TreeContainerComponent;
+
+var tree_container_1 = require('./components/tree-container.component');
+exports.TreeContainerComponent =tree_container_1.TreeContainerComponent;
+
 var tree_node_component_1 = require('./components/tree-node.component');
 exports.TreeNodeComponent = tree_node_component_1.TreeNodeComponent;
 var tree_node_content_component_1 = require('./components/tree-node-content.component');
@@ -44,10 +48,12 @@ var DeprecatedTreeModule = (function () {
                 tree_component_1.TreeComponent,
                 tree_node_component_1.TreeNodeComponent,
                 deprecated_tree_node_content_component_1.TreeNodeContent,
-                tree_node_drop_slot_component_1.TreeNodeDropSlot
+                tree_node_drop_slot_component_1.TreeNodeDropSlot,
+                tree_container_1.TreeContainerComponent
             ],
             exports: [
-                tree_component_1.TreeComponent,
+                tree_component_1.TreeComponent, 
+                tree_container_1.TreeContainerComponent
             ],
             imports: [
                 common_1.CommonModule,
@@ -71,14 +77,16 @@ var TreeModule = (function () {
                 tree_component_1.TreeComponent,
                 tree_node_component_1.TreeNodeComponent,
                 tree_node_content_component_1.TreeNodeContent,
-                tree_node_drop_slot_component_1.TreeNodeDropSlot
+                tree_node_drop_slot_component_1.TreeNodeDropSlot,
+                tree_container_1.TreeContainerComponent
             ],
             exports: [
                 tree_component_1.TreeComponent,
+                 tree_container_1.TreeContainerComponent
             ],
             imports: [
                 common_1.CommonModule,
-            ],
+            ], 
         }), 
         __metadata('design:paramtypes', [])
     ], TreeModule);

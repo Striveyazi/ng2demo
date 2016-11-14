@@ -1,4 +1,5 @@
-import { NgModule }      from '@angular/core';
+import { TreeContainerComponent } from './components/tree.container.component';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { TREE_ACTIONS, IActionMapping, IActionHandler } from './models/tree-options.model';
@@ -62,14 +63,19 @@ export class DeprecatedTreeModule {
     TreeComponent,
     TreeNodeComponent,
     TreeNodeContent,
+    TreeContainerComponent,
     TreeNodeDropSlot
   ],
   exports: [
     TreeComponent,
+    TreeContainerComponent
   ],
   imports: [
     CommonModule,
   ],
+    schemas: [
+    CUSTOM_ELEMENTS_SCHEMA
+    ],
 })
 export class TreeModule {}
 export default TreeModule;
