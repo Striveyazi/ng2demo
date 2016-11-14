@@ -23,9 +23,9 @@ export class TreeNode implements ITreeNode {
   get originalNode() { return this._originalNode };
 
   constructor(public data:any, public parent:TreeNode, public treeModel:TreeModel) {
-    console.log(this.id);
+
     this.id = this.id || uuid(); // Make sure there's a unique ID
-    console.log(this.id);
+
     this.level = this.parent ? this.parent.level + 1 : 0;
     this.path = this.parent ? [...this.parent.path, this.id] : [];
 
@@ -279,14 +279,14 @@ export class TreeNode implements ITreeNode {
   }
 
   mouseAction(actionName:string, $event, data:any = null) {
-    this.treeModel.setFocus(true);
-
+    //this.treeModel.setFocus(true);
+    data.totree.setFocus(true);
     const actionMapping = this.options.actionMapping.mouse;
     const action = actionMapping[actionName];
 
     if (action) {
-      action(this.treeModel, this, $event, data);
-
+      // action(this.treeModel, this, $event, data);
+      action(data.fromtree,this,$event, data);
       // TODO: remove after deprecation of context menu and dbl click
       if (actionName === 'contextMenu') {
         this.fireEvent({ eventName: TREE_EVENTS.onContextMenu, node: this, rawEvent: $event });

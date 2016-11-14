@@ -1,3 +1,4 @@
+import { TreeContainer } from './tree-container.model';
 import { Injectable, Component, Input, EventEmitter, TemplateRef } from '@angular/core';
 import { ITreeNodeTemplate } from '../components/tree-node-content.component';
 import { TreeNode } from './tree-node.model';
@@ -11,6 +12,7 @@ import * as _ from 'lodash';
 
 @Injectable()
 export class TreeModel implements ITreeModel {
+  treecontainer:TreeContainer = new TreeContainer();
   roots: TreeNode[];
   options: TreeOptions = new TreeOptions();
   nodes: any[];
@@ -28,7 +30,6 @@ export class TreeModel implements ITreeModel {
   firstUpdate = true;
 
   eventNames = Object.keys(TREE_EVENTS);
-
   setData({ nodes, options = null, events = null }:{nodes:any,options:any,events:any}) {
     if (options) {
       this.options = new TreeOptions(options);
@@ -70,7 +71,6 @@ export class TreeModel implements ITreeModel {
     } else {
       this.fireEvent({ eventName: TREE_EVENTS.onUpdateData });
     }
-    console.log(this.roots);
   }
 
   _calculateExpandedNodes(startNode = null) {
@@ -359,7 +359,6 @@ export class TreeModel implements ITreeModel {
 
   canMoveNode({ from, to }) {
     // same node:
-    console.log(from);
     if (from.node === to.node && from.index === to.index) {
       return false;
     }

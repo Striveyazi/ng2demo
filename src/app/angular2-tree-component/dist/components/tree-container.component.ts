@@ -1,3 +1,4 @@
+import { TreeContainer } from '../models/tree-container.model';
 
 import { Component, CUSTOM_ELEMENTS_SCHEMA, Input, OnChanges, OnInit } from '@angular/core';
 import { TreeComponent } from './tree.component';
@@ -5,6 +6,7 @@ import { CommonModule } from '@angular/common';
 @Component({
     moduleId: module.id,
     selector: 'TreeContainer',
+    providers: [TreeContainer],
     templateUrl: `
     <Tree *ngFor = "let tree of trees"
 
@@ -18,8 +20,10 @@ import { CommonModule } from '@angular/common';
 export class TreeContainerComponent implements OnChanges {
 
     @Input()  trees:any[];
-    constructor() {
-        console.log("Tree template");
+    constructor(public treecontainer:TreeContainer) {
+    //    this.treecontainer.trees = this.trees;
+    //    this.treecontainer._dragModel = {node:null,index:13,tree:null};
+     
     }
     ngOnChanges(changes) {
         // console.log(changes.trees.currentValue);

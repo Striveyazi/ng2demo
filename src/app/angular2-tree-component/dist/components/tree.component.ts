@@ -1,3 +1,4 @@
+import { TreeContainer } from '../models/tree-container.model';
 import { Component, Input, Output, OnChanges, SimpleChange, EventEmitter, ViewEncapsulation, ContentChild, TemplateRef } from '@angular/core';
 import { ITreeNodeTemplate } from './tree-node-content.component';
 import { TreeModel } from '../models/tree.model';
@@ -41,6 +42,8 @@ import * as _ from 'lodash'
 })
 export class TreeComponent implements OnChanges {
   constructor(public treeModel:TreeModel) {
+    //this.treecontainer = this._treecontainer;
+    //this._treecontainer._dragModel = {node:null,index:13,tree:null};
     treeModel.eventNames.forEach((name) => this[name] = new EventEmitter());
   }
 
@@ -53,7 +56,6 @@ export class TreeComponent implements OnChanges {
   // Will be handled in ngOnChanges
   @Input() set nodes(nodes:any[]) { };
   @Input() set options(options:TreeOptions) { };
-
   @Input() set focused(value:boolean) {
     this.treeModel.setFocus(value);
   }

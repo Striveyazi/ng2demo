@@ -1,3 +1,4 @@
+import { TreeContainer } from '../models/tree-container.model';
 
 import { Component, Input, ElementRef, AfterViewInit, ViewEncapsulation, TemplateRef } from '@angular/core';
 import { TreeNode } from '../models/tree-node.model';
@@ -6,6 +7,7 @@ import { ITreeNodeTemplate } from './tree-node-content.component';
 @Component({
   selector: 'TreeNode',
   encapsulation: ViewEncapsulation.None,
+  providers: [TreeContainer],
   styles: [
     '.tree-children { padding-left: 20px }',
     `.node-content-wrapper {
@@ -112,17 +114,22 @@ import { ITreeNodeTemplate } from './tree-node-content.component';
 })
 
 export class TreeNodeComponent implements AfterViewInit {
-  @Input() node:TreeNode;
-  @Input() nodeIndex:number;
+  @Input() node: TreeNode;
+  @Input() nodeIndex: number;
   @Input() treeNodeContentTemplate: TemplateRef<ITreeNodeTemplate>;
   @Input() loadingTemplate: TemplateRef<any>;
 
   // TODO: move to draggable directive
   onDragStart($event) {
-     console.log("onDragStart");
-         this.node.treeModel.setDragNode({ node: this.node.parent, index: this.nodeIndex });
+    console.log("onDragStart");
+    
+    // first 
+    this.node.treeModel.setDragNode({ node: this.node.parent, index: this.nodeIndex });
+
+    this.treecontainer._dragModel.tree = this.node.treeModel;
+    console.log(this.treecontainer._dragModel);
     // setTimeout(
-      
+
     //   () => {
     //     console.log("setDragNode");
     //      console.log(event);
@@ -133,7 +140,7 @@ export class TreeNodeComponent implements AfterViewInit {
   }
 
   onDragEnd() {
-     this.node.treeModel.setDragNode(null);
+    this.node.treeModel.setDragNode(null);
   }
 
   onDragOver($event) {
@@ -143,7 +150,8 @@ export class TreeNodeComponent implements AfterViewInit {
 
   onDrop($event) {
     $event.preventDefault();
-    this.node.mouseAction('drop', $event, { node: this.node, index: 0 });
+    console.log(this.treecontainer._dragModel);
+    this.node.mouseAction('drop', $event, { node: this.node, index: 0, fromtree: this.treecontainer._dragModel.tree, totree: this.node.treeModel });
   }
 
   onDragLeave(nodeContentWrapper, $event) {
@@ -153,13 +161,14 @@ export class TreeNodeComponent implements AfterViewInit {
 
     // If outside the element
     if ($event.clientX < rect.left || $event.clientX > rect.right ||
-        $event.clientY < rect.top || $event.clientY > rect.bottom) {
+      $event.clientY < rect.top || $event.clientY > rect.bottom) {
 
       this.node.treeModel.setDropLocation(null);
     }
   }
 
-  constructor(private elementRef: ElementRef) {
+  constructor(private elementRef: ElementRef,private treecontainer:TreeContainer) {
+
   }
 
   ngAfterViewInit() {
