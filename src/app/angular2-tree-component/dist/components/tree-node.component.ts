@@ -8,7 +8,6 @@ import { ITreeNodeTemplate } from './tree-node-content.component';
 @Component({
   selector: 'TreeNode',
   encapsulation: ViewEncapsulation.None,
-  providers: [TreeContainer],
   styles: [
     '.tree-children { padding-left: 20px }',
     `.node-content-wrapper {
@@ -123,17 +122,22 @@ export class TreeNodeComponent implements AfterViewInit {
   // TODO: move to draggable directive
   onDragStart($event) {
     console.log("onDragStart");
-    
+
     // first 
-   
+
     setTimeout(() => {
       this.node.treeModel.setDragNode({ node: this.node.parent, index: this.nodeIndex });
+      console.log(this.node);
+      //todo: need to do something like splice this node when dragstart
       TreeContainer._dragModel = { node: this.node, index: this.nodeIndex, tree: this.node.treeModel }
+      console.log(this.node.treeModel);
     }, 30)
   }
 
   onDragEnd() {
-    this.node.treeModel.setDragNode(null);
+    //this.node.treeModel.setDragNode(null);
+    console.log("end");
+    TreeContainer._dragModel =null;
   }
 
   onDragOver($event) {
@@ -159,12 +163,11 @@ export class TreeNodeComponent implements AfterViewInit {
     }
   }
 
-  constructor(private elementRef: ElementRef,private treecontainer:TreeContainer) {
+  constructor(private elementRef: ElementRef) {
 
   }
 
   ngAfterViewInit() {
-    //this.treecontainer.
     this.node.elementRef = this.elementRef;
   }
 }

@@ -42,55 +42,14 @@ export class MyTreeComponent {
     secondNodes: any[];
     trees: any[];
     constructor() {
-        this.trees = [{
-                nodes:[{
-                    expanded: true,
-                    name: '这是第一个任务包',
-                    subTitle: 'the root',
-                    id: 123131,
-                    children: [
-                        {
-                            name: '这是任务1',
-                            subTitle: 'a good child',
-                            hasChildren: false
-                        }, {
 
-                            name: '这是任务2',
-                            subTitle: 'a bad child',
-                            hasChildren: false
-                        }
-                    ]
-                },
-                {
-                    name: 'asyncroot',
-                    hasChildren: true
-                }],
-                options: this.customTemplateStringOptions
-            }]
         setTimeout(() => {
             this.nodes = [
                 {
                     expanded: true,
-                    name: '这是第一个任务包',
+                    name: '这是第一个任务包下面的第一个任务',
                     subTitle: 'the root',
                     id: 123131,
-                    children: [
-                        {
-                            name: '这是任务1',
-                            subTitle: 'a good child',
-                            hasChildren: false
-                        }, {
-
-                            name: '这是任务2',
-                            subTitle: 'a bad child',
-                            hasChildren: false
-                        }
-                    ]
-                },
-                {
-                    expanded: true,
-                    name: '这是第三个任务包',
-                    subTitle: 'the root',
                     children: [
                         {
                             name: '这是任务1.1',
@@ -98,27 +57,41 @@ export class MyTreeComponent {
                             hasChildren: false
                         }, {
 
-                            name: '这是任务2.1',
+                            name: '这是任务1.2',
                             subTitle: 'a bad child',
                             hasChildren: false
                         }
                     ]
                 },
-            ];
-            
-            this.secondNodes = [
                 {
                     expanded: true,
-                    name: '这是第二个任务包',
+                    name: '这是第一个任务包下面的第二个任务',
                     subTitle: 'the root',
                     children: [
                         {
-                            name: 'first task',
+                            name: '这是任务2.1',
                             subTitle: 'a good child',
                             hasChildren: false
                         }, {
 
-                            name: 'second task',
+                            name: '这是任务2.2',
+                            subTitle: 'a bad child',
+                            hasChildren: false
+                        }
+                    ]
+                },
+                {
+                    expanded: true,
+                    name: '这是第一个任务包下面的第三个任务',
+                    subTitle: 'the root',
+                    children: [
+                        {
+                            name: '这是任务3.1',
+                            subTitle: 'a good child',
+                            hasChildren: false
+                        }, {
+
+                            name: '这是任务3.2',
                             subTitle: 'a bad child',
                             hasChildren: false
                         }
@@ -127,8 +100,76 @@ export class MyTreeComponent {
                 {
                     name: 'asyncroot',
                     hasChildren: true
-                }]
-        }, 0, );
+                }
+            ];
+            let secondnodes =  [
+                {
+                    expanded: true,
+                    name: '这是第二个任务包下面的第一个任务',
+                    subTitle: 'the root',
+                    id: 123131,
+                    children: [
+                        {
+                            name: '这是任务1.1',
+                            subTitle: 'a good child',
+                            hasChildren: false
+                        }, {
+
+                            name: '这是任务1.2',
+                            subTitle: 'a bad child',
+                            hasChildren: false
+                        }
+                    ]
+                },
+                {
+                    expanded: true,
+                    name: '这是第二个任务包下面的第二个任务',
+                    subTitle: 'the root',
+                    children: [
+                        {
+                            name: '这是任务2.1',
+                            subTitle: 'a good child',
+                            hasChildren: false
+                        }, {
+
+                            name: '这是任务2.2',
+                            subTitle: 'a bad child',
+                            hasChildren: false
+                        }
+                    ]
+                },
+                {
+                    expanded: true,
+                    name: '这是第二个任务包下面的第三个任务',
+                    subTitle: 'the root',
+                    children: [
+                        {
+                            name: '这是任务3.1',
+                            subTitle: 'a good child',
+                            hasChildren: false
+                        }, {
+
+                            name: '这是任务3.2',
+                            subTitle: 'a bad child',
+                            hasChildren: false
+                        }
+                    ]
+                },
+                {
+                    name: 'asyncroot',
+                    hasChildren: true
+                }
+            ]
+            this.trees = [{
+                nodes: this.nodes,
+                options: this.customTemplateStringOptions
+            },{
+                nodes:secondnodes,
+                options: this.customTemplateStringOptions
+            }]
+        },0,()=>{
+            console.log("initial trees data");
+        } );
 
     }
     asyncChildren = [

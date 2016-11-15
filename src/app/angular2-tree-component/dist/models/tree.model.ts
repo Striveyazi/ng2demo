@@ -369,8 +369,8 @@ export class TreeModel implements ITreeModel {
     return !to.node.isDescendantOf(fromNode);
   }
 
-  moveNode({fromtree, from, to }) {
-    if (!this.canMoveNode({ from , to })) return;
+  moveNode({fromtree, from,totree, to }) {
+    //if (!this.canMoveNode({ from , to })) return;
 
     const fromChildren = from.node.getField('children');
 
@@ -386,8 +386,10 @@ export class TreeModel implements ITreeModel {
     let toIndex = (from.node === to.node && to.index > from.index) ? to.index - 1 : to.index;
 
     toChildren.splice(toIndex, 0, node);
+
+    // update fromtree and totree
     fromtree.update();
-    this.update();
+    totree.update();
 
     this.fireEvent({ eventName: TREE_EVENTS.onMoveNode, node, to });
   }

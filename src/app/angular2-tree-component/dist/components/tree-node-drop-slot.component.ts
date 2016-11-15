@@ -1,3 +1,4 @@
+import { TreeContainer } from '../models/tree-container.model';
 import { Component, Input, ViewEncapsulation } from '@angular/core';
 import { TreeNode } from '../models/tree-node.model';
 
@@ -36,6 +37,6 @@ export class TreeNodeDropSlot {
 
   onDrop($event) {
     $event.preventDefault();
-    this.node.mouseAction('drop', $event, { node: this.node, index: this.dropIndex });
+    this.node.mouseAction('drop', $event, { node: this.node, index: 0, fromtree: TreeContainer._dragModel.tree, totree: this.node.treeModel });
   }
 }

@@ -1,7 +1,7 @@
 <form>
     <input #filter (keyup)="filterNodes(filter.value, tree)" placeholder="filter nodes" />
 </form>
-<Tree #tree [nodes]="nodes" [focused]="true" [options]="customTemplateStringOptions" (onEvent)="onEvent($event)">
+<!--<Tree #tree [nodes]="nodes" [focused]="true" [options]="customTemplateStringOptions" (onEvent)="onEvent($event)">
     <template #treeNodeTemplate let-node>
         <span title="{{node.data.subTitle}}">{{ node.data.name }}</span>
         <span class="pull-right">{{ childrenCount(node) }}</span>
@@ -10,7 +10,7 @@
     <template #loadingTemplate>Loading, please hold....</template>
 
 
-</Tree>
+</Tree>-->
 <TreeContainer [trees]="trees">
 </TreeContainer>
 <br>
@@ -19,7 +19,7 @@ down | up | left | right | space | enter
 <p>Mouse:</p>
 click to select | shift+click to select multi
 <p>API:</p>
-<button (click)="tree.treeModel.focusNextNode()">next node</button>
+<!--<button (click)="tree.treeModel.focusNextNode()">next node</button>
 <button (click)="tree.treeModel.focusPreviousNode()">previous node</button>
 <button (click)="tree.treeModel.focusDrillDown()">drill down</button>
 <button (click)="tree.treeModel.focusDrillUp()">drill up</button>
@@ -38,4 +38,4 @@ click to select | shift+click to select multi
   </button>
 <button (click)="activateSubSub(tree)">
     Activate inner node
-  </button>
+  </button>-->

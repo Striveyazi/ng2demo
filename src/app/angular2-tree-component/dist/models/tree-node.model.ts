@@ -16,13 +16,13 @@ export class TreeNode implements ITreeNode {
 
   level: number;
   path: string[];
-  elementRef:ElementRef;
+  elementRef: ElementRef;
   children: TreeNode[];
 
   private _originalNode: any;
   get originalNode() { return this._originalNode };
 
-  constructor(public data:any, public parent:TreeNode, public treeModel:TreeModel) {
+  constructor(public data: any, public parent: TreeNode, public treeModel: TreeModel) {
 
     this.id = this.id || uuid(); // Make sure there's a unique ID
 
@@ -35,18 +35,18 @@ export class TreeNode implements ITreeNode {
   }
 
   // helper get functions:
-  get hasChildren():boolean {
+  get hasChildren(): boolean {
     return !!(this.data.hasChildren || (this.children && this.children.length > 0));
   }
-  get isCollapsed():boolean { return !this.isExpanded }
-  get isLeaf():boolean { return !this.hasChildren }
-  get isRoot():boolean { return this.parent.data.virtual }
-  get realParent():TreeNode { return this.isRoot ? null : this.parent }
+  get isCollapsed(): boolean { return !this.isExpanded }
+  get isLeaf(): boolean { return !this.hasChildren }
+  get isRoot(): boolean { return this.parent.data.virtual }
+  get realParent(): TreeNode { return this.isRoot ? null : this.parent }
 
   // proxy functions:
   get options(): TreeOptions { return this.treeModel.options }
   fireEvent(event) { this.treeModel.fireEvent(event) }
-  get context():any { return this.options.context }
+  get context(): any { return this.options.context }
 
   // field accessors:
   get displayField() {
@@ -101,8 +101,8 @@ export class TreeNode implements ITreeNode {
 
   findNextNode(goInside = true, skipHidden = false) {
     return goInside && this.isExpanded && this.getFirstChild(skipHidden) ||
-           this.findNextSibling(skipHidden) ||
-           this.parent && this.parent.findNextNode(false, skipHidden);
+      this.findNextSibling(skipHidden) ||
+      this.parent && this.parent.findNextNode(false, skipHidden);
   }
 
   findPreviousNode(skipHidden = false) {
@@ -120,7 +120,7 @@ export class TreeNode implements ITreeNode {
       : lastChild._getLastOpenDescendant(skipHidden);
   }
 
-  private _getParentsChildren(skipHidden = false):any[] {
+  private _getParentsChildren(skipHidden = false): any[] {
     const children = this.parent &&
       (skipHidden ? this.parent.getVisibleChildren() : this.parent.children);
 
@@ -131,7 +131,7 @@ export class TreeNode implements ITreeNode {
     return this._getParentsChildren(skipHidden).indexOf(this);
   }
 
-  isDescendantOf(node:TreeNode) {
+  isDescendantOf(node: TreeNode) {
     if (this === node) return true;
     else return this.parent && this.parent.isDescendantOf(node);
   }
@@ -222,7 +222,7 @@ export class TreeNode implements ITreeNode {
     return this;
   }
 
-  scrollIntoView():any {
+  scrollIntoView(): any {
     if (this.elementRef) {
       const nativeElement = this.elementRef.nativeElement;
       nativeElement.scrollIntoViewIfNeeded && nativeElement.scrollIntoViewIfNeeded();
@@ -278,16 +278,19 @@ export class TreeNode implements ITreeNode {
     return this.options.allowDrag;
   }
 
-  mouseAction(actionName:string, $event, data:any = null) {
+  mouseAction(actionName: string, $event, data: any = null) {
     //this.treeModel.setFocus(true);
-    let foucstree = data.totree?data.totree:this.treeModel;
+    let foucstree = data.totree ? data.totree : this.treeModel;
     foucstree.setFocus(true);
+    
     const actionMapping = this.options.actionMapping.mouse;
     const action = actionMapping[actionName];
 
     if (action) {
+
       // action(this.treeModel, this, $event, data);
-      action(data.fromtree,this,$event, data);
+      action(data.fromtree, this, $event, data);
+
       // TODO: remove after deprecation of context menu and dbl click
       if (actionName === 'contextMenu') {
         this.fireEvent({ eventName: TREE_EVENTS.onContextMenu, node: this, rawEvent: $event });

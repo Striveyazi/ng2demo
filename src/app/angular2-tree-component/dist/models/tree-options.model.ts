@@ -21,8 +21,8 @@ export const TREE_ACTIONS = {
   DRILL_UP: (tree:TreeModel, node:TreeNode, $event:any) => tree.focusDrillUp(),
   NEXT_NODE: (tree:TreeModel, node:TreeNode, $event:any) =>  tree.focusNextNode(),
   PREVIOUS_NODE: (tree:TreeModel, node:TreeNode, $event:any) =>  tree.focusPreviousNode(),
-  MOVE_NODE: (tree:TreeModel, node:TreeNode, $event:any, to:{ node:TreeNode, index: number }) => {
-    tree.moveNode({ fromtree:tree,from: tree.getDragNode(), to });
+  MOVE_NODE: (tree:TreeModel, node:TreeNode, $event:any, to:{ node:TreeNode, index: number,totree:TreeModel }) => {
+    tree.moveNode({ fromtree:tree,from: tree.getDragNode(),totree:to.totree, to });
   }
 }
 
