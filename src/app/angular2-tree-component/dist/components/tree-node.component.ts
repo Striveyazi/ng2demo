@@ -1,3 +1,4 @@
+import { setTimeout } from 'timers';
 import { TreeContainer } from '../models/tree-container.model';
 
 import { Component, Input, ElementRef, AfterViewInit, ViewEncapsulation, TemplateRef } from '@angular/core';
@@ -64,7 +65,7 @@ import { ITreeNodeTemplate } from './tree-node-content.component';
       <span
         *ngIf="node.hasChildren"
         class="toggle-children-wrapper"
-        (click)="node.mouseAction('expanderClick', $event)">
+        (click)="node.mouseAction('expanderClick', $event,{totree:node.treeModel})">
 
         <span class="toggle-children"></span>
       </span>
@@ -75,9 +76,9 @@ import { ITreeNodeTemplate } from './tree-node-content.component';
       <div class="node-content-wrapper"
         #nodeContentWrapper
         [class.is-dragging-over]="node.treeModel.isDraggingOver(this)"
-        (click)="node.mouseAction('click', $event)"
-        (dblclick)="node.mouseAction('dblClick', $event)"
-        (contextmenu)="node.mouseAction('contextMenu', $event)"
+        (click)="node.mouseAction('click', $event,{totree:node.treeModel})"
+        (dblclick)="node.mouseAction('dblClick', $event,{totree:node.treeModel})"
+        (contextmenu)="node.mouseAction('contextMenu', $event,{totree:node.treeModel})"
         [draggable]="node.allowDrag()"
         (dragstart)="onDragStart($event)"
         (drop)="onDrop($event)"
@@ -124,19 +125,11 @@ export class TreeNodeComponent implements AfterViewInit {
     console.log("onDragStart");
     
     // first 
-    this.node.treeModel.setDragNode({ node: this.node.parent, index: this.nodeIndex });
-
-    this.treecontainer._dragModel.tree = this.node.treeModel;
-    console.log(this.treecontainer._dragModel);
-    // setTimeout(
-
-    //   () => {
-    //     console.log("setDragNode");
-    //      console.log(event);
-    //      console.log(this.node);
-    //      console.log(this.node.parent);
-    //     this.node.treeModel.setDragNode({ node: this.node.parent, index: this.nodeIndex })
-    //   console.log(3)}, 30);
+   
+    setTimeout(() => {
+      this.node.treeModel.setDragNode({ node: this.node.parent, index: this.nodeIndex });
+      TreeContainer._dragModel = { node: this.node, index: this.nodeIndex, tree: this.node.treeModel }
+    }, 30)
   }
 
   onDragEnd() {
@@ -150,8 +143,7 @@ export class TreeNodeComponent implements AfterViewInit {
 
   onDrop($event) {
     $event.preventDefault();
-    console.log(this.treecontainer._dragModel);
-    this.node.mouseAction('drop', $event, { node: this.node, index: 0, fromtree: this.treecontainer._dragModel.tree, totree: this.node.treeModel });
+    this.node.mouseAction('drop', $event, { node: this.node, index: 0, fromtree: TreeContainer._dragModel.tree, totree: this.node.treeModel });
   }
 
   onDragLeave(nodeContentWrapper, $event) {
@@ -172,6 +164,7 @@ export class TreeNodeComponent implements AfterViewInit {
   }
 
   ngAfterViewInit() {
+    //this.treecontainer.
     this.node.elementRef = this.elementRef;
   }
 }

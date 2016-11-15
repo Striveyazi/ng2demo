@@ -22,7 +22,7 @@ export const TREE_ACTIONS = {
   NEXT_NODE: (tree:TreeModel, node:TreeNode, $event:any) =>  tree.focusNextNode(),
   PREVIOUS_NODE: (tree:TreeModel, node:TreeNode, $event:any) =>  tree.focusPreviousNode(),
   MOVE_NODE: (tree:TreeModel, node:TreeNode, $event:any, to:{ node:TreeNode, index: number }) => {
-    tree.moveNode({ from: tree.getDragNode(), to });
+    tree.moveNode({ fromtree:tree,from: tree.getDragNode(), to });
   }
 }
 
