@@ -1,4 +1,3 @@
-import { Tree } from '@angular/router/src/utils/tree';
 import { Component, OnInit, Input } from '@angular/core';
 import { IActionMapping, TREE_ACTIONS, KEYS, TreeNode } from 'app/angular2-tree-component';
 
