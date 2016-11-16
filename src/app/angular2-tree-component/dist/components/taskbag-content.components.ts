@@ -14,7 +14,7 @@ export interface ITaskBagTemplate{
     selector: 'TaskBagContent',
     templateUrl: '../templates/taskbag.templates/taskbag-content.component.html'
 })
-export class FeatureComponent implements OnInit {
+export class TaskBagComponent implements OnInit {
     constructor() { }
 
     ngOnInit() { }

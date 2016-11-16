@@ -23,4 +23,8 @@ export class ListUserComponent implements OnInit {
             error => this.errorMessage = error
         );
     }
+    testEvenEmitter(agreed:boolean){
+        console.log("dddd");
+        console.log(agreed);
+    }
 }

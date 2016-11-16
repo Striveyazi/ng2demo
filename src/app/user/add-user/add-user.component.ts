@@ -3,7 +3,7 @@ import { User } from '../../../assets/entity/user';
 import { UserService } from '../user.service';
 
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 @Component({
     moduleId: module.id,
     selector: "add-user",
@@ -20,8 +20,16 @@ export class AddComponent implements OnInit {
         'password': ''
         ///..need to valid's properties
     }
+    @Output()
+    onsubmited= new EventEmitter<boolean>();
+
+    _voted:boolean =false;
     submitted = false;
     constructor(public userService: UserService, private fb: FormBuilder) { }
+    clickSpan(agreed:boolean){
+        this.onsubmited.emit(agreed);
+        this._voted = true;
+    }
     ngOnInit() {
         this.user = new User();
         this.buildForm();
