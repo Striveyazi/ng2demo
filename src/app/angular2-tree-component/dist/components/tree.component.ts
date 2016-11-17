@@ -1,10 +1,11 @@
+import { TreeService } from '../services/tree.service';
+import { TaskBagComponent } from './taskbag-content.component';
 import { TreeContainer } from '../models/tree-container.model';
 import { Component, Input, Output, OnChanges, SimpleChange, EventEmitter, ViewEncapsulation, ContentChild, TemplateRef } from '@angular/core';
 import { ITreeNodeTemplate } from './tree-node-content.component';
 import { TreeModel } from '../models/tree.model';
 import { TreeOptions } from '../models/tree-options.model';
 import { KEYS } from '../constants/keys';
-
 import * as _ from 'lodash'
 
 @Component({
@@ -14,7 +15,7 @@ import * as _ from 'lodash'
     '(body: keydown)': "onKeydown($event)",
     '(body: mousedown)': "onMousedown($event)"
   },
-  providers: [TreeModel],
+  providers: [TreeModel,TreeService],
   styles: [
     '.tree-children { padding-left: 20px }',
     `.tree {
@@ -30,6 +31,8 @@ import * as _ from 'lodash'
   ],
   template: `
     <div class="tree" [class.node-dragging]="treeModel.isDragging()">
+    <TaskBagContent [taskBagInfo]="treeModel.taskBagInfo" [taskBagContentTemplate]="taskbagTemplate">
+    </TaskBagContent>
       <TreeNode
         *ngFor="let node of treeModel.roots; let i = index"
         [node]="node"
@@ -41,22 +44,23 @@ import * as _ from 'lodash'
   `
 })
 export class TreeComponent implements OnChanges {
-  constructor(public treeModel:TreeModel) {
+  constructor(public treeModel: TreeModel,public treeService:TreeService) {
     //this.treecontainer = this._treecontainer;
     //this._treecontainer._dragModel = {node:null,index:13,tree:null};
     treeModel.eventNames.forEach((name) => this[name] = new EventEmitter());
   }
 
-  _nodes:any[];
-  _options:TreeOptions;
-
+  _nodes: any[];
+  _options: TreeOptions;
   @ContentChild('loadingTemplate') loadingTemplate: TemplateRef<any>;
   @ContentChild('treeNodeTemplate') treeNodeTemplate: TemplateRef<ITreeNodeTemplate>;
-
-  // Will be handled in ngOnChanges
-  @Input() set nodes(nodes:any[]) { };
-  @Input() set options(options:TreeOptions) { };
-  @Input() set focused(value:boolean) {
+  @ContentChild('taskbagTemplate') taskbagTemplate: TemplateRef<any>;
+  // use @Input property Will be can handled in ngOnChanges
+  @Input() set nodes(nodes: any[]) {
+    this._nodes = nodes
+   };
+  @Input() set options(options: TreeOptions) { };
+  @Input() set focused(value: boolean) {
     this.treeModel.setFocus(value);
   }
 
@@ -76,7 +80,7 @@ export class TreeComponent implements OnChanges {
   onKeydown($event) {
     if (!this.treeModel.isFocused) return;
     if (_.includes(['input', 'textarea'],
-        document.activeElement.tagName.toLowerCase())) return;
+      document.activeElement.tagName.toLowerCase())) return;
 
     const focusedNode = this.treeModel.getFocusedNode();
 
@@ -91,10 +95,17 @@ export class TreeComponent implements OnChanges {
   }
 
   ngOnChanges(changes) {
+    // this.treeModel.setData({
+    //   options: changes.options && changes.options.currentValue,
+    //   nodes: changes.nodes && changes.nodes.currentValue,
+    //   events: _.pick(this, this.treeModel.eventNames),
+    //   taskbaginfo: { chooseStates: true }
+    // });
     this.treeModel.setData({
       options: changes.options && changes.options.currentValue,
-      nodes: changes.nodes && changes.nodes.currentValue,
-      events: _.pick(this, this.treeModel.eventNames)
-    });
+      nodes: this.treeService.getTaskInfos("first"),
+      events: _.pick(this, this.treeModel.eventNames),
+      taskbaginfo: { chooseStates: true }
+    })
   }
 }

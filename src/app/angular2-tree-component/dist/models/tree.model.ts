@@ -1,4 +1,4 @@
-import { TreeContainer } from './tree-container.model';
+import { TaskBagInfo } from './taskbag-info.model';
 import { Injectable, Component, Input, EventEmitter, TemplateRef } from '@angular/core';
 import { ITreeNodeTemplate } from '../components/tree-node-content.component';
 import { TreeNode } from './tree-node.model';
@@ -12,7 +12,7 @@ import * as _ from 'lodash';
 
 @Injectable()
 export class TreeModel implements ITreeModel {
-  treecontainer:TreeContainer = new TreeContainer();
+  taskBagInfo:TaskBagInfo;
   roots: TreeNode[];
   options: TreeOptions = new TreeOptions();
   nodes: any[];
@@ -30,7 +30,7 @@ export class TreeModel implements ITreeModel {
   firstUpdate = true;
 
   eventNames = Object.keys(TREE_EVENTS);
-  setData({ nodes, options = null, events = null }:{nodes:any,options:any,events:any}) {
+  setData({ nodes, options = null, events = null,taskbaginfo=null }:{nodes:any,options:any,events:any,taskbaginfo:any}) {
     if (options) {
       this.options = new TreeOptions(options);
     }
@@ -40,7 +40,9 @@ export class TreeModel implements ITreeModel {
     if (nodes) {
       this.nodes = nodes;
     }
-
+    if(taskbaginfo){   
+      this.taskBagInfo = taskbaginfo
+    }
     this.update();
   }
 

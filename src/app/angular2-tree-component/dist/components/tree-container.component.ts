@@ -23,6 +23,9 @@ import { TreeNode } from 'app/angular2-tree-component';
         <button (click)="go($event)">Custom Action</button>
     </template>
     <template #loadingTemplate>Loading, please hold....</template>
+    <template #taskbagTemplate let-taskInfod>
+        <span>{{taskInfod}}</span>
+    </template>
     </Tree>
     `,
 })
@@ -30,13 +33,16 @@ export class TreeContainerComponent implements OnChanges {
 
     @Input()  trees:any[];
     @ContentChild('loadingTemplate') loadingTemplate:TemplateRef<any>;
-    @ContentChild('taskbagTemplate') taskbagTemplate:TemplateRef<any>;
+    
     constructor(public treecontainer:TreeContainer) {
+         console.log(this.trees);
     //    this.treecontainer.trees = this.trees;
     //    this.treecontainer._dragModel = {node:null,index:13,tree:null};
      
     }
     ngOnChanges(changes) {
+        console.log("trees inits")
+        console.log(this.trees);
         // console.log(changes.trees.currentValue);
         // this.trees = changes.trees.currentValue;
         // console.log(this.trees);

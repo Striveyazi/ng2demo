@@ -27,6 +27,9 @@ exports.TreeComponent = tree_component_1.TreeContainerComponent;
 var tree_container_1 = require('./components/tree-container.component');
 exports.TreeContainerComponent =tree_container_1.TreeContainerComponent;
 
+var taskbag_content_container_1 = require('./components/taskbag-content.component')
+exports.TaskBagComponent = taskbag_content_container_1.TaskBagComponent;
+
 var tree_node_component_1 = require('./components/tree-node.component');
 exports.TreeNodeComponent = tree_node_component_1.TreeNodeComponent;
 var tree_node_content_component_1 = require('./components/tree-node-content.component');
@@ -49,11 +52,13 @@ var DeprecatedTreeModule = (function () {
                 tree_node_component_1.TreeNodeComponent,
                 deprecated_tree_node_content_component_1.TreeNodeContent,
                 tree_node_drop_slot_component_1.TreeNodeDropSlot,
-                tree_container_1.TreeContainerComponent
+                tree_container_1.TreeContainerComponent,
+                taskbag_content_container_1.TaskBagComponent
             ],
             exports: [
                 tree_component_1.TreeComponent, 
-                tree_container_1.TreeContainerComponent
+                tree_container_1.TreeContainerComponent,
+                taskbag_content_container_1.TaskBagComponent
             ],
             imports: [
                 common_1.CommonModule,
@@ -78,11 +83,13 @@ var TreeModule = (function () {
                 tree_node_component_1.TreeNodeComponent,
                 tree_node_content_component_1.TreeNodeContent,
                 tree_node_drop_slot_component_1.TreeNodeDropSlot,
-                tree_container_1.TreeContainerComponent
+                tree_container_1.TreeContainerComponent,
+                taskbag_content_container_1.TaskBagComponent
             ],
             exports: [
                 tree_component_1.TreeComponent,
-                 tree_container_1.TreeContainerComponent
+                tree_container_1.TreeContainerComponent,
+                taskbag_content_container_1.TaskBagComponent
             ],
             imports: [
                 common_1.CommonModule,

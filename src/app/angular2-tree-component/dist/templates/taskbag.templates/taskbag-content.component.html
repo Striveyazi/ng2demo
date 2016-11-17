@@ -1,5 +1,19 @@
-<span>
+<div>
+    <span>
     there is  a progress
+    <!--<div ng-if="taskBagInfo.chooseStates">
+        <span>there is some events to operation</span>
+        <button>
+            add
+        </button>
+         <button>
+            remove
+        </button>
+         <button>
+            +
+        </button>
+   </div>-->
 </span>
-<template [ngTemplateOutlet]="" [ngOutletContext]="{$implicit:}">
-</template>
+    <template [ngTemplateOutlet]="taskBagContentTemplate" [ngOutletContext]="{$implicit:taskinfo}">
+    </template>
+</div>
