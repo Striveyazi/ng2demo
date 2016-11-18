@@ -159,13 +159,14 @@ export class MyTreeComponent {
                     hasChildren: true
                 }
             ]
-            this.trees = [{
-                nodes: this.nodes,
-                options: this.customTemplateStringOptions
-            },{
-                nodes:secondnodes,
-                options: this.customTemplateStringOptions
-            }]
+            // this.trees = [{
+            //     nodes: this.nodes,
+            //     options: this.customTemplateStringOptions
+            // },{
+            //     nodes:secondnodes,
+            //     options: this.customTemplateStringOptions
+            // }]
+            this.trees=['first','second'];
         },0,()=>{
             console.log("initial trees data");
         } );

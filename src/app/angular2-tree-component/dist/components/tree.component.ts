@@ -15,7 +15,7 @@ import * as _ from 'lodash'
     '(body: keydown)': "onKeydown($event)",
     '(body: mousedown)': "onMousedown($event)"
   },
-  providers: [TreeModel,TreeService],
+  providers: [TreeModel, TreeService],
   styles: [
     '.tree-children { padding-left: 20px }',
     `.tree {
@@ -44,7 +44,7 @@ import * as _ from 'lodash'
   `
 })
 export class TreeComponent implements OnChanges {
-  constructor(public treeModel: TreeModel,public treeService:TreeService) {
+  constructor(public treeModel: TreeModel, public treeService: TreeService) {
     //this.treecontainer = this._treecontainer;
     //this._treecontainer._dragModel = {node:null,index:13,tree:null};
     treeModel.eventNames.forEach((name) => this[name] = new EventEmitter());
@@ -56,9 +56,10 @@ export class TreeComponent implements OnChanges {
   @ContentChild('treeNodeTemplate') treeNodeTemplate: TemplateRef<ITreeNodeTemplate>;
   @ContentChild('taskbagTemplate') taskbagTemplate: TemplateRef<any>;
   // use @Input property Will be can handled in ngOnChanges
-  @Input() set nodes(nodes: any[]) {
-    this._nodes = nodes
-   };
+  // @Input() set nodes(nodes: any[]) {
+  //   this._nodes = nodes
+  // };
+  @Input() nodes:any[];
   @Input() set options(options: TreeOptions) { };
   @Input() set focused(value: boolean) {
     this.treeModel.setFocus(value);
@@ -101,11 +102,22 @@ export class TreeComponent implements OnChanges {
     //   events: _.pick(this, this.treeModel.eventNames),
     //   taskbaginfo: { chooseStates: true }
     // });
-    this.treeModel.setData({
-      options: changes.options && changes.options.currentValue,
-      nodes: this.treeService.getTaskInfos("first"),
-      events: _.pick(this, this.treeModel.eventNames),
-      taskbaginfo: { chooseStates: true }
-    })
+    let options = [];
+    let nodes = [];
+    
+      console.log(1111);
+    for (let task_id in changes.nodes.currentValue) {
+      options.push(this.treeService.getTaskBagOptions("first"))
+      nodes.push(this.treeService.getTaskInfos(task_id));
+    }
+    if (options && nodes) {
+      this.treeModel.setData({
+        options: options,
+        nodes: nodes,
+        events: _.pick(this, this.treeModel.eventNames),
+        taskbaginfo: { chooseStates: true }
+      })
+    }
+
   }
 }

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-
+import { IActionMapping, TREE_ACTIONS, KEYS, TreeNode } from 'app/angular2-tree-component';
 @Injectable()
 export class TreeService {
     getTaskBagIds(projectId: any) {
@@ -32,7 +32,7 @@ export class TreeService {
             ]
         }
         if (taskbagId === "second") {
-             data = [{
+            data = [{
                 bag_id: "dadas",
                 name: 'third task bag',
                 pos: 262141,
@@ -56,12 +56,74 @@ export class TreeService {
         }
 
     }
+    asyncChildren = [
+        {
+            name: 'child2.1',
+            subTitle: 'new and improved'
+        }, {
+            name: 'child2.2',
+            subTitle: 'new and improved2'
+        }
+    ];
+    getChildren(node: any) {
+        console.log("tree node enter-1");
+        return new Promise((resolve, reject) => {
+            setTimeout(() => resolve(this.asyncChildren.map((c) => {
+                return Object.assign({}, c, {
+                    hasChildren: node.level < 5
+                });
+            })), 1000);
+        });
+    }
+    /**
+     * get options about taskbagId
+     */
+    getTaskBagOptions(taskbagId: any) {
+        if (taskbagId === "first" || taskbagId==="second") {
+            const actionMapping: IActionMapping = {
+                mouse: {
+                    contextMenu: (tree, node, $event) => {
+                        $event.preventDefault();
+                        alert(`context menu for ${node.data.name}`);
+                    },
+                    dblClick: TREE_ACTIONS.TOGGLE_EXPANDED,
+                    click: (tree, node, $event) => {
+                        $event.shiftKey
+                            ? TREE_ACTIONS.TOGGLE_SELECTED_MULTI(tree, node, $event)
+                            : TREE_ACTIONS.TOGGLE_SELECTED(tree, node, $event)
+                    }
+                },
+                keys: {
+                    [KEYS.ENTER]: (tree, node, $event) => alert(`This is ${node.data.name}`)
+                }
+            }
+
+            let customTemplateStringOptions = {
+                // displayField: 'subTitle',
+                isExpandedField: 'expanded',
+                idField: 'uuid',
+                getChildren: this.getChildren.bind(this),
+                actionMapping,
+                allowDrag: true
+            }
+        }
+    }
+    /**
+     * get taskbag's taskids
+     */
+    getTaskIds(taskbagId: any) {
+        let data = [];
+        if (taskbagId === "first") {
+            data = ["first_taskbag_id", "second_taskbag_id"];
+        }
+        return data;
+    }
     /**
      * include taskinfo and the childrens's ids
      */
     getTaskInfos(taskId: any) {
         let data: any;
-        if (taskId == "first") {
+        if (taskId == "first_taskbag_id") {
             data = [{
                 subTitle: 'the root',
                 task_id: '02066401e55941e986b4384a5c69cc65',
@@ -114,7 +176,7 @@ export class TreeService {
             }
             ];
         }
-        if (taskId == "second") {
+        if (taskId == "second_taskbag_id") {
             data = [{
                 subTitle: 'the root',
                 task_id: '02066401e55941e986b4384a5c69cc65',
@@ -169,4 +231,5 @@ export class TreeService {
         }
         return data;
     }
+
 }
