@@ -166,7 +166,15 @@ export class MyTreeComponent {
             //     nodes:secondnodes,
             //     options: this.customTemplateStringOptions
             // }]
-            this.trees=['first','second'];
+             this.trees=[{
+                 Id:'first',
+                 children_ids:[],
+                 options:{}
+             },{
+                 Id:'second',
+                 children_ids:[],
+                 options:{}
+             }];
         },0,()=>{
             console.log("initial trees data");
         } );

@@ -79,7 +79,7 @@ export class TreeService {
      * get options about taskbagId
      */
     getTaskBagOptions(taskbagId: any) {
-        if (taskbagId === "first" || taskbagId==="second") {
+        if (taskbagId === "first" || taskbagId === "second") {
             const actionMapping: IActionMapping = {
                 mouse: {
                     contextMenu: (tree, node, $event) => {
@@ -106,7 +106,9 @@ export class TreeService {
                 actionMapping,
                 allowDrag: true
             }
+            return customTemplateStringOptions;
         }
+        return null;
     }
     /**
      * get taskbag's taskids
@@ -114,7 +116,7 @@ export class TreeService {
     getTaskIds(taskbagId: any) {
         let data = [];
         if (taskbagId === "first") {
-            data = ["first_taskbag_id", "second_taskbag_id"];
+            data = ["first_task_id", "second_task_id"];
         }
         return data;
     }
@@ -123,8 +125,9 @@ export class TreeService {
      */
     getTaskInfos(taskId: any) {
         let data: any;
-        if (taskId == "first_taskbag_id") {
-            data = [{
+        //should be return a object ,not a array
+        if (taskId === "first_task_id") {
+            data = {
                 subTitle: 'the root',
                 task_id: '02066401e55941e986b4384a5c69cc65',
                 name: '这是第一个任务包下面的第一个任务',
@@ -132,52 +135,18 @@ export class TreeService {
                 parent_id: '7753b58059814134964c441f7d1244c3',
                 children_ids: ['e5d7cd6fa0894630a2fbf8b43a0cb0c7', '4d7da2aaf8154fc7a7c932b0a397b5d8'],
                 pos: 2313.35,
-                expanded: true,
+                is_expanded: true,
+                is_collapsed:false,
                 hasChild: true,
                 members: [],
                 watchers: [],
                 create_date: 3123132131,
                 update_date: 2132322323,
-                children: [
-                    {
-                        name: '这是任务1.1',
-                        subTitle: 'a good child',
-                        hasChildren: false
-                    }, {
-
-                        name: '这是任务1.2',
-                        subTitle: 'a bad child',
-                        hasChildren: false
-                    }
-                ],
-            },
-            {
-                subTitle: 'the root2',
-                task_id: '02066401e55941e986b4384a5c69cc65',
-                name: '这是第一个任务包下面的第二个任务',
-                bag_id: '2f5fd2bec28c4db78311f12ae213954f',
-                parent_id: '7753b58059814134964c441f7d1244c3',
-                children_ids: ['e5d7cd6fa0894630a2fbf8b43a0cb0c7', '4d7da2aaf8154fc7a7c932b0a397b5d8'],
-                pos: 2313.35,
-                expanded: true,
-                hasChild: true,
-                children: [
-                    {
-                        name: '这是任务1.1',
-                        subTitle: 'a good child',
-                        hasChildren: false
-                    }, {
-
-                        name: '这是任务1.2',
-                        subTitle: 'a bad child',
-                        hasChildren: false
-                    }
-                ],
+                children: [],
             }
-            ];
         }
-        if (taskId == "second_taskbag_id") {
-            data = [{
+        if (taskId === "second_task_id") {
+            data = {
                 subTitle: 'the root',
                 task_id: '02066401e55941e986b4384a5c69cc65',
                 name: '这是第一个任务包下面的第三个任务',
@@ -185,49 +154,52 @@ export class TreeService {
                 parent_id: '7753b58059814134964c441f7d1244c3',
                 children_ids: ['e5d7cd6fa0894630a2fbf8b43a0cb0c7', '4d7da2aaf8154fc7a7c932b0a397b5d8'],
                 pos: 2313.35,
-                expanded: true,
+                is_expanded: true,
+                is_collapsed:false,
                 hasChild: true,
                 members: [],
                 watchers: [],
                 create_date: 3123132131,
                 update_date: 2132322323,
-                children: [
-                    {
-                        name: '这是任务1.1',
-                        subTitle: 'a good child',
-                        hasChildren: false
-                    }, {
-
-                        name: '这是任务1.2',
-                        subTitle: 'a bad child',
-                        hasChildren: false
-                    }
-                ],
-            },
-            {
-                subTitle: 'the root2',
-                task_id: '02066401e55941e986b4384a5c69cc65',
-                name: '这是第一个任务包下面的第四个任务',
+                children: [],
+            };
+        }
+        if (taskId === "e5d7cd6fa0894630a2fbf8b43a0cb0c7") {
+            data = {
+                subTitle: 'the root',
+                task_id: 'sassda401e55941e986b4384a5c69cc65',
+                name: '这是一个子任务',
                 bag_id: '2f5fd2bec28c4db78311f12ae213954f',
                 parent_id: '7753b58059814134964c441f7d1244c3',
-                children_ids: ['e5d7cd6fa0894630a2fbf8b43a0cb0c7', '4d7da2aaf8154fc7a7c932b0a397b5d8'],
+                children_ids:[],
                 pos: 2313.35,
-                expanded: true,
-                hasChild: true,
-                children: [
-                    {
-                        name: '这是任务1.1',
-                        subTitle: 'a good child',
-                        hasChildren: false
-                    }, {
-
-                        name: '这是任务1.2',
-                        subTitle: 'a bad child',
-                        hasChildren: false
-                    }
-                ],
-            }
-            ];
+                is_expanded: false,
+                is_collapsed:true,
+                hasChild: false,
+                members: [],
+                watchers: [],
+                children:[],
+                create_date: 3123132131,
+                update_date: 2132322323,
+            };
+        }
+        if(taskId === "4d7da2aaf8154fc7a7c932b0a397b5d8"){
+            data = {
+                subTitle: 'the root',
+                task_id: 'das66401e55941e986b4384a5c69cc65',
+                name: '这是一个子任务',
+                bag_id: '2f5fd2bec28c4db78311f12ae213954f',
+                parent_id: '02066401e55941e986b4384a5c69cc65',
+                children_ids:[],
+                pos: 2313.35,
+                is_expanded: false,
+                is_collapsed:true,
+                hasChild: false,
+                members: [],
+                watchers: [],
+                create_date: 3123132131,
+                update_date: 2132322323,
+            };
         }
         return data;
     }

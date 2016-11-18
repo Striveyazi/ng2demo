@@ -1,13 +1,14 @@
-import { setTimeout } from 'timers';
+import { TreeService } from '../services/tree.service';
 import { TreeContainer } from '../models/tree-container.model';
 
-import { Component, Input, ElementRef, AfterViewInit, ViewEncapsulation, TemplateRef } from '@angular/core';
+import { Component, Input, ElementRef, AfterViewInit, ViewEncapsulation, TemplateRef, OnChanges } from '@angular/core';
 import { TreeNode } from '../models/tree-node.model';
 import { ITreeNodeTemplate } from './tree-node-content.component';
 
 @Component({
   selector: 'TreeNode',
   encapsulation: ViewEncapsulation.None,
+  providers: [TreeService],
   styles: [
     '.tree-children { padding-left: 20px }',
     `.node-content-wrapper {
@@ -47,38 +48,38 @@ import { ITreeNodeTemplate } from './tree-node-content.component';
   ],
   template: `
     <div
-      *ngIf="!node.isHidden"
-      class="tree-node tree-node-level-{{ node.level }}"
-      [class.tree-node-expanded]="node.isExpanded && node.hasChildren"
-      [class.tree-node-collapsed]="node.isCollapsed && node.hasChildren"
-      [class.tree-node-leaf]="node.isLeaf"
-      [class.tree-node-active]="node.isActive"
-      [class.tree-node-focused]="node.isFocused">
+      *ngIf="!task.isHidden"
+      class="tree-node tree-node-level-{{ task.level }}"
+      [class.tree-node-expanded]="task.isExpanded && task.data && task.data.hasChild"
+      [class.tree-node-collapsed]="task.isCollapsed && task.data &&task.data.hasChild"
+      [class.tree-node-leaf]="task.isLeaf"
+      [class.tree-node-active]="task.isActive"
+      [class.tree-node-focused]="task.isFocused">
 
       <TreeNodeDropSlot
         *ngIf="nodeIndex === 0"
         [dropIndex]="nodeIndex"
-        [node]="node.parent"
+        [task]="task.parent"
         ></TreeNodeDropSlot>
 
       <span
-        *ngIf="node.hasChildren"
+        *ngIf="task.data &&task.data.hasChild"
         class="toggle-children-wrapper"
-        (click)="node.mouseAction('expanderClick', $event,{totree:node.treeModel})">
+        (click)="task.mouseAction('expanderClick', $event,{totree:task.treeModel})">
 
         <span class="toggle-children"></span>
       </span>
       <span
-        *ngIf="!node.hasChildren"
+        *ngIf="!(task.data &&task.data.hasChild)"
         class="toggle-children-placeholder">
       </span>
       <div class="node-content-wrapper"
         #nodeContentWrapper
-        [class.is-dragging-over]="node.treeModel.isDraggingOver(this)"
-        (click)="node.mouseAction('click', $event,{totree:node.treeModel})"
-        (dblclick)="node.mouseAction('dblClick', $event,{totree:node.treeModel})"
-        (contextmenu)="node.mouseAction('contextMenu', $event,{totree:node.treeModel})"
-        [draggable]="node.allowDrag()"
+        [class.is-dragging-over]="task.treeModel.isDraggingOver(this)"
+        (click)="task.mouseAction('click', $event,{totree:task.treeModel})"
+        (dblclick)="task.mouseAction('dblClick', $event,{totree:task.treeModel})"
+        (contextmenu)="task.mouseAction('contextMenu', $event,{totree:task.treeModel})"
+        [draggable]="task.allowDrag()"
         (dragstart)="onDragStart($event)"
         (drop)="onDrop($event)"
         (dragend)="onDragEnd()"
@@ -86,14 +87,14 @@ import { ITreeNodeTemplate } from './tree-node-content.component';
         (dragleave)="onDragLeave(nodeContentWrapper, $event)"
         >
 
-        <TreeNodeContent [node]="node" [treeNodeContentTemplate]="treeNodeContentTemplate"></TreeNodeContent>
+        <TreeNodeContent [task]="task" [treeNodeContentTemplate]="treeNodeContentTemplate"></TreeNodeContent>
       </div>
 
-      <div class="tree-children" *ngIf="node.isExpanded">
-        <div *ngIf="node.children">
+      <div class="tree-children" *ngIf="task.isExpanded">
+        <div *ngIf="task.data &&task.data.hasChild">
           <TreeNode
-            *ngFor="let node of node.children; let i = index"
-            [node]="node"
+            *ngFor="let child_task of task.data.children; let i = index"
+            [task]="child_task"
             [nodeIndex]="i"
             [treeNodeContentTemplate]="treeNodeContentTemplate"
             [loadingTemplate]="loadingTemplate">
@@ -101,23 +102,25 @@ import { ITreeNodeTemplate } from './tree-node-content.component';
         </div>
         <LoadingComponent
           class="tree-node-loading"
-          *ngIf="!node.children"
+          *ngIf="!task.data.children"
           [loadingTemplate]="loadingTemplate"
         ></LoadingComponent>
       </div>
       <TreeNodeDropSlot
         [dropIndex]="nodeIndex + 1"
-        [node]="node.parent"
+        [task]="task.parent"
         ></TreeNodeDropSlot>
     </div>
   `
 })
 
-export class TreeNodeComponent implements AfterViewInit {
-  @Input() node: TreeNode;
+export class TreeNodeComponent implements AfterViewInit, OnChanges {
+  @Input() task: TreeNode;
   @Input() nodeIndex: number;
   @Input() treeNodeContentTemplate: TemplateRef<ITreeNodeTemplate>;
   @Input() loadingTemplate: TemplateRef<any>;
+
+
 
   // TODO: move to draggable directive
   onDragStart($event) {
@@ -126,32 +129,32 @@ export class TreeNodeComponent implements AfterViewInit {
     // first 
 
     setTimeout(() => {
-      this.node.treeModel.setDragNode({ node: this.node.parent, index: this.nodeIndex });
-      console.log(this.node);
+      this.task.treeModel.setDragNode({ node: this.task.parent, index: this.nodeIndex });
+      console.log(this.task);
       //todo: need to do something like splice this node when dragstart
-      TreeContainer._dragModel = { node: this.node, index: this.nodeIndex, tree: this.node.treeModel }
-      console.log(this.node.treeModel);
+      TreeContainer._dragModel = { node: this.task, index: this.nodeIndex, tree: this.task.treeModel }
+      console.log(this.task.treeModel);
     }, 30)
   }
 
   onDragEnd() {
     //this.node.treeModel.setDragNode(null);
     console.log("end");
-    TreeContainer._dragModel =null;
+    TreeContainer._dragModel = null;
   }
 
   onDragOver($event) {
     $event.preventDefault();
-    this.node.treeModel.setDropLocation({ component: this, node: this.node, index: 0 });
+    this.task.treeModel.setDropLocation({ component: this, node: this.task, index: 0 });
   }
 
   onDrop($event) {
     $event.preventDefault();
-    this.node.mouseAction('drop', $event, { node: this.node, index: 0, fromtree: TreeContainer._dragModel.tree, totree: this.node.treeModel });
+    this.task.mouseAction('drop', $event, { node: this.task, index: 0, fromtree: TreeContainer._dragModel.tree, totree: this.task.treeModel });
   }
 
   onDragLeave(nodeContentWrapper, $event) {
-    if (!this.node.treeModel.isDraggingOver(this)) return;
+    if (!this.task.treeModel.isDraggingOver(this)) return;
 
     const rect = nodeContentWrapper.getBoundingClientRect();
 
@@ -159,15 +162,24 @@ export class TreeNodeComponent implements AfterViewInit {
     if ($event.clientX < rect.left || $event.clientX > rect.right ||
       $event.clientY < rect.top || $event.clientY > rect.bottom) {
 
-      this.node.treeModel.setDropLocation(null);
+      this.task.treeModel.setDropLocation(null);
     }
   }
 
-  constructor(private elementRef: ElementRef) {
+  constructor(private elementRef: ElementRef, public treeService: TreeService) {
 
   }
 
   ngAfterViewInit() {
-    this.node.elementRef = this.elementRef;
+    this.task.elementRef = this.elementRef;
+  }
+  ngOnChanges(changes) {
+    console.log(changes);
+    // if (changes.task.currentValue.data&&changes.task.currentValue.data.hasChild) {
+    //   for (let child of changes.task.currentValue.data.children_ids) {
+    //     this.task.setIsExpanded(true);
+    //     this.task.data.children.push(this.treeService.getTaskInfos(child));
+    //   }
+    // }
   }
 }

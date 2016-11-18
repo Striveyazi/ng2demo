@@ -12,7 +12,7 @@ import { TreeNode } from '../models/tree-node.model';
   template: `
     <div
       class="node-drop-slot"
-      [class.is-dragging-over]="node.treeModel.isDraggingOver(this)"
+      [class.is-dragging-over]="task.treeModel.isDraggingOver(this)"
       (drop)="onDrop($event)"
       (dragover)="onDragOver($event)"
       (dragleave)="onDragLeave()"
@@ -21,22 +21,22 @@ import { TreeNode } from '../models/tree-node.model';
   `
 })
 export class TreeNodeDropSlot {
-  @Input() node: TreeNode;
+  @Input() task: TreeNode;
   @Input() dropIndex: number;
 
   onDragOver($event) {
     $event.preventDefault();
-    this.node.treeModel.setDropLocation({ component: this, node: this.node, index: this.dropIndex });
+    this.task.treeModel.setDropLocation({ component: this, node: this.task, index: this.dropIndex });
   }
 
   onDragLeave() {
-    if (this.node.treeModel.isDraggingOver(this)) {
-      this.node.treeModel.setDropLocation(null);
+    if (this.task.treeModel.isDraggingOver(this)) {
+      this.task.treeModel.setDropLocation(null);
     }
   }
 
   onDrop($event) {
     $event.preventDefault();
-    this.node.mouseAction('drop', $event, { node: this.node, index: 0, fromtree: TreeContainer._dragModel.tree, totree: this.node.treeModel });
+    this.task.mouseAction('drop', $event, { node: this.task, index: 0, fromtree: TreeContainer._dragModel.tree, totree: this.task.treeModel });
   }
 }

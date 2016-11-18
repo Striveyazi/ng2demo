@@ -8,10 +8,10 @@ export interface ITreeNodeTemplate {
 
 @Component({
   selector: 'TreeNodeContent',
-  template: `<span *ngIf="!treeNodeContentTemplate">{{ node.displayField }}</span>
-  <template [ngTemplateOutlet]="treeNodeContentTemplate" [ngOutletContext]="{ $implicit: node }"></template>`,
+  template: `<span *ngIf="!treeNodeContentTemplate">{{ task.displayField }}</span>
+  <template [ngTemplateOutlet]="treeNodeContentTemplate" [ngOutletContext]="{ $implicit: task }"></template>`,
 })
 export class TreeNodeContent {
-  @Input() node: TreeNode;
+  @Input() task: TreeNode;
   @Input() treeNodeContentTemplate: TemplateRef<ITreeNodeTemplate>;
 }

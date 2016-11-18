@@ -1,7 +1,18 @@
 import { TreeService } from '../services/tree.service';
 import { TaskBagComponent } from './taskbag-content.component';
 import { TreeContainer } from '../models/tree-container.model';
-import { Component, Input, Output, OnChanges, SimpleChange, EventEmitter, ViewEncapsulation, ContentChild, TemplateRef } from '@angular/core';
+import {
+  Component,
+  ContentChild,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChange,
+  TemplateRef,
+  ViewEncapsulation
+} from '@angular/core';
 import { ITreeNodeTemplate } from './tree-node-content.component';
 import { TreeModel } from '../models/tree.model';
 import { TreeOptions } from '../models/tree-options.model';
@@ -34,8 +45,8 @@ import * as _ from 'lodash'
     <TaskBagContent [taskBagInfo]="treeModel.taskBagInfo" [taskBagContentTemplate]="taskbagTemplate">
     </TaskBagContent>
       <TreeNode
-        *ngFor="let node of treeModel.roots; let i = index"
-        [node]="node"
+        *ngFor="let task of treeModel.roots; let i = index"
+        [task]="task"
         [nodeIndex]="i"
         [loadingTemplate]="loadingTemplate"
         [treeNodeContentTemplate]="treeNodeTemplate">
@@ -59,7 +70,7 @@ export class TreeComponent implements OnChanges {
   // @Input() set nodes(nodes: any[]) {
   //   this._nodes = nodes
   // };
-  @Input() nodes:any[];
+  @Input() ids: any[];
   @Input() set options(options: TreeOptions) { };
   @Input() set focused(value: boolean) {
     this.treeModel.setFocus(value);
@@ -94,26 +105,18 @@ export class TreeComponent implements OnChanges {
       this.treeModel.setFocus(false);
     }
   }
-
   ngOnChanges(changes) {
-    // this.treeModel.setData({
-    //   options: changes.options && changes.options.currentValue,
-    //   nodes: changes.nodes && changes.nodes.currentValue,
-    //   events: _.pick(this, this.treeModel.eventNames),
-    //   taskbaginfo: { chooseStates: true }
-    // });
-    let options = [];
-    let nodes = [];
-    
-      console.log(1111);
-    for (let task_id in changes.nodes.currentValue) {
-      options.push(this.treeService.getTaskBagOptions("first"))
-      nodes.push(this.treeService.getTaskInfos(task_id));
+    let tasks = [];
+    /**
+     * use service  to get taskinfos;
+     *  */
+    for (let task_id of changes.ids.currentValue) {
+      tasks.push(this.treeService.getTaskInfos(task_id));
     }
-    if (options && nodes) {
+    if (tasks.length>0) {
       this.treeModel.setData({
-        options: options,
-        nodes: nodes,
+        options:  changes.options && changes.options.currentValue,
+        nodes: tasks,
         events: _.pick(this, this.treeModel.eventNames),
         taskbaginfo: { chooseStates: true }
       })
