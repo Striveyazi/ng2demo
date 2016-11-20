@@ -52,7 +52,6 @@ export class TreeModel implements ITreeModel {
       virtual: true,
       [this.options.childrenField]: this.nodes
     };
-
     this.virtualRoot = this.getTreeNode(virtualRootConfig, null);
 
     this.roots = this.virtualRoot.children;
@@ -167,7 +166,7 @@ export class TreeModel implements ITreeModel {
     if (this.focusedNodeId) {
       this._focusedNode = this.getNodeById(this.focusedNodeId);
     }
-
+    console.log("_loadState");
     this.expandedNodes = Object.keys(this.expandedNodeIds)
       .filter((id) => this.expandedNodeIds[id])
       .map((id) => this.getNodeById(id))
@@ -311,19 +310,6 @@ export class TreeModel implements ITreeModel {
     }
   }
 
-  isExpanded(node) {
-    return this.expandedNodeIds[node.id];
-  }
-
-  setExpandedNode(node, value) {
-    const index = _.indexOf(this.expandedNodes, node);
-
-    if (value && !index) this.expandedNodes.push(node);
-    else if (index) _.pullAt(this.expandedNodes, index);
-
-    this.expandedNodeIds[node.id] = value;
-  }
-
   performKeyAction(node, $event) {
     const action = this.options.actionMapping.keys[$event.keyCode]
     if (action) {
@@ -374,8 +360,8 @@ export class TreeModel implements ITreeModel {
   moveNode({fromtree, from,totree, to }) {
     //if (!this.canMoveNode({ from , to })) return;
 
-    const fromChildren = from.node.getField('children');
-
+    // const fromChildren = from.node.getField('children');
+    const fromChildren = from.node.children;
     // If node doesn't have children - create children array
     if (!to.node.getField('children')) {
       to.node.setField('children', []);

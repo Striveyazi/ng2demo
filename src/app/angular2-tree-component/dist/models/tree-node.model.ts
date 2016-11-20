@@ -1,46 +1,99 @@
+import { Task } from '../entities/task.entity';
 import { ElementRef } from '@angular/core';
 import { TreeModel } from './tree.model';
 import { TreeOptions } from './tree-options.model';
 import { ITreeNode } from '../defs/api';
 import { TREE_EVENTS } from '../constants/events';
 import { deprecated } from '../deprecated';
-
+import {TreeService} from '../services/tree.service'
 import * as _ from 'lodash';
 
 export class TreeNode implements ITreeNode {
   get isHidden() { return this.getField('isHidden') };
   set isHidden(value) { this.setField('isHidden', value) };
-  get isExpanded() { return this.treeModel.isExpanded(this) };
+  get isExpanded() { return this.data.is_expanded };
+  set isExpanded(value) { this.data.is_expanded = value };
   get isActive() { return this.treeModel.isActive(this) };
   get isFocused() { return this.treeModel.isNodeFocused(this) };
 
   level: number;
   path: string[];
   elementRef: ElementRef;
-  children: TreeNode[];
+  children: TreeNode[] = [];
+
+  expandedNodeIds: any[]=[];
+  expandedNodes: TreeNode[]=[];
+  // activeNodeIds: { [id:string]: boolean } = {};
+  // activeNodes: TreeNode[];
 
   private _originalNode: any;
   get originalNode() { return this._originalNode };
 
-  constructor(public data: any, public parent: TreeNode, public treeModel: TreeModel) {
+  constructor(public data: Task, public parent: TreeNode, public treeModel: TreeModel) {
 
-    this.id = this.id || uuid(); // Make sure there's a unique ID
-
+    //this.id = this.id || (data.task_id); // Make sure there's a unique id
+    this.id = data.task_id;
     this.level = this.parent ? this.parent.level + 1 : 0;
-    this.path = this.parent ? [...this.parent.path, this.id] : [];
+    //this.path = this.parent ? [...this.parent.path, this.id] : [];
 
     if (this.getField('children')) {
       this._initChildren();
     }
   }
+  //helper set functions:
+  update() {
+    this._calculateExpandedNodes(this);
+  }
+  setExpandedNode(node, value) {
+    const index = _.indexOf(this.expandedNodes, node);
+
+    if (value && !index) this.expandedNodes.push(node);
+    else if (index) _.pullAt(this.expandedNodes, index);
+
+    this.expandedNodeIds[node.id] = value;
+  }
+  setChildren(tasks: Task[]) {
+    if (tasks && tasks.length > 0) {
+      for (let task of tasks) {
+        let child = new TreeNode(task, this, this.treeModel);
+        this.children.push(child);
+      }
+    }
+    else{
+      this.children = null;
+    }
+  }
+  _calculateExpandedNodes(startNode = null) {
+    startNode = startNode || this;
+    if (startNode.data[this.options.isExpandedField]) {
+      this.expandedNodes.push(startNode);
+      this.expandedNodeIds.push(startNode.data.task_id);
+    }
+    if (startNode.children) {
+      startNode.children.forEach((child) => this._calculateExpandedNodes(child));
+    }
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   // helper get functions:
   get hasChildren(): boolean {
-    return !!(this.data.hasChildren || (this.children && this.children.length > 0));
+    return this.data.hasChild || (this.children && this.children.length > 0);
   }
   get isCollapsed(): boolean { return !this.isExpanded }
   get isLeaf(): boolean { return !this.hasChildren }
-  get isRoot(): boolean { return this.parent.data.virtual }
+  get isRoot(): boolean { return this.data.is_root }
   get realParent(): TreeNode { return this.isRoot ? null : this.parent }
 
   // proxy functions:
@@ -181,22 +234,17 @@ export class TreeNode implements ITreeNode {
   }
 
   toggleExpanded() {
-    this.setIsExpanded(!this.isExpanded);
+    // to do: when is expand or unexpand
+   
+    console.log(this);
+    this.isExpanded=!this.isExpanded;
+    if(this.isExpanded){
+    }
     this.fireEvent({ eventName: TREE_EVENTS.onToggle, warning: 'this event is deprecated, please use onToggleExpanded instead', node: this, isExpanded: this.isExpanded });
     this.fireEvent({ eventName: TREE_EVENTS.onToggleExpanded, node: this, isExpanded: this.isExpanded });
-
+    this.update();
     return this;
   }
-
-  setIsExpanded(value) {
-    this.treeModel.setExpandedNode(this, value);
-
-    if (!this.children && this.hasChildren && value) {
-      this.loadChildren();
-    }
-
-    return this;
-  };
 
   setIsActive(value, multi = false) {
     this.treeModel.setActiveNode(this, value, multi);
@@ -282,7 +330,7 @@ export class TreeNode implements ITreeNode {
     //this.treeModel.setFocus(true);
     let foucstree = data.totree ? data.totree : this.treeModel;
     foucstree.setFocus(true);
-    
+
     const actionMapping = this.options.actionMapping.mouse;
     const action = actionMapping[actionName];
 

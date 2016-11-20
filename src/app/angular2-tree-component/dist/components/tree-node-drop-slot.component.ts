@@ -36,6 +36,7 @@ export class TreeNodeDropSlot {
   }
 
   onDrop($event) {
+    console.log(this.task);
     $event.preventDefault();
     this.task.mouseAction('drop', $event, { node: this.task, index: 0, fromtree: TreeContainer._dragModel.tree, totree: this.task.treeModel });
   }

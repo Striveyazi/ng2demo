@@ -79,8 +79,8 @@ export class TreeOptions {
     const optionsWithDefaults = _.defaultsDeep({}, options, {
       childrenField: 'children',
       displayField: 'name',
-      idField: 'id',
-      isExpandedField: 'isExpanded',
+      idField: 'task_id',
+      isExpandedField: 'is_expanded',
       isHiddenField: 'isHidden',
       getChildren: null,
       hasCustomContextMenu: false,

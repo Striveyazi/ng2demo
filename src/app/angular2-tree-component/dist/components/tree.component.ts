@@ -41,6 +41,8 @@ import * as _ from 'lodash'
     }`
   ],
   template: `
+  <div>
+    <div>这是任务包头部</div>
     <div class="tree" [class.node-dragging]="treeModel.isDragging()">
     <TaskBagContent [taskBagInfo]="treeModel.taskBagInfo" [taskBagContentTemplate]="taskbagTemplate">
     </TaskBagContent>
@@ -52,6 +54,8 @@ import * as _ from 'lodash'
         [treeNodeContentTemplate]="treeNodeTemplate">
       </TreeNode>
     </div>
+    <div>这是任务包尾部</div>
+  </div>
   `
 })
 export class TreeComponent implements OnChanges {
@@ -60,16 +64,11 @@ export class TreeComponent implements OnChanges {
     //this._treecontainer._dragModel = {node:null,index:13,tree:null};
     treeModel.eventNames.forEach((name) => this[name] = new EventEmitter());
   }
-
-  _nodes: any[];
   _options: TreeOptions;
   @ContentChild('loadingTemplate') loadingTemplate: TemplateRef<any>;
   @ContentChild('treeNodeTemplate') treeNodeTemplate: TemplateRef<ITreeNodeTemplate>;
   @ContentChild('taskbagTemplate') taskbagTemplate: TemplateRef<any>;
   // use @Input property Will be can handled in ngOnChanges
-  // @Input() set nodes(nodes: any[]) {
-  //   this._nodes = nodes
-  // };
   @Input() ids: any[];
   @Input() set options(options: TreeOptions) { };
   @Input() set focused(value: boolean) {
