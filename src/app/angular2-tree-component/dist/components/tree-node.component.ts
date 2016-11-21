@@ -162,7 +162,7 @@ export class TreeNodeComponent implements AfterViewInit, OnChanges {
     // don't drag to self
     if (dragTask.parent === this.task.parent && dragTask.data.task_id == this.task.data.task_id)
       return;
-    let from_node = dragTask.parent.children.find((t)=>t.data.task_id === this.task.data.task_id);
+    let from_node = dragTask.parent.children.find((t)=>t.data.task_id === dragTask.data.task_id);
     let index =  dragTask.parent.children.indexOf(from_node)
      let fromnode = dragTask.parent.children.splice(index, 1)[0];
 
@@ -205,22 +205,7 @@ export class TreeNodeComponent implements AfterViewInit, OnChanges {
         let child = this.treeService.getTaskInfos(childId);
         //todo :if child is undefined or null ,should to handle 
         if (!child) {
-          child = {
-            task_id: '02066401e55941e986b4384a5c69cc65',
-            name: '这是一个测试任务（仅用于测试，不要在意数据的真假性）',
-            bag_id: '2f5fd2bec28c4db78311f12ae213954f',
-            parent_id: 'first_task_id',
-            children_ids: ['e5d7cd6fa0894630a2fbf8b43a0cb0c7', '4d7da2aaf8154fc7a7c932b0a397b5d8'],
-            pos: 2313.35,
-            is_expanded: true,
-            // is_collapsed:false,
-            hasChild: true,
-            members: [],
-            watchers: [],
-            create_date: 3123132131,
-            update_date: 2132322323,
-            is_root: true
-          }
+         return ;
         }
         children.push(child);
       }
@@ -244,22 +229,7 @@ export class TreeNodeComponent implements AfterViewInit, OnChanges {
           //todo :if child is undefined or null ,should to handle 
           let child = this.treeService.getTaskInfos(childId);
           if (!child) {
-            child = {
-              task_id: '02066401e55941e986b4384a5c69cc65',
-              name: '这是一个测试任务（仅用于测试）',
-              bag_id: '2f5fd2bec28c4db78311f12ae213954f',
-              parent_id: 'first_task_id',
-              children_ids: ['e5d7cd6fa0894630a2fbf8b43a0cb0c7', '4d7da2aaf8154fc7a7c932b0a397b5d8'],
-              pos: 2313.35,
-              is_expanded: true,
-              // is_collapsed:false,
-              hasChild: true,
-              members: [],
-              watchers: [],
-              create_date: 3123132131,
-              update_date: 2132322323,
-              is_root: true
-            }
+            return ;
           }
           children.push(child);
           //this.task.data.children.push(this.treeService.getTaskInfos(child));

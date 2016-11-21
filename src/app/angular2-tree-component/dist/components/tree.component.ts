@@ -118,7 +118,6 @@ export class TreeComponent implements OnChanges {
         options:  changes.options && changes.options.currentValue,
         nodes: tasks,
         events: _.pick(this, this.treeModel.eventNames),
-        taskbaginfo: { chooseStates: true }
       })
     }
 
