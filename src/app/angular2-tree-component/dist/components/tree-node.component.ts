@@ -132,7 +132,7 @@ export class TreeNodeComponent implements AfterViewInit, OnChanges {
 
     setTimeout(() => {
       this.task.treeModel.setDragNode({ node: this.task.parent, index: this.nodeIndex });
-      let index  = this.task.parent.children.indexOf(this.task);
+      let index = this.task.parent.children.indexOf(this.task);
       //this.task.parent.children.splice(index,1)[0];
       //todo: need to do something like splice this node when dragstart
       TreeContainer._dragModel = { node: this.task, index: this.nodeIndex, tree: this.task.treeModel }
@@ -152,20 +152,29 @@ export class TreeNodeComponent implements AfterViewInit, OnChanges {
   }
 
   onDrop($event) {
-    console.log("drop");
+    console.log(this.task);
     $event.preventDefault();
     //this.task.mouseAction('drop', $event, { node: this.task, index: 0, fromtree: TreeContainer._dragModel.tree, totree: this.task.treeModel });
     //todo: jugde fromNode can move to  toNode ****it's important
-    let fromIndex = TreeContainer._dragModel.index;
-    let fromnode = TreeContainer._dragModel.node.parent.children.splice(fromIndex,1)[0];
 
+    //todo: set this task's postion & remove this task from old parent
+    let dragTask = TreeContainer._dragModel.node;
+    // don't drag to self
+    if (dragTask.parent === this.task.parent && dragTask.data.task_id == this.task.data.task_id)
+      return;
+    let from_node = dragTask.parent.children.find((t)=>t.data.task_id === this.task.data.task_id);
+    let index =  dragTask.parent.children.indexOf(from_node)
+     let fromnode = dragTask.parent.children.splice(index, 1)[0];
+
+    fromnode.data.parent_id =this.task.data.task_id;
+    fromnode.data.bag_id = this.task.data.bag_id;
     this.task.data.children_ids.push(fromnode.data.task_id)
-    if(!this.task.hasChildren){
+    if (!this.task.hasChildren) {
       this.task.data.hasChild = true;
       this.task.isExpanded = true;
     }
     this.task.children.push(fromnode); //trigger the ngOnChanges
-    
+
   }
 
   onDragLeave(nodeContentWrapper, $event) {
@@ -179,8 +188,6 @@ export class TreeNodeComponent implements AfterViewInit, OnChanges {
       $event.clientY < rect.top || $event.clientY > rect.bottom) {
 
       this.task.treeModel.setDropLocation(null);
-      // let dragNode = TreeContainer._dragModel.node;
-      // dragNode.parent.children.splice(0,0,dragNode);
     }
   }
 
@@ -197,24 +204,24 @@ export class TreeNodeComponent implements AfterViewInit, OnChanges {
       for (let childId of this.task.data.children_ids) {
         let child = this.treeService.getTaskInfos(childId);
         //todo :if child is undefined or null ,should to handle 
-        if(!child){
-            child = {
-                task_id: '02066401e55941e986b4384a5c69cc65',
-                name: '这是一个测试任务（仅用于测试，不要在意数据的真假性）',
-                bag_id: '2f5fd2bec28c4db78311f12ae213954f',
-                parent_id: 'first_task_id',
-                children_ids: ['e5d7cd6fa0894630a2fbf8b43a0cb0c7', '4d7da2aaf8154fc7a7c932b0a397b5d8'],
-                pos: 2313.35,
-                is_expanded: true,
-                // is_collapsed:false,
-                hasChild: true,
-                members: [],
-                watchers: [],
-                create_date: 3123132131,
-                update_date: 2132322323,
-                is_root:true
-            }
+        if (!child) {
+          child = {
+            task_id: '02066401e55941e986b4384a5c69cc65',
+            name: '这是一个测试任务（仅用于测试，不要在意数据的真假性）',
+            bag_id: '2f5fd2bec28c4db78311f12ae213954f',
+            parent_id: 'first_task_id',
+            children_ids: ['e5d7cd6fa0894630a2fbf8b43a0cb0c7', '4d7da2aaf8154fc7a7c932b0a397b5d8'],
+            pos: 2313.35,
+            is_expanded: true,
+            // is_collapsed:false,
+            hasChild: true,
+            members: [],
+            watchers: [],
+            create_date: 3123132131,
+            update_date: 2132322323,
+            is_root: true
           }
+        }
         children.push(child);
       }
       // set data use viewModel
@@ -229,29 +236,29 @@ export class TreeNodeComponent implements AfterViewInit, OnChanges {
   }
   ngOnChanges(changes) {
     console.log("ngOnChanges");
-    if (changes.task&&changes.task.currentValue.data && changes.task.currentValue.data.hasChild) {
+    if (changes.task && changes.task.currentValue.data && changes.task.currentValue.data.hasChild) {
       if (changes.task.currentValue.data.is_expanded) {
         let children: Task[] = [];  //initialization
         //  get data use service
         for (let childId of changes.task.currentValue.data.children_ids) {
           //todo :if child is undefined or null ,should to handle 
           let child = this.treeService.getTaskInfos(childId);
-          if(!child){
+          if (!child) {
             child = {
-                task_id: '02066401e55941e986b4384a5c69cc65',
-                name: '这是一个测试任务（仅用于测试）',
-                bag_id: '2f5fd2bec28c4db78311f12ae213954f',
-                parent_id: 'first_task_id',
-                children_ids: ['e5d7cd6fa0894630a2fbf8b43a0cb0c7', '4d7da2aaf8154fc7a7c932b0a397b5d8'],
-                pos: 2313.35,
-                is_expanded: true,
-                // is_collapsed:false,
-                hasChild: true,
-                members: [],
-                watchers: [],
-                create_date: 3123132131,
-                update_date: 2132322323,
-                is_root:true
+              task_id: '02066401e55941e986b4384a5c69cc65',
+              name: '这是一个测试任务（仅用于测试）',
+              bag_id: '2f5fd2bec28c4db78311f12ae213954f',
+              parent_id: 'first_task_id',
+              children_ids: ['e5d7cd6fa0894630a2fbf8b43a0cb0c7', '4d7da2aaf8154fc7a7c932b0a397b5d8'],
+              pos: 2313.35,
+              is_expanded: true,
+              // is_collapsed:false,
+              hasChild: true,
+              members: [],
+              watchers: [],
+              create_date: 3123132131,
+              update_date: 2132322323,
+              is_root: true
             }
           }
           children.push(child);
@@ -259,10 +266,12 @@ export class TreeNodeComponent implements AfterViewInit, OnChanges {
           //this.task.children.push(this.treeService.getTaskInfos(child));
         }
         // set data use viewModel
+
+        //todo: set this task's postion & remove this task from old parent
         this.task.setChildren(children);
       }
-      else{
-        this.task.children=[];
+      else {
+        this.task.children = [];
       }
     }
   }

@@ -1,6 +1,6 @@
 export class Task{
-    task_id:string;
     name:string;
+    task_id:string;
     bag_id:string;
     parent_id:string;
     children_ids:string[];
@@ -12,4 +12,14 @@ export class Task{
     create_date:any;
     update_date:any;
     is_root:boolean;
+    badges?:{
+        expire_date?:number,
+        comment_count?:number,
+        file_count?:number,
+        completed_count?:number,
+        total_count?:number,
+    };
+    is_folder?:boolean;
+    file_ids?:any[];
+    labels?:any[];
 }

@@ -130,7 +130,7 @@ export class TreeService {
         //should be return a object ,not a array
         if (taskId === "first_task_id") {
             data = {
-                task_id: '02066401e55941e986b4384a5c69cc65',
+                task_id: 'a02066401e55941e986b4384a5c69cc65',
                 name: '这是第一个任务包下面的第一个任务',
                 bag_id: '2f5fd2bec28c4db78311f12ae213954f',
                 parent_id: 'first_task_id',
@@ -143,12 +143,13 @@ export class TreeService {
                 watchers: [],
                 create_date: 3123132131,
                 update_date: 2132322323,
-                is_root:true
+                is_root:true,
+                badges:{expire_date:232131,comment_count:4,file_count:2,completed_count:3,total_count:5}
             }
         }
         if (taskId === "second_task_id") {
             data = {
-                task_id: '02066401e55941e986b4384a5c69cc65',
+                task_id: 'b02066401e55941e986b4384a5c69cc65',
                 name: '这是第一个任务包下面的第三个任务',
                 bag_id: '2f5fd2bec28c4db78311f12ae213954f',
                 parent_id: 'second_task_id',
@@ -161,15 +162,16 @@ export class TreeService {
                 watchers: [],
                 create_date: 3123132131,
                 update_date: 2132322323,
-                is_root:true
+                is_root:true,
+                badges:{expire_date:232131,comment_count:4,file_count:2,completed_count:3,total_count:5}
             };
         }
-        if(taskId ==="02066401e55941e986b4384a5c69cc65"){
+        if(taskId ==="c2066401e55941e986b4384a5c69cc65"){
             data = {
                 task_id: 'dsas6401e55941e986b4384a5c69cc65',
                 name: '这是第一个任务包下面的第三个任务',
                 bag_id: '2f5fd2bec28c4db78311f12ae213954f',
-                parent_id: '02066401e55941e986b4384a5c69cc65',
+                parent_id: 'a02066401e55941e986b4384a5c69cc65',
                 children_ids: ['e5d7cd6fa0894630a2fbf8b43a0cb0c7', '4d7da2aaf8154fc7a7c932b0a397b5d8'],
                 pos: 2313.35,
                 is_expanded: false,
@@ -179,13 +181,14 @@ export class TreeService {
                 watchers: [],
                 create_date: 3123132131,
                 update_date: 2132322323,
-                is_root:true
+                is_root:true,
+                badges:{expire_date:232131,comment_count:4,file_count:2,completed_count:3,total_count:5}
             };
         }
         if (taskId === "e5d7cd6fa0894630a2fbf8b43a0cb0c7") {
             data = {
                 task_id: 'sassda401e55941e986b4384a5c69cc65',
-                name: '这是一个子任务',
+                name: '这是一个子任务1',
                 bag_id: '2f5fd2bec28c4db78311f12ae213954f',
                 parent_id: '7753b58059814134964c441f7d1244c3',
                 children_ids:[],
@@ -196,13 +199,14 @@ export class TreeService {
                 watchers: [],
                 create_date: 3123132131,
                 update_date: 2132322323,
-                is_root:false
+                is_root:false,
+                badges:{expire_date:232131,comment_count:4,file_count:2,completed_count:3,total_count:5}
             };
         }
         if(taskId === "4d7da2aaf8154fc7a7c932b0a397b5d8"){
             data = {
                 task_id: 'das66401e55941e986b4384a5c69cc65',
-                name: '这是一个子任务',
+                name: '这是一个子任务2',
                 bag_id: '2f5fd2bec28c4db78311f12ae213954f',
                 parent_id: '02066401e55941e986b4384a5c69cc65',
                 children_ids:[],
@@ -213,14 +217,15 @@ export class TreeService {
                 watchers: [],
                 create_date: 3123132131,
                 update_date: 2132322323,
-                is_root:false
+                is_root:false,
+                badges:{expire_date:232131,comment_count:4,file_count:2,completed_count:3,total_count:5}
             };
         }
         
         if(taskId === "das66401e55941e986b4384a5c69cc65"){
             data = {
                 task_id: '5sdd401e55941e986b4384a5c69cc65',
-                name: '这是一个子任务',
+                name: '这是一个子任务3',
                 bag_id: '2f5fd2bec28c4db78311f12ae213954f',
                 parent_id: 'das66401e55941e986b4384a5c69cc65',
                 children_ids:[],
@@ -231,7 +236,8 @@ export class TreeService {
                 watchers: [],
                 create_date: 3123132131,
                 update_date: 2132322323,
-                is_root:false
+                is_root:false,
+                badges:{expire_date:232131,comment_count:4,file_count:2,completed_count:3,total_count:5}
             };
         }
         return data;

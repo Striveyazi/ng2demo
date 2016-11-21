@@ -105,6 +105,7 @@ export class TreeComponent implements OnChanges {
     }
   }
   ngOnChanges(changes) {
+    console.log("tree ngOnChanges");
     let tasks = [];
     /**
      * use service  to get taskinfos;

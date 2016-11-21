@@ -36,8 +36,29 @@ export class TreeNodeDropSlot {
   }
 
   onDrop($event) {
-    console.log(this.task);
+    
     $event.preventDefault();
-    this.task.mouseAction('drop', $event, { node: this.task, index: 0, fromtree: TreeContainer._dragModel.tree, totree: this.task.treeModel });
+    //the task's parent is the virtual node ,
+    //this actrual parent is the task's taskbag
+    let fromIndex = TreeContainer._dragModel.index;
+    let fromTask = TreeContainer._dragModel.node.parent.children.splice(fromIndex, 1)[0];
+    if ((<any>this.task.data).virtual) {
+      fromTask.data.is_root = true;
+      fromTask.data.parent_id = this.task.data.bag_id;
+      fromTask.data.bag_id = this.task.data.bag_id;
+
+      this.task.children.push(fromTask);
+      
+      this.task.treeModel.nodes.push(fromTask.data);
+      console.log(this.task.treeModel);
+    }
+    else {
+      fromTask.data.is_root = false;
+      fromTask.data.parent_id = this.task.data.task_id;
+      fromTask.data.bag_id = this.task.data.bag_id;
+
+      this.task.children.push(fromTask);
+    }
+    // this.task.mouseAction('drop', $event, { node: this.task, index: 0, fromtree: TreeContainer._dragModel.tree, totree: this.task.treeModel });
   }
 }

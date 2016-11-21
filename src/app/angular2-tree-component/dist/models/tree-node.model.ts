@@ -5,24 +5,28 @@ import { TreeOptions } from './tree-options.model';
 import { ITreeNode } from '../defs/api';
 import { TREE_EVENTS } from '../constants/events';
 import { deprecated } from '../deprecated';
-import {TreeService} from '../services/tree.service'
+import { TreeService } from '../services/tree.service'
 import * as _ from 'lodash';
 
 export class TreeNode implements ITreeNode {
   get isHidden() { return this.getField('isHidden') };
   set isHidden(value) { this.setField('isHidden', value) };
-  get isExpanded() { return this.data.is_expanded };
-  set isExpanded(value) { this.data.is_expanded = value };
+
   get isActive() { return this.treeModel.isActive(this) };
   get isFocused() { return this.treeModel.isNodeFocused(this) };
 
+  get isExpanded() { return this.data.is_expanded };
+  set isExpanded(value) { this.data.is_expanded = value };
+  get isFolder() { return this.data.is_folder };
+  get Badges() { return this.data.badges };
+  get Labels() { return this.data.labels };
   level: number;
   path: string[];
   elementRef: ElementRef;
   children: TreeNode[] = [];
 
-  expandedNodeIds: any[]=[];
-  expandedNodes: TreeNode[]=[];
+  expandedNodeIds: any[] = [];
+  expandedNodes: TreeNode[] = [];
   // activeNodeIds: { [id:string]: boolean } = {};
   // activeNodes: TreeNode[];
 
@@ -59,7 +63,7 @@ export class TreeNode implements ITreeNode {
         this.children.push(child);
       }
     }
-    else{
+    else {
       this.children = null;
     }
   }
@@ -235,10 +239,10 @@ export class TreeNode implements ITreeNode {
 
   toggleExpanded() {
     // to do: when is expand or unexpand
-   
+
     console.log(this);
-    this.isExpanded=!this.isExpanded;
-    if(this.isExpanded){
+    this.isExpanded = !this.isExpanded;
+    if (this.isExpanded) {
     }
     this.fireEvent({ eventName: TREE_EVENTS.onToggle, warning: 'this event is deprecated, please use onToggleExpanded instead', node: this, isExpanded: this.isExpanded });
     this.fireEvent({ eventName: TREE_EVENTS.onToggleExpanded, node: this, isExpanded: this.isExpanded });
