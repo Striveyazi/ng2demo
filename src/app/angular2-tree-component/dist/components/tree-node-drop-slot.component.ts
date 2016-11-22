@@ -90,6 +90,7 @@ export class TreeNodeDropSlot {
             this.task.data.children_ids.push(fromTask.data.task_id);
             this.task.children.push(fromTask);//trigger the ngOnChanges/**/
         }
+        TreeContainer._dragModel = null;
         // this.task.mouseAction('drop', $event, { node: this.task, index: 0, fromtree: TreeContainer._dragModel.tree, totree: this.task.treeModel });
     }
 }

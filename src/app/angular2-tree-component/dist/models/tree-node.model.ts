@@ -124,7 +124,7 @@ export class TreeNode implements ITreeNode {
       
     }
     else{
-       toTask.data.children_ids.find(t=>t===fromTask.data.task_id)
+      //  toTask.data.children_ids.find(t=>t===fromTask.data.task_id);
       if (fromTask.parent.children.length === 0 && fromTask.parent.data.children_ids.length === 0) {
         fromTask.parent.data.hasChild = false;
       }
