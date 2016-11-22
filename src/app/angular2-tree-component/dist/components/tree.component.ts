@@ -27,36 +27,8 @@ import * as _ from 'lodash'
     '(body: mousedown)': "onMousedown($event)"
   },
   providers: [TreeModel,TreeContainer],
-  styles: [
-    '.tree-children { padding-left: 20px }',
-    `.tree {
-      display: inline-block;
-      cursor: pointer;
-      -webkit-touch-callout: none; /* iOS Safari */
-      -webkit-user-select: none;   /* Chrome/Safari/Opera */
-      -khtml-user-select: none;    /* Konqueror */
-      -moz-user-select: none;      /* Firefox */
-      -ms-user-select: none;       /* IE/Edge */
-      user-select: none;           /* non-prefixed version, currently not supported by any browser */
-    }`
-  ],
-  template: `
-  <div>
-    <div>这是任务包头部</div>
-    <div class="tree" [class.node-dragging]="treeModel.isDragging()">
-    <TaskBagContent [taskBagInfo]="treeModel.taskBagInfo" [taskBagContentTemplate]="taskbagTemplate">
-    </TaskBagContent>
-      <TreeNode
-        *ngFor="let task of treeModel.roots; let i = index"
-        [task]="task"
-        [nodeIndex]="i"
-        [loadingTemplate]="loadingTemplate"
-        [treeNodeContentTemplate]="treeNodeTemplate">
-      </TreeNode>
-    </div>
-    <div>这是任务包尾部</div>
-  </div>
-  `
+  styleUrls:['../templates/taskbag.templates/taskbag.component.css'],
+  templateUrl:'../templates/taskbag.templates/taskbag.component.html'
 })
 export class TreeComponent implements OnChanges {
   constructor(public treeModel: TreeModel, public treeService: TreeService) {

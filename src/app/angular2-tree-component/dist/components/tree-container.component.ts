@@ -6,7 +6,6 @@ import {
     AfterViewInit,
     Component,
     ContentChild,
-    CUSTOM_ELEMENTS_SCHEMA,
     Input,
     OnChanges,
     OnInit,
@@ -19,6 +18,7 @@ import { TreeNode } from 'app/angular2-tree-component';
     moduleId: module.id,
     selector: 'TreeContainer',
     providers: [TreeService],
+    styleUrls:['../templates/taskbag.templates/taskbag.component.css'],
     templateUrl: `
     <!-- -->
     <Tree *ngFor = "let tree of trees"
@@ -26,17 +26,19 @@ import { TreeNode } from 'app/angular2-tree-component';
     [ids]="tree.children_ids"
     [options] = "tree.options"
     >
+    
     <!-- this template' content contain per tree's nodes -->
-    <!-- but  some function(such as chidrenCount()) need to write on this component(TreeContainerComponent)  -->
-    <template #treeNodeTemplate let-node>
-        <span title="{{node.data.name}}">{{ node.data.name }}</span>
-         <span class="pull-right">{{ childrenCount(node) }}</span>
-        <button (click)="go($event)">Custom Action</button>
-    </template>
-    <template #loadingTemplate>Loading, please hold....</template>
-    <template #taskbagTemplate let-taskInfod>
-        <span>{{taskInfod}}</span>
-    </template>
+    <!-- but  some function(such as chidrenCount()) need to write on this component(TreeContainerComponent)  
+        <template #treeNodeTemplate let-node>
+            <span title="{{node.data.name}}">{{ node.data.name }}</span>
+            <span class="pull-right">{{ childrenCount(node) }}</span>
+            <button (click)="go($event)">Custom Action</button>
+        </template>
+        <template #loadingTemplate>Loading, please hold....</template>
+        <template #taskbagTemplate let-taskInfod>
+            <span>{{taskInfod}}</span>
+        </template>
+    -->
     </Tree>
     `,
 })
