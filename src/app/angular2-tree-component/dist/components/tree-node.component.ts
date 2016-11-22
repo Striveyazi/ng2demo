@@ -176,7 +176,7 @@ export class TreeNodeComponent implements AfterViewInit, OnChanges {
     // //todo: use service move the ceche's data
     // this.task.children.push(fromnode); //trigger the ngOnChanges
     this.task.moveTask(dragTask,this.task,this.treeService);
-    TreeContainer._dragModel = null;
+    // TreeContainer._dragModel = null;
   }
 
   onDragLeave(nodeContentWrapper, $event) {
