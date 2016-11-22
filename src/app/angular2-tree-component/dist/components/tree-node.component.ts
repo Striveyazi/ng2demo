@@ -9,7 +9,6 @@ import { ITreeNodeTemplate } from './tree-node-content.component';
 @Component({
   selector: 'TreeNode',
   encapsulation: ViewEncapsulation.None,
-  providers: [TreeService],
   styles: [
     '.tree-children { padding-left: 20px }',
     `.node-content-wrapper {
@@ -155,26 +154,28 @@ export class TreeNodeComponent implements AfterViewInit, OnChanges {
     console.log(this.task);
     $event.preventDefault();
     //this.task.mouseAction('drop', $event, { node: this.task, index: 0, fromtree: TreeContainer._dragModel.tree, totree: this.task.treeModel });
+    
     //todo: jugde fromNode can move to  toNode ****it's important
 
     //todo: set this task's postion & remove this task from old parent
-    let dragTask = TreeContainer._dragModel.node;
-    // don't drag to self
-    if (dragTask.parent === this.task.parent && dragTask.data.task_id == this.task.data.task_id)
-      return;
-    let from_node = dragTask.parent.children.find((t)=>t.data.task_id === dragTask.data.task_id);
-    let index =  dragTask.parent.children.indexOf(from_node)
-     let fromnode = dragTask.parent.children.splice(index, 1)[0];
+     let dragTask = TreeContainer._dragModel.node;
+    // // don't drag to self
+    // if (dragTask.parent === this.task.parent && dragTask.data.task_id == this.task.data.task_id)
+    //   return;
+    // let from_node = dragTask.parent.children.find((t)=>t.data.task_id === dragTask.data.task_id);
+    // let index =  dragTask.parent.children.indexOf(from_node)
+    //  let fromnode = dragTask.parent.children.splice(index, 1)[0];
 
-    fromnode.data.parent_id =this.task.data.task_id;
-    fromnode.data.bag_id = this.task.data.bag_id;
-    this.task.data.children_ids.push(fromnode.data.task_id)
-    if (!this.task.hasChildren) {
-      this.task.data.hasChild = true;
-      this.task.isExpanded = true;
-    }
-    this.task.children.push(fromnode); //trigger the ngOnChanges
-
+    // fromnode.data.parent_id =this.task.data.task_id;
+    // fromnode.data.bag_id = this.task.data.bag_id;
+    // this.task.data.children_ids.push(fromnode.data.task_id)
+    // if (!this.task.hasChildren) {
+    //   this.task.data.hasChild = true;
+    //   this.task.isExpanded = true;
+    // }
+    // //todo: use service move the ceche's data
+    // this.task.children.push(fromnode); //trigger the ngOnChanges
+    this.task.moveTask(dragTask,this.task,this.treeService);
   }
 
   onDragLeave(nodeContentWrapper, $event) {
@@ -214,7 +215,7 @@ export class TreeNodeComponent implements AfterViewInit, OnChanges {
     }
 
     this.task.isExpanded = !this.task.isExpanded;
-    // need to do :  this expeanded's status should  save cache
+    //todo :  this expeanded's status should  save cache
   }
   ngAfterViewInit() {
     this.task.elementRef = this.elementRef;
@@ -232,8 +233,7 @@ export class TreeNodeComponent implements AfterViewInit, OnChanges {
             return ;
           }
           children.push(child);
-          //this.task.data.children.push(this.treeService.getTaskInfos(child));
-          //this.task.children.push(this.treeService.getTaskInfos(child));
+          
         }
         // set data use viewModel
 

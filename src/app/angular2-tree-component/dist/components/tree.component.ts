@@ -26,7 +26,7 @@ import * as _ from 'lodash'
     '(body: keydown)': "onKeydown($event)",
     '(body: mousedown)': "onMousedown($event)"
   },
-  providers: [TreeModel, TreeService],
+  providers: [TreeModel],
   styles: [
     '.tree-children { padding-left: 20px }',
     `.tree {

@@ -78,7 +78,76 @@ export class TreeNode implements ITreeNode {
     }
   }
 
+   /**
+   * Description:taskbag can't move to another taskbag or a task,so this toTask must be a Task.
+   * @param fromTask is dargTask
+   * @param toTask is dropTask
+   *   */
+  canMoveTask(fromTask: TreeNode, toTask: TreeNode, service: TreeService) {
+    console.log("canMoveTask");
+    //jugde to self
+    if (fromTask.parent === toTask.parent && fromTask.data.task_id == toTask.data.task_id) {
+      return false;
+    }
+    //jugde to children
+    if (fromTask.data.hasChild) {
+      return this.judgeIdInIds(fromTask.data, toTask.data, service)
+    }
+    return true;
+  }
 
+  judgeIdInIds(fromTask: Task, toTask: Task, service: TreeService) {
+    if (fromTask.hasChild) {
+      if (fromTask.children_ids.find((t) => t === toTask.task_id)) {
+        return false;
+      }
+    }
+    else {
+      for (let childTaskId of fromTask.children_ids) {
+        let childTask = service.getTaskInfos(childTaskId);
+        this.judgeIdInIds(childTask, toTask, service);
+      }
+    }
+    return true;
+  }
+
+  moveTask(fromTask: TreeNode, toTask: TreeNode, service: TreeService) {
+    // don't drag to self
+    if (!this.canMoveTask(fromTask, toTask, service)) {
+      return;
+    }
+    let from_node = fromTask.parent.children.find((t) => t.data.task_id === fromTask.data.task_id);
+    let index = fromTask.parent.children.indexOf(from_node)
+    let fromnode = fromTask.parent.children.splice(index, 1)[0];
+
+    if ((<any>fromTask.parent.data).virtual) {
+      
+    }
+    else{
+       toTask.data.children_ids.find(t=>t===fromTask.data.task_id)
+      if (fromTask.parent.children.length === 0 && fromTask.parent.data.children_ids.length === 0) {
+        fromTask.parent.data.hasChild = false;
+      }
+    }
+
+    //set properties;
+    
+    fromnode.parent = toTask;
+
+    fromnode.data.parent_id = toTask.data.task_id;
+    fromnode.data.is_root = false;
+    fromnode.data.bag_id = toTask.data.bag_id;
+
+    
+
+    if (!toTask.hasChildren || !toTask.isExpanded) {
+      toTask.data.hasChild = true;
+      toTask.isExpanded = true;
+    }
+    toTask.data.children_ids.push(fromnode.data.task_id);
+    //todo: use service move the ceche's data
+    toTask.children.push(fromnode); //trigger the ngOnChanges
+  }
 
 
 
@@ -329,6 +398,7 @@ export class TreeNode implements ITreeNode {
   allowDrag() {
     return this.options.allowDrag;
   }
+  
 
   mouseAction(actionName: string, $event, data: any = null) {
     //this.treeModel.setFocus(true);

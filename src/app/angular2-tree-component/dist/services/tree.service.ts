@@ -2,8 +2,17 @@ import { Injectable } from '@angular/core';
 import { IActionMapping, TREE_ACTIONS, KEYS, TreeNode } from 'app/angular2-tree-component';
 import {Task} from '../entities/task.entity';
 import {TaskBag} from '../entities/taskbag.entity';
+import {Subject} from 'rxjs/Subject';
+import {TreeContainer} from '../models/tree-container.model'
 @Injectable()
 export class TreeService {
+    public treeContainer = new Subject<TreeContainer>();
+    getTreeContainer(){
+
+    }
+    setgetTreeContainer(treeContainer:TreeContainer){
+
+    }
     getTaskBagIds(projectId: any) {
         return ["first", "second"]
     }
@@ -243,4 +252,8 @@ export class TreeService {
         return data;
     }
 
+    //set function
+    setTaskInfos(task:Task):boolean{
+        return true;
+    }
 }
