@@ -1,45 +1,47 @@
 <div class="panel-wrapper">
-    <div class="task-header">
-        <div class="fl">
-            <a class="fa fa-folder"></a>
-            <span class="">任务包</span>
-        </div>
-
-        <div class="fl">
-            <span class="progress-bar" title="">
-		        <i class="bar"></i>
-		    </span>
-            <span class="">30WH</span>
-            <a class="fa fa-angle-down"></a>
-        </div>
-
-        <div class="tool">
-            <div class="fl">
-                <a class="fa fa-arrow-up" title="上移"></a>
-                <a class="fa fa-arrow-down" title="下移"></a>
-                <a class="fa fa-arrow-up" title="置顶"></a>
-                <a class="fa fa-arrow-down" title="置底"></a>
-                <a class="fa fa-arrow-left" title="左移"></a>
-                <a class="fa fa-arrow-right" title="右移"></a>
-            </div>
-            <div class="fr">
-                <a class="fa fa-folder" title="新建文件夹"></a>
-                <a class="fa fa-plus-circle" title="新增任务"></a>
-                <a class="fa fa-minus-circle" title="删除任务"></a>
-            </div>
-        </div>
-    </div>
-    <div class="main-task">
-        <TreeNode *ngFor="let task of treeModel.roots; let i = index" [task]="task" [nodeIndex]="i" [loadingTemplate]="loadingTemplate" [treeNodeContentTemplate]="treeNodeTemplate">
-        </TreeNode>
-    </div>
-
-    <div [class.node-dragging]="treeModel.isDragging()">
-        <!--<TaskBagContent [taskBagInfo]="treeModel.taskBagInfo" [taskBagContentTemplate]="taskbagTemplate">
-        </TaskBagContent>-->
-
-    </div>
-    <div class="task-footer">
-        <a class="fa fa-plus-circle">新增Task</a>
+    <div class="panel">
+    	<div class="task-header">
+	        <div class="fl">
+	            <a class="fa fa-folder"></a>
+	            <span class="">任务包</span>
+	        </div>
+	
+	        <div class="fr">
+	            <span class="progress-bar" title="">
+			        <i class="bar"></i>
+			    </span>
+	            <span class="">30WH</span>
+	            <a class="fa fa-angle-down"></a>
+	        </div>
+	
+	        <div class="tool">
+	            <div class="fl">
+	                <a class="fa fa-arrow-up" title="上移"></a>
+	                <a class="fa fa-arrow-down" title="下移"></a>
+	                <a class="fa fa-arrow-up" title="置顶"></a>
+	                <a class="fa fa-arrow-down" title="置底"></a>
+	                <a class="fa fa-arrow-left" title="左移"></a>
+	                <a class="fa fa-arrow-right" title="右移"></a>
+	            </div>
+	            <div class="fr">
+	                <a class="fa fa-folder" title="新建文件夹"></a>
+	                <a class="fa fa-plus-circle" title="新增任务"></a>
+	                <a class="fa fa-minus-circle" title="删除任务"></a>
+	            </div>
+	        </div>
+	    </div>
+	    <div class="main-task">
+	        <TreeNode *ngFor="let task of treeModel.roots; let i = index" [task]="task" [nodeIndex]="i" [loadingTemplate]="loadingTemplate" [treeNodeContentTemplate]="treeNodeTemplate">
+	        </TreeNode>
+	    </div>
+	
+	    <div [class.node-dragging]="treeModel.isDragging()">
+	        <!--<TaskBagContent [taskBagInfo]="treeModel.taskBagInfo" [taskBagContentTemplate]="taskbagTemplate">
+	        </TaskBagContent>-->
+	
+	    </div>
+	    <div class="task-footer">
+	        <a class="fa fa-plus-circle">新增Task</a>
+	    </div>
     </div>
 </div>

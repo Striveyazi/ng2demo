@@ -1,0 +1,16 @@
+<p>this is user page</p>
+<div *ngIf="users">
+    <ul>
+        <li *ngFor="let u of users">
+            <span>userId:</span>
+            <span>{{u.id}}</span>
+            <span>userName:</span>
+            <span>{{u.name}}</span>
+            <span>telphone:</span>
+            <span>{{u.phone}}</span>
+        </li>
+    </ul>
+</div>
+<div>
+    <add-user></add-user>
+</div>

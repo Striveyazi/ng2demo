@@ -27,7 +27,7 @@ import * as _ from 'lodash'
     '(body: mousedown)': "onMousedown($event)"
   },
   providers: [TreeModel,TreeContainer],
-  styleUrls:['../templates/taskbag.templates/taskbag.component.css'],
+  styleUrls:['../templates/res/css/task/tree.css'],
   templateUrl:'../templates/taskbag.templates/taskbag.component.html'
 })
 export class TreeComponent implements OnChanges {

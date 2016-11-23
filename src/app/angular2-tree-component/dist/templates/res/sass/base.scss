@@ -1,0 +1,27 @@
+//.usersel-none{
+//  -moz-user-select: none;
+//  -ms-user-select: none;
+//  -webkit-user-select: none;
+//}
+.fl{float: left;}
+.fr{float: right;}
+*{
+    ::-webkit-scrollbar{
+        width:6px;
+        height:10px;
+    }
+    ::-webkit-scrollbar-track{
+        background-color:rgba( 0, 0 ,0 ,.04);
+        border-radius:3px;
+    }
+    ::-webkit-scrollbar-thumb{
+        background-color:#dbd6cd;
+        border-radius:3px;
+        &:hover{
+             background-color:#CAC5BD;
+        }
+    }
+    ::-webkit-scrollbar-button{
+        display: none;
+    }
+}

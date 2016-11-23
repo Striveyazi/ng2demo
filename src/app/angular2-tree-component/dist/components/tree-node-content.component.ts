@@ -8,7 +8,7 @@ export interface ITreeNodeTemplate {
 
 @Component({
   selector: 'TreeNodeContent',
-  styleUrls:['../templates/task.templates/task-content.component.css'],
+  styleUrls:['../templates/res/css/task/tree.css'],
   templateUrl:'../templates/task.templates/task-content.component.html',
 })
 export class TreeNodeContent {
