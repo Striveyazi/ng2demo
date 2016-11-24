@@ -66,5 +66,4 @@ export class TreeContainerComponent implements OnChanges {
      childrenCount(node: TreeNode): string {
         return node && node.children ? `(${node.children.length})` : '';
     }
-     
 }

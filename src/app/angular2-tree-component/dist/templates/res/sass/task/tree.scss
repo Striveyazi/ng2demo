@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 @mixin border_radius($radius:2px){
   border-radius: $radius;
  -webkit-border-radius: $radius;
@@ -191,3 +192,198 @@ transform: rotate(0);
     width: 20px;
     text-align: center;
 }
+=======
+@mixin border_radius($radius:2px){
+  border-radius: $radius;
+ -webkit-border-radius: $radius;
+ -moz-border-radius: $radius;
+}
+.border-box{
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+}
+*{
+  overflow: hidden;
+}
+.layout-main{
+  position: absolute;
+  left:0px;
+  top:50px;
+  bottom:0px;
+  right:0px;
+  padding: 14px 0px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  background: snow;
+  .panel-main{
+     white-space: nowrap;
+     height:100%;
+     overflow:visible;
+     .fa{
+         color:#aaa;
+         cursor: pointer;
+         &:hover{
+             color: #888;
+         }
+     }
+    .panel-wrapper{
+      min-width:400px;
+      margin-left: 8px;
+      border-radius: 5px;
+      display: inline-block;
+      overflow: hidden;
+      vertical-align: top;
+      height: 100%;
+      min-height:107px;
+      @extend .border-box;
+     .panel{
+        max-height: 100%;
+        padding: 14px 0px;
+        box-sizing: border-box;
+        background: #EDEFF0;
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: flex;
+        -webkit-flex-direction: column;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        -webkit-box-orient:vertical;
+      .task-header{
+        padding: 0px 8px;
+        -webkit-box-flex: 0;
+        -webkit-flex: 0 0 auto;
+        -ms-flex: 0 0 auto;
+        flex: 0 0 auto;
+        .tool{
+          width:100%;
+          .fa{
+              width:30px;
+              line-height: 30px;
+              text-align: center;
+          }
+        }
+      }
+      *{
+        vertical-align: middle;
+      }
+      .main-task{
+        margin: 0px 4px;
+        padding: 0px 4px;
+        overflow-x: hidden;
+        overflow-y: auto;
+        -webkit-box-flex: 1;
+        -webkit-flex-grow: 1;
+        flex-grow: 1;
+        & .tree-node-level-1{
+          background: white;
+          margin-bottom: 6px;
+          padding: 5px;
+          @include border_radius;
+          &.tree-node{
+            // 临时
+            .circle{
+              display: inline-block;
+              width:36px;
+              line-height:36px;
+              border:#eee 1px solid;
+              @include border_radius(18px);
+            }
+            .task-container{
+              border-bottom: #eee 1px solid;
+              overflow: hidden;
+              padding: 5px 0px;
+              &:hover{
+                  background: #f7fbff;
+              }
+              .task-members{
+                  img{
+                    width:24px;
+                    height:24px;
+                    @include border_radius(12px);
+                    overflow: hidden;
+                  }
+                }
+            }
+          }
+        }
+      }
+      .task-footer{
+          padding: 5px 8px 0px 8px;
+          -webkit-box-flex: 0;
+          -webkit-flex: 0 0 auto;
+          -ms-flex: 0 0 auto;
+          flex: 0 0 auto;
+      }
+    }
+   }
+  }
+}
+
+.progress-bar{
+  display: inline-block;
+  width:80px;
+  height:4px;
+  @include border_radius(2px);
+  background: #ddd;
+  .bar{
+     display: block;
+     width:50px;
+     height:4px;
+     @include border_radius(2px);
+     background: #37B85B;
+  }
+}
+.drop-down{
+    position: relative;
+    &:before{
+        content: "\f107";
+        color: #aaa;
+        display: none;
+        width: 20px;
+        line-height: 20px;
+        text-align: center;
+        font: normal normal normal 14px/1 FontAwesome;
+        font-size: inherit;
+        text-rendering: auto;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale; 
+        position: absolute;
+        top:0px;
+        right:0px;
+    }
+    &:hover{
+        &:before{
+            display: inline-block;
+        }
+    }
+}
+.tree-children { padding-left: 20px }
+.tree-node-active >.task-container { 
+  background: #beebff;
+}
+.tree-node-active.tree-node-focused>.task-container {
+  background: #beebff;
+  }
+.tree-node-focused >.task-container{
+ background: #e7f4f9;
+}
+.tree-node-active >.task-container> .node-content-wrapper .tree-node-focused >.task-container> .node-content-wrapper .node-content-wrapper:hover { 
+box-shadow: inset 0 0 1px #999; 
+}
+.node-content-wrapper.is-dragging-over { 
+background: #ddffee; 
+box-shadow: inset 0 0 1px #999;
+ }
+.tree-node-expanded >.task-container>.toggle-children-wrapper > .toggle-children { 
+transform: rotate(180deg);
+}
+.tree-node-collapsed > .toggle-children-wrapper > .toggle-children { 
+transform: rotate(0); 
+}
+.toggle-children {
+    position: relative;
+    width: 20px;
+    text-align: center;
+}
+>>>>>>> ff4cbc5a92de30dbd14fafc22eca2c0608582438
