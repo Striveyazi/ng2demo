@@ -1,0 +1,193 @@
+@charset "utf-8";
+@import "base.scss";
+%leftnav-block{
+    display: block;
+    margin: 7px 0 7px 0;
+    padding: 8px 10px 8px 10px;
+    i{
+        display: block;
+        width: 30px;
+        height: 30px;
+        text-align: center;
+        background: url(../img/left.fw.png) 0 0 no-repeat;
+        
+    }
+    &:hover{
+        i{
+            background-position-x: -40px;
+        }
+    }
+}
+//左侧导航
+.leftpanel{
+    .left-nav{
+        width: 50px;
+        height: 100%;
+        background: #20202F;
+        position: fixed;
+        overflow: hidden;
+        z-index: 10;
+//        logo
+        .leftnav-top{
+            a{
+                @extend %leftnav-block;
+                padding-top: 15px;
+                margin: 0;
+                .witpm-logo{
+                    background-position: 0 -205px;
+                    &:hover{
+                        background-position-x: 0px;
+                    }
+                }
+            }
+        }
+//        工作台、搜索、消息、项目、好友
+        .leftnav-cont{
+            position: absolute;
+            top: 53px;
+            left: 0;
+            bottom: 97px;
+            overflow-x: hidden;
+            overflow-y: auto;
+            ul{
+                li{
+                    a{
+                        @extend %leftnav-block;
+                        i{
+                        }
+                        .desk-icon{
+                            background-position: 0 -30px;
+                        }
+                        .search-icon{
+                            background-position: 0 -59px;
+                        }
+                        .news-icon{
+                            background-position: 0 -88px;
+                        }
+                        .item-icon{
+                            background-position: 0 -116px;
+                        }
+                        .contact-icon{
+                            background-position: 0 -144px;
+                        }
+                     }
+                }
+            }
+        }
+//        消息、个人资料
+        .leftnav-footer{
+            position: absolute;
+            bottom: 0px;
+            left: 0;
+            a{
+                @extend %leftnav-block;
+                .imessge-icon{
+                    background-position: 0 -173px;
+                }
+                .photo-icon{
+                    background-position: 0 -205px;
+                }
+            }
+        }
+    }
+//    点击左导航的滑出框
+    .left-cont{
+        background-color: #fff;
+        position: absolute;
+        left: -350px;
+        top: 0;
+        bottom: 0;
+        width: 380px;
+        z-index: 9;
+        -webkit-box-shadow: 1px 0 5px rgba(0,0,0,.14);
+        box-shadow: 1px 0 5px rgba(0,0,0,.14);
+        transition-property: left;
+        transition-duration: .15s;
+        -moz-transition-property: left; /* Firefox 4 */
+        -moz-transition-duration: .15s; /* Firefox 4 */
+        -webkit-transition-property: left; /* Safari and Chrome */
+        -webkit-transition-duration: .15s; /* Safari and Chrome */
+        -o-transition-property: left; /* Opera */
+        -o-transition-duration: .15s; /* Opera */
+    }
+//    左侧蒙版
+    .leftcont-backdrop{
+        position: fixed;
+        z-index: 8;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        height: 100%;
+        background: #eeece8;
+        opacity: .8;
+        filter: alpha(opacity=80);
+    }
+
+}
+.container{
+  position: relative;
+  height:100%;
+}
+//中间部分——顶部导航
+.header-nav{
+    position: relative;
+    padding: 0 8px;
+    height: 50px;
+    line-height: 50px;
+    background: #fff;
+    border-bottom: 1px solid #EEEEEE;
+    .headernav-left{
+        // max-width: 22%;
+        .proj-icon,.set-icon{
+            display: inline-block;
+            width: 40px;
+            height: 50px;
+            background: #444;
+        }
+        .title{
+            margin:0 15px;
+        }
+        .time{
+            margin-left: 20px;
+        }
+    }
+    .headernav-cont{
+        margin: 0 28% 0 28%;
+        text-align: center;
+        ul{
+            li{
+                display: inline-block;
+                margin: 0 5px 0 6px;
+                padding: 0;
+            }
+        }
+    }
+}
+//
+.main-cont{
+    height: 1200px;
+    background: #ccc;
+}
+.slide-right{
+    border-left: solid 1px #e8edf3;
+    -webkit-box-shadow: 0 0 15px rgba(0,0,0,.1);
+    box-shadow: 0 0 15px rgba(0,0,0,.1);
+    background: #fff;
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    width: 700px;
+    z-index: 100;
+    -webkit-transform: translateX(700px);
+    -ms-transform: translateX(700px);
+    -o-transform: translateX(700px);
+    transform: translateX(700px);
+    -webkit-transition-property: -webkit-transform;
+    transition-property: transform;
+    -webkit-transition-timing-function: ease-in;
+    transition-timing-function: ease-in;
+    -webkit-transition-duration: .5s;
+    transition-duration: .5s;
+}

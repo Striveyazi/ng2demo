@@ -22,7 +22,7 @@ const actionMapping: IActionMapping = {
 @Component({
     moduleId: module.id,
     selector: 'mytree',
-    styleUrls:['tree.component.css'],
+//  styleUrls:['../templates/res/css/task/tree.css'],
     templateUrl: 'tree.component.html'
 })
 export class MyTreeComponent {

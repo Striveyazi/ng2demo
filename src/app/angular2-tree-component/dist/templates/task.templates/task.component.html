@@ -12,36 +12,36 @@
         [dropIndex]="nodeIndex"
         [task]="task.parent"
         ></TreeNodeDropSlot>
-      <!-- toggle -->
-      <span
-        *ngIf="task.data &&task.data.hasChild"
-        class="toggle-children-wrapper"
-        (click)="expanded()">
+        <div class="task-container">
+		      <!-- toggle -->
+		      <span
+		        *ngIf="task.data &&task.data.hasChild"
+		        class="toggle-children-wrapper fl"
+		        (click)="expanded()">
+		         <span class="toggle-children fa fa-angle-down"></span>		
+		      </span>
+		      <!--<span
+		        *ngIf="!(task.data &&task.data.hasChild)"
+		        class="toggle-children-placeholder fl">
+		      </span>-->
+		      <div class="node-content-wrapper drop-down"
+		        #nodeContentWrapper
+		        [class.is-dragging-over]="task.treeModel.isDraggingOver(this)"
+		        (click)="task.mouseAction('click', $event,{totree:task.treeModel})"
+		        (dblclick)="task.mouseAction('dblClick', $event,{totree:task.treeModel})"
+		        (contextmenu)="task.mouseAction('contextMenu', $event,{totree:task.treeModel})"
+		        [draggable]="task.allowDrag()"
+		        (dragstart)="onDragStart($event)"
+		        (drop)="onDrop($event)"
+		        (dragend)="onDragEnd()"
+		        (dragover)="onDragOver($event)"
+		        (dragleave)="onDragLeave(nodeContentWrapper, $event)"
+		        >
+		
+		        <TreeNodeContent [task]="task" [treeNodeContentTemplate]="treeNodeContentTemplate"></TreeNodeContent>
+		      </div>
 
-      <span class="toggle-children"></span>
-
-      </span>
-      <span
-        *ngIf="!(task.data &&task.data.hasChild)"
-        class="toggle-children-placeholder">
-      </span>
-      <div class="node-content-wrapper"
-        #nodeContentWrapper
-        [class.is-dragging-over]="task.treeModel.isDraggingOver(this)"
-        (click)="task.mouseAction('click', $event,{totree:task.treeModel})"
-        (dblclick)="task.mouseAction('dblClick', $event,{totree:task.treeModel})"
-        (contextmenu)="task.mouseAction('contextMenu', $event,{totree:task.treeModel})"
-        [draggable]="task.allowDrag()"
-        (dragstart)="onDragStart($event)"
-        (drop)="onDrop($event)"
-        (dragend)="onDragEnd()"
-        (dragover)="onDragOver($event)"
-        (dragleave)="onDragLeave(nodeContentWrapper, $event)"
-        >
-
-        <TreeNodeContent [task]="task" [treeNodeContentTemplate]="treeNodeContentTemplate"></TreeNodeContent>
       </div>
-
       <div class="tree-children" *ngIf="task.isExpanded">
         <div *ngIf="task.data &&task.data.hasChild">
           <TreeNode

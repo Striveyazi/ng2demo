@@ -18,7 +18,7 @@ import { TreeNode } from 'app/angular2-tree-component';
     moduleId: module.id,
     selector: 'TreeContainer',
     providers: [TreeService],
-    styleUrls:['../templates/taskbag.templates/taskbag.component.css'],
+    styleUrls:['../templates/res/css/task/tree.css'],
     templateUrl: `
     <!-- -->
     <Tree *ngFor = "let tree of trees"
