@@ -31,11 +31,11 @@
 	        </div>
 	    </div>
 	    <div class="main-task">
-	        <TreeNode *ngFor="let task of treeModel.roots; let i = index" [task]="task" [nodeIndex]="i" [loadingTemplate]="loadingTemplate" [treeNodeContentTemplate]="treeNodeTemplate">
+	        <TreeNode *ngFor="let task of taskbag.children; let i = index" [task]="task" [nodeIndex]="i" [loadingTemplate]="loadingTemplate" [treeNodeContentTemplate]="treeNodeTemplate">
 	        </TreeNode>
 	    </div>
 	
-	    <div [class.node-dragging]="treeModel.isDragging()">
+	    <div [class.node-dragging]="taskbag.is_dragging">
 	        <!--<TaskBagContent [taskBagInfo]="treeModel.taskBagInfo" [taskBagContentTemplate]="taskbagTemplate">
 	        </TaskBagContent>-->
 	

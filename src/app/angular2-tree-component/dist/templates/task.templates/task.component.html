@@ -1,11 +1,11 @@
 <div
-      *ngIf="!task.isHidden"
+      *ngIf="!task.is_hidden"
       class="tree-node tree-node-level-{{ task.level }}"
-      [class.tree-node-expanded]="task.isExpanded && task.data && task.hasChildren"
-      [class.tree-node-collapsed]="task.isCollapsed && task.data &&task.hasChildren"
-      [class.tree-node-leaf]="task.isLeaf"
-      [class.tree-node-active]="task.isActive"
-      [class.tree-node-focused]="task.isFocused">
+      [class.tree-node-expanded]="task.is_expanded"
+      [class.tree-node-collapsed]="!task.is_expanded"
+      [class.tree-node-leaf]="!task.is_root"
+      [class.tree-node-active]="task.is_active"
+      [class.tree-node-focused]="task.is_focused">
 
       <TreeNodeDropSlot
         *ngIf="nodeIndex === 0"
@@ -15,7 +15,7 @@
         <div class="task-container">
 		      <!-- toggle -->
 		      <span
-		        *ngIf="task.data &&task.data.hasChild"
+		        *ngIf="task.hasChild"
 		        class="toggle-children-wrapper fl"
 		        (click)="expanded()">
 		         <span class="toggle-children fa fa-angle-down"></span>		
@@ -26,11 +26,11 @@
 		      </span>-->
 		      <div class="node-content-wrapper drop-down"
 		        #nodeContentWrapper
-		        [class.is-dragging-over]="task.treeModel.isDraggingOver(this)"
-		        (click)="task.mouseAction('click', $event,{totree:task.treeModel})"
-		        (dblclick)="task.mouseAction('dblClick', $event,{totree:task.treeModel})"
-		        (contextmenu)="task.mouseAction('contextMenu', $event,{totree:task.treeModel})"
-		        [draggable]="task.allowDrag()"
+		        [class.is-dragging-over]="isDraggingOver(this)"
+		        (click)="mouseAction()"
+		        (dblclick)="mouseAction()"
+		        (contextmenu)="mouseAction()"
+		        [draggable]="task.allow_drag"
 		        (dragstart)="onDragStart($event)"
 		        (drop)="onDrop($event)"
 		        (dragend)="onDragEnd()"
@@ -42,8 +42,8 @@
 		      </div>
 
       </div>
-      <div class="tree-children" *ngIf="task.isExpanded">
-        <div *ngIf="task.data &&task.data.hasChild">
+      <div class="tree-children" *ngIf="task.is_expanded">
+        <div *ngIf="task.hasChild">
           <TreeNode
             *ngFor="let child_task of task.children; let i = index"
             [task]="child_task"

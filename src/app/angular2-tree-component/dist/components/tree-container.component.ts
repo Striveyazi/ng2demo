@@ -1,3 +1,4 @@
+import { TaskBag } from '../entities/taskbag.entity';
 import { TreeService } from '../services/tree.service';
 
 import { TreeContainer } from '../models/tree-container.model';
@@ -21,10 +22,10 @@ import { TreeNode } from 'app/angular2-tree-component';
     styleUrls:['../templates/res/css/task/tree.css'],
     templateUrl: `
     <!-- -->
-    <Tree *ngFor = "let tree of trees"
-
-    [ids]="tree.children_ids"
-    [options] = "tree.options"
+    <Tree *ngFor = "let taskbag of trees"
+    [taskbag]="taskbag"
+    
+    [options] = "taskbag.options"
     >
     
     <!-- this template' content contain per tree's nodes -->
@@ -44,7 +45,7 @@ import { TreeNode } from 'app/angular2-tree-component';
 })
 export class TreeContainerComponent implements OnChanges {
 
-    @Input()  trees:any[];
+    @Input()  trees:TaskBag[];
     @ContentChild('loadingTemplate') loadingTemplate:TemplateRef<any>;
     
     constructor(public treeService:TreeService) {
@@ -58,12 +59,15 @@ export class TreeContainerComponent implements OnChanges {
         /**
          * should get every tree's childrenId(it's a array) and options;
          */
-        for(let tree in changes.trees.currentValue){
-            (<any>this.trees)[tree].children_ids = this.treeService.getTaskIds("first");
-            (<any>this.trees)[tree].options = this.treeService.getTaskBagOptions("first");
+        for(let index in changes.trees.currentValue){
+            this.treeService.createMock_TaskBag_Children_ids(this.trees[index]);
+            //(<any>this.trees)[index].children_ids = this.treeService.getTaskIds((<TaskBag>this.trees[index]).bag_id);
+            //(<any>this.trees)[index].options = this.treeService.getTaskBagOptions("first");
+            // (<TaskBag>this.trees[index]).children =[];
         }
     }
      childrenCount(node: TreeNode): string {
         return node && node.children ? `(${node.children.length})` : '';
     }
+     
 }

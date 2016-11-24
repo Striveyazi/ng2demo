@@ -5,13 +5,13 @@
     <span class="progress-bar" title="">
 		<i class="bar"></i>
 	</span>-->
-    <span *ngIf="!treeNodeContentTemplate" class="" title="{{ task.displayField }}">{{ task.displayField }}</span>
+    <span *ngIf="!treeNodeContentTemplate" class="" title="{{ task.name }}">{{ task.name }}</span>
 </div>
 
 <template [ngTemplateOutlet]="treeNodeContentTemplate" [ngOutletContext]="{ $implicit: task }"></template>
 <div class="badges fl">
 	<span class="" title="任务优先级是普通">普通</span>
-    <span *ngIf="task.Badges&&task.Badges.expire_date" class="fa fa-clock-o" title="任务截止日期是{{task.Badges.expire_date}}">
+    <!--<span *ngIf="task.Badges&&task.Badges.expire_date" class="fa fa-clock-o" title="任务截止日期是{{task.Badges.expire_date}}">
       <span>{{task.Badges.expire_date}}</span>
     </span>
     <span *ngIf="task.Badges&&task.Badges.comment_count" class="fa fa-comment-o" title="任务有{{task.Badges.comment_count}}条评论">
@@ -22,7 +22,7 @@
     </span>
     <span *ngIf="task.Badges&&task.Badges.completed_count&&task.Badges.total_count">
       <span>Completion:{{task.Badges.completed_count}}/{{task.Badges.total_count}}</span>
-    </span>
+    </span>-->
     <span title="标签1">标签1</span>
 </div>
 <div class="task-members fr">

@@ -1,3 +1,4 @@
+import { Task } from '../entities/task.entity';
 import { window } from 'rxjs/operator/window';
 import { TreeModel } from './tree.model';
 import { Injectable } from '@angular/core';
@@ -12,6 +13,28 @@ export type InteralStateType = {
 };
 @Injectable()
 export class TreeContainer implements ITreeContainer {
+    
+    static _dragTask:Task;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
     trees: {
         nodes: TreeNode[],
         options: TreeOptions

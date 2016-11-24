@@ -22,7 +22,7 @@ const actionMapping: IActionMapping = {
 @Component({
     moduleId: module.id,
     selector: 'mytree',
-//  styleUrls:['../templates/res/css/task/tree.css'],
+    //  styleUrls:['../templates/res/css/task/tree.css'],
     templateUrl: 'tree.component.html'
 })
 export class MyTreeComponent {
@@ -91,7 +91,7 @@ export class MyTreeComponent {
                     hasChildren: true
                 }
             ];
-            let secondnodes =  [
+            let secondnodes = [
                 {
                     expanded: true,
                     name: '这是第二个任务包下面的第一个任务',
@@ -156,18 +156,150 @@ export class MyTreeComponent {
             //     nodes:secondnodes,
             //     options: this.customTemplateStringOptions
             // }]
-             this.trees=[{
-                 Id:'first',
-                 children_ids:[],
-                 options:{}
-             },{
-                 Id:'second',
-                 children_ids:[],
-                 options:{}
-             }];
-        },0,()=>{
+            this.trees = [{
+                pid: "first",
+                bag_id: "1",
+                name: "",
+                pos: 0,
+                children:[],
+                children_ids:[]
+            }, {
+                pid: "2",
+                bag_id: "second",
+                name: "",
+                pos: 0,
+                children:[],
+                children_ids:[]
+            },{
+                pid: "first",
+                bag_id: "3",
+                name: "",
+                pos: 0,
+                children:[],
+                children_ids:[]
+            }, {
+                pid: "first",
+                bag_id: "4",
+                name: "",
+                pos: 0,
+                children:[],
+                children_ids:[]
+            },{
+                pid: "first",
+                bag_id: "5",
+                name: "",
+                pos: 0,
+                children:[],
+                children_ids:[]
+            }, {
+                pid: "first",
+                bag_id: "6",
+                name: "",
+                pos: 0,
+                children:[],
+                children_ids:[]
+            },{
+                pid: "first",
+                bag_id: "7",
+                name: "",
+                pos: 0,
+                children:[],
+                children_ids:[]
+            }, {
+                pid: "first",
+                bag_id: "8",
+                name: "",
+                pos: 0,
+                children:[],
+                children_ids:[]
+            },{
+                pid: "first",
+                bag_id: "9",
+                name: "",
+                pos: 0,
+                children:[],
+                children_ids:[]
+            }, {
+                pid: "first",
+                bag_id: "10",
+                name: "",
+                pos: 0,
+                children:[],
+                children_ids:[]
+            },{
+                pid: "first",
+                bag_id: "11",
+                name: "",
+                pos: 0,
+                children:[],
+                children_ids:[]
+            }, {
+                pid: "first",
+                bag_id: "12",
+                name: "",
+                pos: 0,
+                children:[],
+                children_ids:[]
+            },{
+                pid: "first",
+                bag_id: "13",
+                name: "",
+                pos: 0,
+                children:[],
+                children_ids:[]
+            }, {
+                pid: "first",
+                bag_id: "14",
+                name: "",
+                pos: 0,
+                children:[],
+                children_ids:[]
+            },{
+                pid: "first",
+                bag_id: "15",
+                name: "",
+                pos: 0,
+                children:[],
+                children_ids:[]
+            }, {
+                pid: "first",
+                bag_id: "16",
+                name: "",
+                pos: 0,
+                children:[],
+                children_ids:[]
+            },{
+                pid: "first",
+                bag_id: "17",
+                name: "",
+                pos: 0,
+                children:[],
+                children_ids:[]
+            }, {
+                pid: "first",
+                bag_id: "18",
+                name: "",
+                pos: 0,
+                children:[],
+                children_ids:[]
+            },{
+                pid: "first",
+                bag_id: "19",
+                name: "",
+                pos: 0,
+                children:[],
+                children_ids:[]
+            }, {
+                pid: "first",
+                bag_id: "20",
+                name: "",
+                pos: 0,
+                children:[],
+                children_ids:[]
+            }];
+        }, 0, () => {
             console.log("initial trees data");
-        } );
+        });
 
     }
     asyncChildren = [

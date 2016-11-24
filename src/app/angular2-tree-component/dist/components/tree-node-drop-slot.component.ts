@@ -1,3 +1,4 @@
+import { Task } from '../entities/task.entity';
 import { TreeService } from '../services/tree.service';
 import { TreeContainer } from '../models/tree-container.model';
 import { Component, Input, ViewEncapsulation } from '@angular/core';
@@ -12,7 +13,7 @@ import { TreeNode } from '../models/tree-node.model';
     template: `
     <div
       class="node-drop-slot"
-      [class.is-dragging-over]="task.treeModel.isDraggingOver(this)"
+      [class.is-dragging-over]="isDraggingOver(this)"
       (drop)="onDrop($event)"
       (dragover)="onDragOver($event)"
       (dragleave)="onDragLeave()"
@@ -21,76 +22,82 @@ import { TreeNode } from '../models/tree-node.model';
   `
 })
 export class TreeNodeDropSlot {
-    @Input() task: TreeNode;
+    @Input() task: Task;
     @Input() dropIndex: number;
-
+    _dropLocation: any;
     constructor(public treeService: TreeService) { }
     onDragOver($event) {
         $event.preventDefault();
-        this.task.treeModel.setDropLocation({ component: this, node: this.task, index: this.dropIndex });
+        this.setDropLocation(this);
     }
 
     onDragLeave() {
-        if (this.task.treeModel.isDraggingOver(this)) {
-            this.task.treeModel.setDropLocation(null);
+        if (this.isDraggingOver(this)) {
+            this.setDropLocation(null);
         }
     }
 
     onDrop($event) {
 
         $event.preventDefault();
-        let dragTask = TreeContainer._dragModel.node;
-        if (!this.task.canMoveTask(dragTask, this.task, this.treeService)) {
-            return;
-        }
-        let from_task = dragTask.parent.children.find((t) => t.data.task_id === dragTask.data.task_id);
+        let dragTask = TreeContainer._dragTask;
+        // if (!this.task.canMoveTask(dragTask, this.task, this.treeService)) {
+        //     return;
+        // }
+        let from_task = dragTask.parent.children.find((t) => t.tid === dragTask.tid);
         let index = dragTask.parent.children.indexOf(from_task);
         let fromTask = dragTask.parent.children.splice(index, 1)[0];
 
         //this formTask is a root Task, and it's parent is TaskBag( a virtual Task),
 
-        if ((<any>fromTask.parent.data).virtual) {
+        //todo:judge is task or taskbag ?
+        if ((<any>fromTask.parent).virtual) {
             //todo:update this virtual Task's data 
         }
         else {
             if (fromTask.parent.children.length === 0
-                && fromTask.parent.data.children_ids.length === 0) {
-                fromTask.parent.data.hasChild = false;
+                && fromTask.parent.children_ids.length === 0) {
+                (<Task>fromTask.parent).hasChild = false;
             }
         }
         //according to this [parent component’s] assignment is a 'task.parent'
         fromTask.parent = this.task;
 
-        if ((<any>this.task.data).virtual) {
+        if ((<any>this.task).virtual) {
 
-            fromTask.data.is_root = true;
+            fromTask.is_root = true;
             //according to this [parent component’s] assignment is a 'task.parent'
-            fromTask.data.parent_id = this.task.data.bag_id;
-            fromTask.data.bag_id = this.task.data.bag_id;
-
+            fromTask.bag_id = this.task.bag_id;
+            this.task.children_ids.push(fromTask.tid);
             this.task.children.push(fromTask);
-
-            this.task.treeModel.nodes.push(fromTask.data);
         }
         else {
             if (fromTask.parent.children.length === 0
-                && fromTask.parent.data.children_ids.length === 0) {
-                fromTask.parent.data.hasChild = false;
+                && fromTask.parent.children_ids.length === 0) {
+                (<Task>fromTask.parent).hasChild = false;
             }
             //set properties;
 
-            fromTask.data.is_root = false;
+            fromTask.is_root = false;
             //according to this [parent component’s assignment] is a 'task.parent'
-            fromTask.data.parent_id = this.task.data.task_id;
-            fromTask.data.bag_id = this.task.data.bag_id;
-            if (!this.task.hasChildren || !this.task.isExpanded) {
-                this.task.data.hasChild = true;
-                this.task.isExpanded = true;
+
+            fromTask.bag_id = this.task.bag_id;
+            if (!this.task.hasChild || !this.task.is_expanded) {
+                this.task.hasChild = true;
+                this.task.is_expanded = true;
             }
-            this.task.data.children_ids.push(fromTask.data.task_id);
+            this.task.children_ids.push(fromTask.tid);
             this.task.children.push(fromTask);//trigger the ngOnChanges/**/
         }
+        this.setDropLocation(null);
+        
         // TreeContainer._dragModel = null;
         // this.task.mouseAction('drop', $event, { node: this.task, index: 0, fromtree: TreeContainer._dragModel.tree, totree: this.task.treeModel });
+    }
+    setDropLocation(component: any) {
+        this._dropLocation = component;
+    }
+    isDraggingOver(component: any) {
+        return this._dropLocation === component;
     }
 }
