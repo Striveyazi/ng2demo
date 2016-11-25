@@ -1,3 +1,6 @@
+import { getHeapStatistics } from 'v8';
+import { Observable } from 'rxjs/Observable';
+import { Http, Jsonp, Response, URLSearchParams } from '@angular/http';
 import { TaskBag } from '../entities/taskbag.entity';
 import { Injectable } from '@angular/core';
 import { IActionMapping, TREE_ACTIONS, KEYS, TreeNode } from 'app/angular2-tree-component';
@@ -7,6 +10,7 @@ import { Subject } from 'rxjs/Subject';
 import { TreeContainer } from '../models/tree-container.model'
 @Injectable()
 export class TreeService {
+    constructor(private http: Http,private jsonp:Jsonp) { }
     public treeContainer = new Subject<TreeContainer>();
     getTreeContainer() {
 
@@ -263,46 +267,46 @@ export class TreeService {
         return true;
     }
 
-    createMock_Task_Child_Tasks(ptask:Task,id){
-            let name = (Math.floor(Math.random() * 10000000000000)).toString();
-            let task:Task= {
-            pid:'',
-            bag_id:ptask.bag_id,
-            tid:id,
-            name:name,
-            allow_drag:true,
-            parent:new Task(),
-            children:[],
-            children_ids:[],
-            }
-            task.parent = ptask;
-            ptask.children.push(task);
-        
+    createMock_Task_Child_Tasks(ptask: Task, id) {
+        let name = (Math.floor(Math.random() * 10000000000000)).toString();
+        let task: Task = {
+            pid: '',
+            bag_id: ptask.bag_id,
+            tid: id,
+            name: name,
+            allow_drag: true,
+            parent: new Task(),
+            children: [],
+            children_ids: [],
+        }
+        task.parent = ptask;
+        ptask.children.push(task);
+
     }
 
-    createMock_Bags_Child_Tasks(taskbag:TaskBag,id) {
-            // for(let i=0;i<2;i++){
-            let name = (Math.floor(Math.random() * 10000000000000)).toString();
-            let childId_1 = (Math.floor(Math.random() * 10000000000000)).toString();
-            let childId_2 = (Math.floor(Math.random() * 10000000000000)).toString();
-            let task:Task= {
-            pid:'',
-            bag_id:taskbag.bag_id,
-            tid:id,
-            name:name,
-            parent:new Task(),
-            is_expanded:true,
-            hasChild:true,
-            allow_drag:true,
-            children:[],
-            children_ids:[childId_1,childId_2],
-            }
-            task.parent = taskbag;
-            taskbag.children.push(task);
-            // }
-            
-        
-        
+    createMock_Bags_Child_Tasks(taskbag: TaskBag, id) {
+        // for(let i=0;i<2;i++){
+        let name = (Math.floor(Math.random() * 10000000000000)).toString();
+        let childId_1 = (Math.floor(Math.random() * 10000000000000)).toString();
+        let childId_2 = (Math.floor(Math.random() * 10000000000000)).toString();
+        let task: Task = {
+            pid: '',
+            bag_id: taskbag.bag_id,
+            tid: id,
+            name: name,
+            parent: new Task(),
+            is_expanded: true,
+            hasChild: true,
+            allow_drag: true,
+            children: [],
+            children_ids: [childId_1, childId_2],
+        }
+        task.parent = taskbag;
+        taskbag.children.push(task);
+        // }
+
+
+
     }
 
     createMock_TaskBag_Children_ids(taskbag: TaskBag) {
@@ -314,5 +318,33 @@ export class TreeService {
             let childId_1 = (Math.floor(Math.random() * 10000000000000)).toString();
             taskbag.children_ids.push(childId_1);
         }
+    }
+
+    getDataFromAPI(): Observable<any> {
+        const httpUrl = 'http://192.168.199.110:8011/api/Test/GetTestModel';
+        let params = new URLSearchParams();
+    params.set('search', 'term'); // the user's search value
+    params.set('action', 'opensearch');
+    params.set('format', 'json');
+    params.set('callback', 'JSONP_CALLBACK');
+        return this.jsonp.get(httpUrl,{ search: params })
+            // .map(response => <string[]> response.json()[1]);
+    }
+    extractData(res: Response) {
+        let body = res.json();
+        console.log(body);
+        return body.data;
+    }
+    handleError(error: Response | any) {
+        let errMsg: string;
+        if (error instanceof Response) {
+            const body = error.json() || '';
+            const err = body.error || JSON.stringify(body);
+            errMsg = `${error.status} - ${error.statusText || ''} ${err}`;
+        } else {
+            errMsg = error.message ? error.message : error.toString();
+        }
+        console.error(errMsg);
+        return Observable.throw(errMsg);
     }
 }

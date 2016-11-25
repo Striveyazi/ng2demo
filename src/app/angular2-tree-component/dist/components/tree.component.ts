@@ -1,3 +1,4 @@
+import { Jsonp } from '@angular/http';
 import { TaskBag } from '../entities/taskbag.entity';
 
 import { TreeService } from '../services/tree.service';
@@ -55,6 +56,7 @@ export class TreeComponent implements OnChanges {
     
   }
   ngOnChanges(changes) {
+    
     let tasks = [];
     /**
      * use service  to get taskinfos;
