@@ -8,13 +8,13 @@ import { KEYS } from './constants/keys';
 import { TreeModel } from './models/tree.model';
 import { TreeNode } from './models/tree-node.model';
 import { LoadingComponent } from './components/loading.component';
-import { LoadingComponent as DeprecatedLoadingComponent } from './components/deprecated-loading.component';
+// import { LoadingComponent as DeprecatedLoadingComponent } from './components/deprecated-loading.component';
 import { TreeComponent } from './components/tree.component';
 import { TreeNodeComponent } from './components/tree-node.component';
 import { TreeNodeContent } from './components/tree-node-content.component';
-import { TreeNodeContent as DeprecatedTreeNodeContent } from './components/deprecated-tree-node-content.component';
+// import { TreeNodeContent as DeprecatedTreeNodeContent } from './components/deprecated-tree-node-content.component';
 import { TreeNodeDropSlot } from './components/tree-node-drop-slot.component';
-import { AdHocComponentFactoryCreator } from './components/adhoc-component-factory.service';
+// import { AdHocComponentFactoryCreator } from './components/adhoc-component-factory.service';
 
 import './polyfills';
 import { deprecated } from './deprecated';
@@ -34,29 +34,29 @@ export {
   TreeNodeDropSlot
 };
 
-@NgModule({
-  declarations: [
-    DeprecatedLoadingComponent,
-    TreeComponent,
-    TreeNodeComponent,
-    DeprecatedTreeNodeContent,
-    TreeNodeDropSlot
-  ],
-  exports: [
-    TreeComponent,
-  ],
-  imports: [
-    CommonModule,
-  ],
-  providers: [
-    AdHocComponentFactoryCreator,
-  ],
-})
-export class DeprecatedTreeModule {
-  constructor() {
-    deprecated('DeprecatedTreeModule', 'TreeModule for AoT compilation');
-  }
-}
+// @NgModule({
+//   declarations: [
+//     DeprecatedLoadingComponent,
+//     TreeComponent,
+//     TreeNodeComponent,
+//     DeprecatedTreeNodeContent,
+//     TreeNodeDropSlot
+//   ],
+//   exports: [
+//     TreeComponent,
+//   ],
+//   imports: [
+//     CommonModule,
+//   ],
+//   providers: [
+//     AdHocComponentFactoryCreator,
+//   ],
+// })
+// export class DeprecatedTreeModule {
+//   constructor() {
+//     deprecated('DeprecatedTreeModule', 'TreeModule for AoT compilation');
+//   }
+// }
 @NgModule({
   declarations: [
     LoadingComponent,
@@ -67,7 +67,6 @@ export class DeprecatedTreeModule {
     TreeNodeDropSlot
   ],
   exports: [
-    TreeComponent,
     TreeContainerComponent
   ],
   imports: [

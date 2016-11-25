@@ -3,7 +3,7 @@ import { Observable } from 'rxjs/Observable';
 import { Http, Jsonp, Response, URLSearchParams } from '@angular/http';
 import { TaskBag } from '../entities/taskbag.entity';
 import { Injectable } from '@angular/core';
-import { IActionMapping, TREE_ACTIONS, KEYS, TreeNode } from 'app/angular2-tree-component';
+import { IActionMapping, TREE_ACTIONS, KEYS, TreeNode } from 'app/angular2-tree-component/dist/angular2-tree-component';
 import { Task } from '../entities/task.entity';
 // import {TaskBag} from '../entities/taskbag.entity';
 import { Subject } from 'rxjs/Subject';
@@ -275,6 +275,7 @@ export class TreeService {
             tid: id,
             name: name,
             allow_drag: true,
+            is_hidden:false,
             parent: new Task(),
             children: [],
             children_ids: [],
@@ -295,7 +296,8 @@ export class TreeService {
             tid: id,
             name: name,
             parent: new Task(),
-            is_expanded: true,
+            is_expanded: false,
+            is_hidden:false,
             hasChild: true,
             allow_drag: true,
             children: [],
@@ -314,7 +316,7 @@ export class TreeService {
         // let childId_1 = (Math.floor(Math.random() * 10000000000000)).toString();
         // //let childId_2 = (Math.floor(Math.random() * 10000000000000)).toString();
 
-        for (let i = 0; i < 20; i++) {
+        for (let i = 0; i < 10; i++) {
             let childId_1 = (Math.floor(Math.random() * 10000000000000)).toString();
             taskbag.children_ids.push(childId_1);
         }

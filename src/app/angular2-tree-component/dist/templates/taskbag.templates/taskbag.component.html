@@ -31,7 +31,7 @@
 	        </div>
 	    </div>
 	    <div class="main-task">
-	        <TreeNode *ngFor="let task of taskbag.children; let i = index" [task]="task" [nodeIndex]="i" [loadingTemplate]="loadingTemplate" [treeNodeContentTemplate]="treeNodeTemplate">
+	        <TreeNode *ngFor="let task of taskbag.children" [task]="task">
 	        </TreeNode>
 	    </div>
 	

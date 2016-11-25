@@ -5,10 +5,9 @@
     <span class="progress-bar" title="">
 		<i class="bar"></i>
 	</span>-->
-    <span *ngIf="!treeNodeContentTemplate" class="" title="{{ task.name }}">{{ task.name }}</span>
+    <span  class="" title="{{ task.name }}">{{ task.name }}</span>
 </div>
 
-<template [ngTemplateOutlet]="treeNodeContentTemplate" [ngOutletContext]="{ $implicit: task }"></template>
 <div class="badges fl">
 	<span class="" title="任务优先级是普通">普通</span>
     <!--<span *ngIf="task.Badges&&task.Badges.expire_date" class="fa fa-clock-o" title="任务截止日期是{{task.Badges.expire_date}}">

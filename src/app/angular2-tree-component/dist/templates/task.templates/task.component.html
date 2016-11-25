@@ -1,5 +1,5 @@
 <div
-      *ngIf="!task.is_hidden"
+      [hidden]="task.is_hidden"
       class="tree-node tree-node-level-{{ task.level }}"
       [class.tree-node-expanded]="task.is_expanded"
       [class.tree-node-collapsed]="!task.is_expanded"
@@ -8,8 +8,6 @@
       [class.tree-node-focused]="task.is_focused">
 
       <TreeNodeDropSlot
-        *ngIf="nodeIndex === 0"
-        [dropIndex]="nodeIndex"
         [task]="task.parent"
         ></TreeNodeDropSlot>
         <div class="task-container">
@@ -38,28 +36,23 @@
 		        (dragleave)="onDragLeave(nodeContentWrapper, $event)"
 		        >
 		
-		        <TreeNodeContent [task]="task" [treeNodeContentTemplate]="treeNodeContentTemplate"></TreeNodeContent>
+		        <TreeNodeContent [task]="task"></TreeNodeContent>
 		      </div>
 
       </div>
       <div class="tree-children" *ngIf="task.is_expanded">
         <div *ngIf="task.hasChild">
           <TreeNode
-            *ngFor="let child_task of task.children; let i = index"
-            [task]="child_task"
-            [nodeIndex]="i"
-            [treeNodeContentTemplate]="treeNodeContentTemplate"
-            [loadingTemplate]="loadingTemplate">
+            *ngFor="let child_task of task.children;"
+            [task]="child_task">
           </TreeNode>
         </div>
         <LoadingComponent
           class="tree-node-loading"
           *ngIf="!task.children"
-          [loadingTemplate]="loadingTemplate"
         ></LoadingComponent>
       </div>
       <TreeNodeDropSlot
-        [dropIndex]="nodeIndex + 1"
         [task]="task.parent"
         ></TreeNodeDropSlot>
 </div>

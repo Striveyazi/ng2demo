@@ -38,9 +38,9 @@ export class TreeComponent implements OnChanges {
     // treeModel.eventNames.forEach((name) => this[name] = new EventEmitter());
   }
   _options: TreeOptions;
-  @ContentChild('loadingTemplate') loadingTemplate: TemplateRef<any>;
-  @ContentChild('treeNodeTemplate') treeNodeTemplate: TemplateRef<ITreeNodeTemplate>;
-  @ContentChild('taskbagTemplate') taskbagTemplate: TemplateRef<any>;
+  // @ContentChild('loadingTemplate') loadingTemplate: TemplateRef<any>;
+  // @ContentChild('treeNodeTemplate') treeNodeTemplate: TemplateRef<ITreeNodeTemplate>;
+  // @ContentChild('taskbagTemplate') taskbagTemplate: TemplateRef<any>;
   // use @Input property Will be can handled in ngOnChanges
   @Input() taskbag:TaskBag;
   @Input() set options(options: TreeOptions) { };
@@ -56,8 +56,8 @@ export class TreeComponent implements OnChanges {
     
   }
   ngOnChanges(changes) {
-    
-    let tasks = [];
+    console.log("taskbag changes");
+    // let tasks = [];
     /**
      * use service  to get taskinfos;
      *  */

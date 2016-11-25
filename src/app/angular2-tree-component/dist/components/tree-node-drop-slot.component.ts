@@ -23,7 +23,6 @@ import { TreeNode } from '../models/tree-node.model';
 })
 export class TreeNodeDropSlot {
     @Input() task: Task;
-    @Input() dropIndex: number;
     _dropLocation: any;
     constructor(public treeService: TreeService) { }
     onDragOver($event) {

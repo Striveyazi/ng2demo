@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { IActionMapping, TREE_ACTIONS, KEYS, TreeNode } from 'app/angular2-tree-component';
+import { IActionMapping, TREE_ACTIONS, KEYS, TreeNode } from 'app/angular2-tree-component/dist/angular2-tree-component';
 
 const actionMapping: IActionMapping = {
     mouse: {
@@ -41,7 +41,7 @@ export class MyTreeComponent {
             //     options: this.customTemplateStringOptions
             // }]
             this.trees =[];
-            for(let i=0;i<10;i++){
+            for(let i=0;i<40;i++){
                 let childId_1 = (Math.floor(Math.random() * 10000000000000)).toString();
                 let obj = {
                 pid: "first",

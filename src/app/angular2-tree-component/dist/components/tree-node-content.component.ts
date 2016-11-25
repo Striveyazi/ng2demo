@@ -14,5 +14,4 @@ export interface ITreeNodeTemplate {
 })
 export class TreeNodeContent {
   @Input() task: Task;
-  @Input() treeNodeContentTemplate: TemplateRef<ITreeNodeTemplate>;
 }

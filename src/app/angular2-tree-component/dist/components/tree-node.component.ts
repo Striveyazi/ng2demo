@@ -12,11 +12,8 @@ import { ITreeNodeTemplate } from './tree-node-content.component';
   templateUrl: '../templates/task.templates/task.component.html'
 })
 
-export class TreeNodeComponent implements AfterViewInit, OnChanges {
+export class TreeNodeComponent implements OnChanges {
   @Input() task: Task;
-  @Input() nodeIndex: number;
-  @Input() treeNodeContentTemplate: TemplateRef<ITreeNodeTemplate>;
-  @Input() loadingTemplate: TemplateRef<any>;
   @Input()
   _dropLocation :any;
 
@@ -27,12 +24,15 @@ export class TreeNodeComponent implements AfterViewInit, OnChanges {
 
     setTimeout(() => {
       TreeContainer._dragTask = this.task;
+      this.task.is_hidden = true;
       //todo: need to do something like splice this node when dragstart
     }, 30)
   }
 
   onDragEnd() {
     //this.node.treeModel.setDragNode(null);
+    TreeContainer._dragTask.is_hidden = false;
+    TreeContainer._dragTask = null;
     this.setDropLocation(null);
   }
 
@@ -46,6 +46,9 @@ export class TreeNodeComponent implements AfterViewInit, OnChanges {
     $event.preventDefault();
     let dragTask = TreeContainer._dragTask;
     this.moveTask(dragTask, this.task, this.treeService);
+    
+    dragTask.is_hidden = false;
+    TreeContainer._dragTask = null;
     this.setDropLocation(null);
     // TreeContainer._dragModel = null;
   }
@@ -63,13 +66,17 @@ export class TreeNodeComponent implements AfterViewInit, OnChanges {
     }
   }
 
-  constructor(private elementRef: ElementRef, public treeService: TreeService) {
+  constructor( public treeService: TreeService) {
 
   }
-  ngAfterViewInit() {
-    //this.task.elementRef = this.elementRef;
-  }
   ngOnChanges(changes) {
+    
+    console.log("taskchange");
+    if(changes.task){
+      
+    console.log("task changesdddd");
+    console.log(changes.task.currentValue.name);
+    }
     if (changes.task && changes.task.currentValue.hasChild) {
       if (changes.task.currentValue.is_expanded) {
         //  get data use service

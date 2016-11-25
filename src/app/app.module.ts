@@ -1,5 +1,5 @@
 import { MyTreeModule } from './tree/tree.module';
-import {TreeModule} from 'app/angular2-tree-component';
+import {TreeModule} from 'app/angular2-tree-component/dist/angular2-tree-component';
 import { MainPanelModule } from './mainpanel/mainpanel.module';
 import { UserModule } from './user/user.module';
 // import { UserComponent } from './user/user.component';

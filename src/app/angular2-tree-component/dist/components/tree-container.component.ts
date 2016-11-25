@@ -14,7 +14,6 @@ import {
 } from '@angular/core';
 import { TreeComponent } from './tree.component';
 import { CommonModule } from '@angular/common';
-import { TreeNode } from 'app/angular2-tree-component';
 @Component({
     moduleId: module.id,
     selector: 'TreeContainer',
@@ -46,7 +45,6 @@ import { TreeNode } from 'app/angular2-tree-component';
 export class TreeContainerComponent implements OnChanges {
 
     @Input()  trees:TaskBag[];
-    @ContentChild('loadingTemplate') loadingTemplate:TemplateRef<any>;
     
     constructor(public treeService:TreeService) {
      
@@ -63,9 +61,6 @@ export class TreeContainerComponent implements OnChanges {
             //(<any>this.trees)[index].options = this.treeService.getTaskBagOptions("first");
             // (<TaskBag>this.trees[index]).children =[];
         }
-    }
-     childrenCount(node: TreeNode): string {
-        return node && node.children ? `(${node.children.length})` : '';
     }
      
 }
