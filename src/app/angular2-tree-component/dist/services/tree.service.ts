@@ -263,23 +263,24 @@ export class TreeService {
         return true;
     }
 
-    createMock_Task_Child_Tasks(ptask:Task){
+    createMock_Task_Child_Tasks(ptask:Task,id){
             let name = (Math.floor(Math.random() * 10000000000000)).toString();
             let task:Task= {
             pid:'',
             bag_id:ptask.bag_id,
-            tid:name,
+            tid:id,
             name:name,
             allow_drag:true,
             parent:new Task(),
             children:[],
             children_ids:[],
             }
+            task.parent = ptask;
             ptask.children.push(task);
         
     }
 
-    createMock_Bags_Child_Tasks(taskbag:TaskBag) {
+    createMock_Bags_Child_Tasks(taskbag:TaskBag,id) {
             // for(let i=0;i<2;i++){
             let name = (Math.floor(Math.random() * 10000000000000)).toString();
             let childId_1 = (Math.floor(Math.random() * 10000000000000)).toString();
@@ -287,7 +288,7 @@ export class TreeService {
             let task:Task= {
             pid:'',
             bag_id:taskbag.bag_id,
-            tid:name,
+            tid:id,
             name:name,
             parent:new Task(),
             is_expanded:true,
@@ -296,6 +297,7 @@ export class TreeService {
             children:[],
             children_ids:[childId_1,childId_2],
             }
+            task.parent = taskbag;
             taskbag.children.push(task);
             // }
             
@@ -303,12 +305,6 @@ export class TreeService {
         
     }
 
-    createMock_Task_Children_ids(ptask: Task) {
-        for (let i = 0; i < 5; i++) {
-            let childId_1 = (Math.floor(Math.random() * 10000000000000)).toString();
-            ptask.children_ids.push(childId_1);
-        }
-    }
     createMock_TaskBag_Children_ids(taskbag: TaskBag) {
         // let name = (Math.floor(Math.random() * 10000000000000)).toString();
         // let childId_1 = (Math.floor(Math.random() * 10000000000000)).toString();

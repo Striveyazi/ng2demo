@@ -22,7 +22,6 @@ export class TreeNodeComponent implements AfterViewInit, OnChanges {
 
 
   onDragStart($event) {
-    console.log("onDragStart");
 
     // first 
 
@@ -34,12 +33,10 @@ export class TreeNodeComponent implements AfterViewInit, OnChanges {
 
   onDragEnd() {
     //this.node.treeModel.setDragNode(null);
-    console.log("end");
     this.setDropLocation(null);
   }
 
   onDragOver($event) {
-    console.log("over");
     $event.preventDefault();
     this.setDropLocation(this);
     //this.task.treeModel.setDropLocation({ component: this, node: this.task, index: 0 });
@@ -54,7 +51,6 @@ export class TreeNodeComponent implements AfterViewInit, OnChanges {
   }
 
   onDragLeave(nodeContentWrapper, $event) {
-    console.log("leave");
     if (!this.isDraggingOver(this)) return;
 
     const rect = nodeContentWrapper.getBoundingClientRect();
@@ -74,12 +70,11 @@ export class TreeNodeComponent implements AfterViewInit, OnChanges {
     //this.task.elementRef = this.elementRef;
   }
   ngOnChanges(changes) {
-    console.log("ngOnChanges");
     if (changes.task && changes.task.currentValue.hasChild) {
       if (changes.task.currentValue.is_expanded) {
         //  get data use service
         for (let childId of changes.task.currentValue.children_ids) {
-          this.treeService.createMock_Task_Child_Tasks(this.task);
+          this.treeService.createMock_Task_Child_Tasks(this.task,childId);
           //todo :if child is undefined or null ,should to handle 
           // let child = this.treeService.getTaskInfos(childId);
           // if (!child) {
@@ -130,7 +125,6 @@ export class TreeNodeComponent implements AfterViewInit, OnChanges {
   * @param toTask is dropTask
   *   */
   canMoveTask(fromTask: Task, toTask: Task, service: TreeService) {
-    console.log("canMoveTask");
     //jugde to self
     if (fromTask.parent === toTask.parent && fromTask.tid == toTask.tid) {
       return false;

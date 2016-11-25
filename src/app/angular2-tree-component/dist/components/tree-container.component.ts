@@ -53,8 +53,6 @@ export class TreeContainerComponent implements OnChanges {
     }
     ngOnChanges(changes) {
         // will comein twice ,first is inits ,second is the @input property has changes
-        console.log("trees inits")
-        console.log();
         let hasValue=[];
         /**
          * should get every tree's childrenId(it's a array) and options;

@@ -27,7 +27,6 @@ import * as _ from 'lodash'
     '(body: keydown)': "onKeydown($event)",
     '(body: mousedown)': "onMousedown($event)"
   },
-  providers: [TreeContainer],
   styleUrls:['../templates/res/css/task/tree.css'],
   templateUrl:'../templates/taskbag.templates/taskbag.component.html'
 })
@@ -56,7 +55,6 @@ export class TreeComponent implements OnChanges {
     
   }
   ngOnChanges(changes) {
-    console.log("tree ngOnChanges");
     let tasks = [];
     /**
      * use service  to get taskinfos;
@@ -65,7 +63,7 @@ export class TreeComponent implements OnChanges {
     
 
     for (let child_id of changes.taskbag.currentValue.children_ids) {
-      this.treeService.createMock_Bags_Child_Tasks(this.taskbag)
+      this.treeService.createMock_Bags_Child_Tasks(this.taskbag,child_id)
       // let child = this.treeService.getTaskInfos(child_id);
       // child.parent = this.taskbag;
       // this.taskbag.children.push(child);
