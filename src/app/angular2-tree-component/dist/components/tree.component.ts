@@ -63,13 +63,14 @@ export class TreeComponent implements OnChanges {
      *  */
 
     
-
+    let pos=100;
     for (let child_id of changes.taskbag.currentValue.children_ids) {
-      this.treeService.createMock_Bags_Child_Tasks(this.taskbag,child_id)
+      this.treeService.createMock_Bags_Child_Tasks(this.taskbag,child_id,pos)
       // let child = this.treeService.getTaskInfos(child_id);
       // child.parent = this.taskbag;
       // this.taskbag.children.push(child);
+      pos++;
     }
-
+    this.taskbag.children.sort(a=>a.pos);
   }
 }

@@ -41,13 +41,13 @@ export class MyTreeComponent {
             //     options: this.customTemplateStringOptions
             // }]
             this.trees =[];
-            for(let i=0;i<40;i++){
+            for(let i=0;i<4;i++){
                 let childId_1 = (Math.floor(Math.random() * 10000000000000)).toString();
                 let obj = {
                 pid: "first",
                 bag_id: childId_1,
                 name: childId_1,
-                pos: 0,
+                pos: 100+i,
                 children:[],
                 children_ids:[]
             }

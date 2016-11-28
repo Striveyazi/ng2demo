@@ -50,7 +50,7 @@ export class TreeNodeDropSlot {
         //this formTask is a root Task, and it's parent is TaskBag( a virtual Task),
 
         //todo:judge is task or taskbag ?
-        if ((<any>fromTask.parent).virtual) {
+        if (!(<any>(fromTask.parent)).parent) {
             //todo:update this virtual Task's data 
         }
         else {
@@ -59,18 +59,24 @@ export class TreeNodeDropSlot {
                 (<Task>fromTask.parent).hasChild = false;
             }
         }
+        //change fromTask's pos
         //according to this [parent component’s] assignment is a 'task.parent'
+        let first_pos = this.task.children.sort((a, b) => a.pos - b.pos).slice(0, 1)[0].pos;
+        let new_pos = first_pos / 2 + Math.random() * first_pos * 0.01;
+        fromTask.pos = new_pos;
         fromTask.parent = this.task;
 
-        if ((<any>this.task).virtual) {
+        //sort formTask's parent's children order
+        fromTask.parent.children.sort((a, b) => (a.pos - b.pos));
 
+        if (!(<any>this.task).parent) { // this.task is taskbag not task
             fromTask.is_root = true;
             //according to this [parent component’s] assignment is a 'task.parent'
             fromTask.bag_id = this.task.bag_id;
             this.task.children_ids.push(fromTask.tid);
             this.task.children.push(fromTask);
         }
-        else {
+        else { //this.task is task not taskbag
             if (fromTask.parent.children.length === 0
                 && fromTask.parent.children_ids.length === 0) {
                 (<Task>fromTask.parent).hasChild = false;
@@ -88,8 +94,10 @@ export class TreeNodeDropSlot {
             this.task.children_ids.push(fromTask.tid);
             this.task.children.push(fromTask);//trigger the ngOnChanges/**/
         }
-        this.setDropLocation(null);
         
+        this.task.children.sort((a, b) => (a.pos - b.pos));
+        this.setDropLocation(null);
+
         // TreeContainer._dragModel = null;
         // this.task.mouseAction('drop', $event, { node: this.task, index: 0, fromtree: TreeContainer._dragModel.tree, totree: this.task.treeModel });
     }

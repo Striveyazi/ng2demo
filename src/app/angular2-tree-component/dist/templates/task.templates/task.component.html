@@ -5,8 +5,8 @@
       [class.tree-node-collapsed]="!task.is_expanded"
       [class.tree-node-leaf]="!task.is_root"
       [class.tree-node-active]="task.is_active"
-      [class.tree-node-focused]="task.is_focused">
-
+      [class.tree-node-focused]="task.is_focused" 
+      class="{{task.pos}}">
       <TreeNodeDropSlot
         [task]="task.parent"
         ></TreeNodeDropSlot>
