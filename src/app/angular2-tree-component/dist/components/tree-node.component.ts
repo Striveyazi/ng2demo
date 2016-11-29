@@ -27,14 +27,15 @@ export class TreeNodeComponent implements OnChanges {
       TreeContainer._dragTask = this.task;
       this.task.is_hidden = true;
       //todo: need to do something like splice this node when dragstart
-    }, 10)
+    }, 30)
   }
-
+  //1.when this component not trigger onDrop, it will trgger this
+  //2.when  drop into this slot.component, will trigger this onDragEnd.
   onDragEnd() {
     //this.node.treeModel.setDragNode(null);
     TreeContainer._dragTask.is_hidden = false;
-    TreeContainer._dragTask = null;
     this.setDropLocation(null);
+    
   }
 
   onDragOver($event) {
@@ -49,7 +50,6 @@ export class TreeNodeComponent implements OnChanges {
     this.biz.moveTask(dragTask, this.task, this.treeService);
     
     dragTask.is_hidden = false;
-    TreeContainer._dragTask = null;
     this.setDropLocation(null);
     // TreeContainer._dragModel = null;
   }

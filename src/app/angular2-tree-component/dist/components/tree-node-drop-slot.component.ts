@@ -23,7 +23,8 @@ import { TreeNode } from '../models/tree-node.model';
 })
 export class TreeNodeDropSlot {
     @Input() task: Task;
-    _dropLocation: any;
+    @Input() child: Task;
+    @Input() _dropLocation: any;
     constructor(public treeService: TreeService) { }
     onDragOver($event) {
         $event.preventDefault();
@@ -61,22 +62,60 @@ export class TreeNodeDropSlot {
         }
         //change fromTask's pos
         //according to this [parent component’s] assignment is a 'task.parent'
-        let first_pos = this.task.children.sort((a, b) => a.pos - b.pos).slice(0, 1)[0].pos;
-        let new_pos = first_pos / 2 + Math.random() * first_pos * 0.01;
-        fromTask.pos = new_pos;
-        fromTask.parent = this.task;
+
+
 
         //sort formTask's parent's children order
         fromTask.parent.children.sort((a, b) => (a.pos - b.pos));
 
-        if (!(<any>this.task).parent) { // this.task is taskbag not task
+
+
+        if (this.child) { // it's task and task or task and this task's frist_child
+            if (this.child === this.task) { // task and this task's frist_child
+                let first_task = this.task.children.sort((a, b) => a.pos - b.pos).slice(0, 1)[0];
+                if (first_task) {
+                    fromTask.pos = first_task.pos / 2 + Math.random() * first_task.pos * 0.01;
+                }
+                else {
+                    fromTask.pos = 65535;
+                }
+            }
+            else {//it's task and task
+                let target_pos1 = this.child.pos
+                let next_task = this.task.children.find(t => t.pos > target_pos1);
+                if (next_task) {
+                    let target_pos2: number;
+                    target_pos2 = next_task.pos;
+                    fromTask.pos = (target_pos1 + target_pos2) / 2 + Math.random() * (target_pos2 - target_pos1) * 0.01;
+                }
+                else { //lasted
+                    fromTask.pos = this.child.pos + 65535;
+                }
+
+            }
+        }
+        else { //it's taskbag and  this taskbag'first_task
+
+            let first_task = this.task.children.sort((a, b) => a.pos - b.pos).slice(0, 1)[0];
+            if (first_task) {
+                fromTask.pos = first_task.pos / 2 + Math.random() * first_task.pos * 0.01;
+            }
+            else {
+                fromTask.pos = 65535;
+            }
+        }
+        
+        if (!(<any>this.task).parent) { // this.task is taskbag 
             fromTask.is_root = true;
+
+
+
             //according to this [parent component’s] assignment is a 'task.parent'
             fromTask.bag_id = this.task.bag_id;
             this.task.children_ids.push(fromTask.tid);
             this.task.children.push(fromTask);
         }
-        else { //this.task is task not taskbag
+        else { //this.task is task 
             if (fromTask.parent.children.length === 0
                 && fromTask.parent.children_ids.length === 0) {
                 (<Task>fromTask.parent).hasChild = false;
@@ -94,7 +133,7 @@ export class TreeNodeDropSlot {
             this.task.children_ids.push(fromTask.tid);
             this.task.children.push(fromTask);//trigger the ngOnChanges/**/
         }
-        
+
         this.task.children.sort((a, b) => (a.pos - b.pos));
         this.setDropLocation(null);
 

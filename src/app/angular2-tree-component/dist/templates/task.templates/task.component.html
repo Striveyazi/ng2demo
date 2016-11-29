@@ -7,9 +7,10 @@
       [class.tree-node-active]="task.is_active"
       [class.tree-node-focused]="task.is_focused" 
       class="{{task.pos}}">
-      <TreeNodeDropSlot
+      <!--<TreeNodeDropSlot
         [task]="task.parent"
-        ></TreeNodeDropSlot>
+        [pos]="task.pos"
+        ></TreeNodeDropSlot>-->
         <div class="task-container">
 		      <!-- toggle -->
 		      <span
@@ -42,6 +43,10 @@
       </div>
       <div class="tree-children" *ngIf="task.is_expanded">
         <div *ngIf="task.hasChild">
+          <TreeNodeDropSlot
+          [task]="task"
+          [child]="task"
+          ></TreeNodeDropSlot>
           <TreeNode
             *ngFor="let child_task of task.children;"
             [task]="child_task">
@@ -54,5 +59,6 @@
       </div>
       <TreeNodeDropSlot
         [task]="task.parent"
+        [child]="task"
         ></TreeNodeDropSlot>
 </div>

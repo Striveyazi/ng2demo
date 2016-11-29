@@ -68,8 +68,8 @@ export class TaskBiz {
         let fromnode = fromTask.parent.children.splice(index, 1)[0];
 
         //todo:judge fromTask is  taskbag or task 
-        if (! (<any>(fromTask.parent)).parent ) { //it's taskbag
-            
+        if (!(<any>(fromTask.parent)).parent) { //it's taskbag
+
         }
         else { // it's task
             //  toTask.data.children_ids.find(t=>t===fromTask.data.task_id);
@@ -77,12 +77,16 @@ export class TaskBiz {
                 (<Task>fromTask.parent).hasChild = false;
             }
         }
-        fromTask.parent.children.sort((a,b)=>(a.pos-b.pos));
+        fromTask.parent.children.sort((a, b) => (a.pos - b.pos));
         //set properties;
-
-        let first_pos = toTask.parent.children.sort((a, b) => a.pos - b.pos).slice(0, 1)[0].pos;
-        let new_pos = first_pos / 2 + Math.random() * first_pos * 0.01;
-        fromTask.pos = new_pos;
+        let first_task = toTask.children.sort((a, b) => a.pos - b.pos).slice(0, 1)[0];
+        let first_pos: number;
+        if (first_task) {
+            fromTask.pos = first_task.pos / 2 + Math.random() * first_task.pos * 0.01;
+        }
+        else {
+            fromTask.pos = 65535;
+        }
 
         fromnode.parent = toTask;
         fromnode.is_root = false;
@@ -96,30 +100,26 @@ export class TaskBiz {
         //todo: use service move the ceche's data
         toTask.children.push(fromnode); //trigger the ngOnChanges
 
-        toTask.parent.children.sort((a,b)=>(a.pos-b.pos));
+        toTask.children.sort((a, b) => (a.pos - b.pos));
     }
     ngOnChanges(changes, task: Task, service: TreeService) {
-        console.log("taskchange");
-        if (changes.task) {
-
-            console.log("task changesdddd");
-            console.log(changes.task.currentValue.name);
-        }
         if (changes.task && changes.task.currentValue.hasChild) {
             if (changes.task.currentValue.is_expanded) {
                 //  get data use service
-                let pos=100;
+                let pos = 100;
                 for (let childId of changes.task.currentValue.children_ids) {
-                    service.createMock_Task_Child_Tasks(task, childId,pos);
+                    service.createMock_Task_Child_Tasks(task, childId, pos);
                     //todo :if child is undefined or null ,should to handle 
                     pos++;
                 }
 
+                task.children.sort((a, b) => a.pos - b.pos);
                 //todo: set this task's postion & remove this task from old parent
             }
             else {
                 task.children = [];
             }
+
         }
     }
 }

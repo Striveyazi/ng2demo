@@ -71,6 +71,6 @@ export class TreeComponent implements OnChanges {
       // this.taskbag.children.push(child);
       pos++;
     }
-    this.taskbag.children.sort(a=>a.pos);
+   this.taskbag.children.sort((a,b)=>a.pos-b.pos);
   }
 }
