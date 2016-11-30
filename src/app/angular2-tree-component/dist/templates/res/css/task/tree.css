@@ -4,7 +4,9 @@
   -moz-box-sizing: border-box; }
 
 * {
-  overflow: hidden; }
+  overflow: hidden;
+  margin: 0;
+  padding: 0; }
 
 .layout-main {
   position: absolute;
@@ -68,34 +70,34 @@
           -webkit-box-flex: 1;
           -webkit-flex-grow: 1;
           flex-grow: 1; }
-          .layout-main .panel-main .panel-wrapper .panel .main-task .tree-node-level-1 {
+          .layout-main .panel-main .panel-wrapper .panel .main-task > treenode > div {
             background: white;
             margin-bottom: 6px;
             padding: 5px;
             border-radius: 2px;
             -webkit-border-radius: 2px;
             -moz-border-radius: 2px; }
-            .layout-main .panel-main .panel-wrapper .panel .main-task .tree-node-level-1.tree-node .circle {
-              display: inline-block;
-              width: 36px;
-              line-height: 36px;
-              border: #eee 1px solid;
-              border-radius: 18px;
-              -webkit-border-radius: 18px;
-              -moz-border-radius: 18px; }
-            .layout-main .panel-main .panel-wrapper .panel .main-task .tree-node-level-1.tree-node .task-container {
-              border-bottom: #eee 1px solid;
-              overflow: hidden;
-              padding: 5px 0px; }
-              .layout-main .panel-main .panel-wrapper .panel .main-task .tree-node-level-1.tree-node .task-container:hover {
-                background: #f7fbff; }
-              .layout-main .panel-main .panel-wrapper .panel .main-task .tree-node-level-1.tree-node .task-container .task-members img {
-                width: 24px;
-                height: 24px;
-                border-radius: 12px;
-                -webkit-border-radius: 12px;
-                -moz-border-radius: 12px;
-                overflow: hidden; }
+          .layout-main .panel-main .panel-wrapper .panel .main-task .circle {
+            display: inline-block;
+            width: 36px;
+            line-height: 36px;
+            border: #eee 1px solid;
+            border-radius: 18px;
+            -webkit-border-radius: 18px;
+            -moz-border-radius: 18px; }
+          .layout-main .panel-main .panel-wrapper .panel .main-task .task-container {
+            border-bottom: #eee 1px solid;
+            overflow: hidden;
+            padding: 5px 0px; }
+            .layout-main .panel-main .panel-wrapper .panel .main-task .task-container:hover {
+              background: #f7fbff; }
+            .layout-main .panel-main .panel-wrapper .panel .main-task .task-container .task-members img {
+              width: 24px;
+              height: 24px;
+              border-radius: 12px;
+              -webkit-border-radius: 12px;
+              -moz-border-radius: 12px;
+              overflow: hidden; }
         .layout-main .panel-main .panel-wrapper .panel .task-footer {
           padding: 5px 8px 0px 8px;
           -webkit-box-flex: 0;
@@ -141,7 +143,7 @@
     display: inline-block; }
 
 .tree-children {
-  padding-left: 20px; }
+  padding-left: 50px; }
 
 .tree-node-active > .task-container {
   background: #beebff; }
@@ -150,7 +152,7 @@
   background: #beebff; }
 
 .tree-node-focused > .task-container {
-  background: #e7f4f9; }
+  background: #ccc; }
 
 .tree-node-active > .task-container > .node-content-wrapper .tree-node-focused > .task-container > .node-content-wrapper .node-content-wrapper:hover {
   box-shadow: inset 0 0 1px #999; }

@@ -300,6 +300,7 @@ export class TreeService {
             parent: new Task(),
             is_expanded: false,
             is_hidden:false,
+            is_focused:false,
             hasChild: true,
             allow_drag: true,
             children: [],

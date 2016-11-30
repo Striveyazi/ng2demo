@@ -13,7 +13,7 @@ export type InteralStateType = {
 };
 @Injectable()
 export class TreeContainer implements ITreeContainer {
-    
+    static _focusTask:Task;
     static _dragTask:Task;
 
 

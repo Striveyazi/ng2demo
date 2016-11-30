@@ -1,3 +1,4 @@
+import { TaskBagContainer } from '../entities/taskbag-container.entity';
 import { Jsonp } from '@angular/http';
 import { TaskBag } from '../entities/taskbag.entity';
 
@@ -29,7 +30,8 @@ import * as _ from 'lodash'
     '(body: mousedown)': "onMousedown($event)"
   },
   styleUrls:['../templates/res/css/task/tree.css'],
-  templateUrl:'../templates/taskbag.templates/taskbag.component.html'
+  templateUrl:'../templates/taskbag.templates/taskbag.component.html',
+  providers:[TaskBagContainer]
 })
 export class TreeComponent implements OnChanges {
   constructor( public treeService: TreeService) {

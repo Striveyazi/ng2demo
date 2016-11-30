@@ -1,32 +1,18 @@
 <div
       [hidden]="task.is_hidden"
-      class="tree-node tree-node-level-{{ task.level }}"
       [class.tree-node-expanded]="task.is_expanded"
       [class.tree-node-collapsed]="!task.is_expanded"
       [class.tree-node-leaf]="!task.is_root"
       [class.tree-node-active]="task.is_active"
       [class.tree-node-focused]="task.is_focused" 
-      class="{{task.pos}}">
+      >
       <!--<TreeNodeDropSlot
         [task]="task.parent"
         [pos]="task.pos"
         ></TreeNodeDropSlot>-->
-        <div class="task-container">
-		      <!-- toggle -->
-		      <span
-		        *ngIf="task.hasChild"
-		        class="toggle-children-wrapper fl"
-		        (click)="expanded()">
-		         <span class="toggle-children fa fa-angle-down"></span>		
-		      </span>
-		      <!--<span
-		        *ngIf="!(task.data &&task.data.hasChild)"
-		        class="toggle-children-placeholder fl">
-		      </span>-->
-		      <div class="node-content-wrapper drop-down"
-		        #nodeContentWrapper
+        <div class="task-container"
+           #nodeContainer
 		        [class.is-dragging-over]="isDraggingOver(this)"
-		        (click)="mouseAction()"
 		        (dblclick)="mouseAction()"
 		        (contextmenu)="mouseAction()"
 		        [draggable]="task.allow_drag"
@@ -34,9 +20,20 @@
 		        (drop)="onDrop($event)"
 		        (dragend)="onDragEnd()"
 		        (dragover)="onDragOver($event)"
-		        (dragleave)="onDragLeave(nodeContentWrapper, $event)"
-		        >
-		
+		        (dragleave)="onDragLeave(nodeContainer, $event)"
+            (click)="setFocus()">
+		      <!-- toggle -->
+		      <span
+		        *ngIf="task.hasChild"
+		        class="toggle-children-wrapper fl"
+		        (click)="expanded()">
+		         <span class="toggle-children fa fa-angle-down"></span>		
+		      </span>
+           <!--圆形进度条-->
+					<i class="circle fl" title="" *ngIf="task.type==='task'">20%</i>
+
+				  <!--内容-->
+		      <div class="node-content-wrapper drop-down">
 		        <TreeNodeContent [task]="task"></TreeNodeContent>
 		      </div>
 

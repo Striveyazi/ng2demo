@@ -10,6 +10,8 @@
 }
 *{
   overflow: hidden;
+  margin: 0;
+  padding: 0;
 }
 .layout-main{
   position: absolute;
@@ -80,37 +82,35 @@
         -webkit-box-flex: 1;
         -webkit-flex-grow: 1;
         flex-grow: 1;
-        & .tree-node-level-1{
+        &>treenode>div{
           background: white;
           margin-bottom: 6px;
           padding: 5px;
           @include border_radius;
-          &.tree-node{
-            // 临时
-            .circle{
-              display: inline-block;
-              width:36px;
-              line-height:36px;
-              border:#eee 1px solid;
-              @include border_radius(18px);
-            }
-            .task-container{
-              border-bottom: #eee 1px solid;
-              overflow: hidden;
-              padding: 5px 0px;
-              &:hover{
-                  background: #f7fbff;
-              }
-              .task-members{
-                  img{
-                    width:24px;
-                    height:24px;
-                    @include border_radius(12px);
-                    overflow: hidden;
-                  }
-                }
-            }
           }
+        // 临时
+        .circle{
+          display: inline-block;
+          width:36px;
+          line-height:36px;
+          border:#eee 1px solid;
+          @include border_radius(18px);
+        }
+        .task-container{
+          border-bottom: #eee 1px solid;
+          overflow: hidden;
+          padding: 5px 0px;
+          &:hover{
+              background: #f7fbff;
+          }
+          .task-members{
+              img{
+                width:24px;
+                height:24px;
+                @include border_radius(12px);
+                overflow: hidden;
+              }
+            }
         }
       }
       .task-footer{
@@ -120,8 +120,8 @@
           -ms-flex: 0 0 auto;
           flex: 0 0 auto;
       }
+        }
     }
-   }
   }
 }
 
@@ -163,7 +163,7 @@
         }
     }
 }
-.tree-children { padding-left: 20px }
+.tree-children { padding-left: 50px }
 .tree-node-active >.task-container { 
   background: #beebff;
 }

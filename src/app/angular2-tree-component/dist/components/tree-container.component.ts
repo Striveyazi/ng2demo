@@ -1,3 +1,4 @@
+import { TaskDropSlotBiz } from '../biz/task-drop-slot.component.biz';
 import { TaskBiz } from '../biz/task.component.biz';
 import { TaskBag } from '../entities/taskbag.entity';
 import { TreeService } from '../services/tree.service';
@@ -18,7 +19,7 @@ import { CommonModule } from '@angular/common';
 @Component({
     moduleId: module.id,
     selector: 'TreeContainer',
-    providers: [TreeService,TaskBiz],
+    providers: [TreeService,TaskBiz,TaskDropSlotBiz],
     styleUrls:['../templates/res/css/task/tree.css'],
     templateUrl: `
     <!-- -->
