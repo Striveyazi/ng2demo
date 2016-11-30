@@ -34,16 +34,9 @@ import * as _ from 'lodash'
   providers:[TaskBagContainer]
 })
 export class TreeComponent implements OnChanges {
-  constructor( public treeService: TreeService) {
-    //this.treecontainer = this._treecontainer;
-    //this._treecontainer._dragModel = {node:null,index:13,tree:null};
-    // treeModel.eventNames.forEach((name) => this[name] = new EventEmitter());
+  constructor( public treeService: TreeService,public bagContainer:TaskBagContainer) {
   }
   _options: TreeOptions;
-  // @ContentChild('loadingTemplate') loadingTemplate: TemplateRef<any>;
-  // @ContentChild('treeNodeTemplate') treeNodeTemplate: TemplateRef<ITreeNodeTemplate>;
-  // @ContentChild('taskbagTemplate') taskbagTemplate: TemplateRef<any>;
-  // use @Input property Will be can handled in ngOnChanges
   @Input() taskbag:TaskBag;
   @Input() set options(options: TreeOptions) { };
   @Input() set focused(value: boolean) {
@@ -55,6 +48,24 @@ export class TreeComponent implements OnChanges {
   }
 
   onMousedown($event) {
+    
+  }
+  moveUp(){
+    console.log(this.bagContainer._focusedTask);
+  }
+  moveDown(){
+
+  }
+  moveLeft(){
+
+  }
+  moveRight(){
+
+  }
+  moveTop(){
+
+  }
+  moveBottom(){
     
   }
   ngOnChanges(changes) {

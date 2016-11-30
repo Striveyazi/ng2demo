@@ -20,7 +20,17 @@ export class TreeNodeComponent implements OnChanges {
     _dropLocation: any;
 
 
-    onDragStart($event) {
+   
+
+    constructor(public treeService: TreeService, private biz: TaskBiz, private container: TaskBagContainer) {
+
+    }
+    ngOnChanges(changes) {
+        this.biz.ngOnChanges(changes, this.task, this.treeService);
+    }
+
+    // custom function
+     onDragStart($event) {
 
         // first 
         setTimeout(() => {
@@ -68,15 +78,6 @@ export class TreeNodeComponent implements OnChanges {
         }
     }
 
-    constructor(public treeService: TreeService, private biz: TaskBiz, private container: TaskBagContainer) {
-
-    }
-    ngOnChanges(changes) {
-        this.biz.ngOnChanges(changes, this.task, this.treeService);
-    }
-
-    // custom function
-
     expanded() {
         this.biz.expand(this.task, this.treeService);
     }
@@ -92,10 +93,19 @@ export class TreeNodeComponent implements OnChanges {
         return this._dropLocation === component;
     }
     setFocus() {
-        if (this.container._focusedTask) {
-            this.container._focusedTask.is_focused = false;
+        //todo: when task moved,should update correspond taskbag's container
+        if (this.container._focusedTask === this.task) {
+            if (this.task.is_focused) {
+                this.container._focusedTask = null;
+            }
+            this.task.is_focused = !this.task.is_focused;
         }
-        this.task.is_focused = true;
-        this.container._focusedTask = this.task;
+        else {
+            if (this.container._focusedTask) {
+                this.container._focusedTask.is_focused = false;
+            }
+            this.task.is_focused = true;
+            this.container._focusedTask = this.task;
+        }
     }
 }
