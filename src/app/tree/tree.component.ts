@@ -41,7 +41,7 @@ export class MyTreeComponent {
             //     options: this.customTemplateStringOptions
             // }]
             this.trees =[];
-            for(let i=0;i<4;i++){
+            for(let i=0;i<10;i++){
                 let childId_1 = (Math.floor(Math.random() * 10000000000000)).toString();
                 let obj = {
                 pid: "first",

@@ -1,3 +1,4 @@
+import { PosCalculationRule } from '../biz/task-pos-calculation-rule.biz';
 import { TaskBagContainer } from '../entities/taskbag-container.entity';
 import { TaskBiz } from '../biz/task.component.biz';
 import { Task } from '../entities/task.entity';
@@ -22,7 +23,7 @@ export class TreeNodeComponent implements OnChanges {
 
    
 
-    constructor(public treeService: TreeService, private biz: TaskBiz, private container: TaskBagContainer) {
+    constructor(public treeService: TreeService, private biz: TaskBiz, private container: TaskBagContainer,private posCalculationRule:PosCalculationRule) {
 
     }
     ngOnChanges(changes) {
@@ -58,7 +59,7 @@ export class TreeNodeComponent implements OnChanges {
     onDrop($event) {
         $event.preventDefault();
         let dragTask = TreeContainer._dragTask;
-        this.biz.moveTask(dragTask, this.task, this.treeService);
+        this.biz.moveTask(dragTask, this.task, this.treeService,this.posCalculationRule);
 
         dragTask.is_hidden = false;
         this.setDropLocation(null);

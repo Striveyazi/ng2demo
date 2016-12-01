@@ -1,3 +1,4 @@
+import { PosCalculationRule } from './task-pos-calculation-rule.biz';
 import { Injectable } from '@angular/core';
 import { Task } from '../entities/task.entity';
 import { TreeService } from '../services/tree.service';
@@ -58,7 +59,7 @@ export class TaskBiz {
         }
         return true;
     }
-    moveTask(fromTask: Task, toTask: Task, service: TreeService) {
+    moveTask(fromTask: Task, toTask: Task, service: TreeService,posCalculationRule:PosCalculationRule) {
         // don't drag to self
         if (!this.canMoveTask(fromTask, toTask, service)) {
             return;
@@ -82,10 +83,12 @@ export class TaskBiz {
         let first_task = toTask.children.sort((a, b) => a.pos - b.pos).slice(0, 1)[0];
         let first_pos: number;
         if (first_task) {
-            fromTask.pos = first_task.pos / 2 + Math.random() * first_task.pos * 0.01;
+            // fromTask.pos = first_task.pos / 2 + Math.random() * first_task.pos * 0.01;
+            fromTask.pos = posCalculationRule.Third_Rule(0,first_task.pos);
         }
         else {
-            fromTask.pos = 65535;
+            // fromTask.pos = 65535;
+            fromTask.pos = posCalculationRule.First_Rule();
         }
 
         fromnode.parent = toTask;

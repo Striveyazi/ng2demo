@@ -290,7 +290,7 @@ export class TreeService {
         let name = (Math.floor(Math.random() * 10000000000000)).toString();
         let childId_1 = (Math.floor(Math.random() * 10000000000000)).toString();
         let childId_2 = (Math.floor(Math.random() * 10000000000000)).toString();
-        let type:string='task';
+        let type:string='folder';
         let task: Task = {
             pid: '',
             bag_id: taskbag.bag_id,
@@ -304,7 +304,7 @@ export class TreeService {
             hasChild: true,
             allow_drag: true,
             children: [],
-            children_ids: [childId_1, childId_2],
+            children_ids: [],
             type:type
         }
         task.parent = taskbag;

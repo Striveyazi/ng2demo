@@ -1,3 +1,5 @@
+import { PosCalculationRule } from '../biz/task-pos-calculation-rule.biz';
+import { TaskBagBiz } from '../biz/taskbag.component.biz';
 import { TaskBagContainer } from '../entities/taskbag-container.entity';
 import { Jsonp } from '@angular/http';
 import { TaskBag } from '../entities/taskbag.entity';
@@ -34,12 +36,12 @@ import * as _ from 'lodash'
   providers:[TaskBagContainer]
 })
 export class TreeComponent implements OnChanges {
-  constructor( public treeService: TreeService,public bagContainer:TaskBagContainer) {
+  constructor( public treeService: TreeService,public bagContainer:TaskBagContainer,private biz:TaskBagBiz,private posCalculationRule: PosCalculationRule) {
   }
   _options: TreeOptions;
   @Input() taskbag:TaskBag;
   @Input() set options(options: TreeOptions) { };
-  @Input() set focused(value: boolean) {
+  @Input() set moved(value: boolean) {
    
   }
 
@@ -51,22 +53,35 @@ export class TreeComponent implements OnChanges {
     
   }
   moveUp(){
-    console.log(this.bagContainer._focusedTask);
+    if(this.bagContainer._focusedTask){
+      this.biz.moveUp(this.bagContainer._focusedTask);
+    }
+    return ;
   }
   moveDown(){
-
+    if(this.bagContainer._focusedTask){
+      this.biz.moveDown(this.bagContainer._focusedTask);
+    }
   }
   moveLeft(){
-
+    if(this.bagContainer._focusedTask){
+      this.biz.moveLeft(this.bagContainer._focusedTask,this.posCalculationRule);
+    }
   }
   moveRight(){
-
+    if(this.bagContainer._focusedTask){
+      this.biz.moveRight(this.bagContainer._focusedTask,this.posCalculationRule);
+    }
   }
   moveTop(){
-
+    if(this.bagContainer._focusedTask){
+      this.biz.moveTop(this.bagContainer._focusedTask,this.posCalculationRule);
+    }
   }
   moveBottom(){
-    
+    if(this.bagContainer._focusedTask){
+      this.biz.moveBottom(this.bagContainer._focusedTask,this.posCalculationRule);
+    }
   }
   ngOnChanges(changes) {
     console.log("taskbag changes");

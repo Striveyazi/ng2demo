@@ -1,3 +1,4 @@
+import { PosCalculationRule } from '../biz/task-pos-calculation-rule.biz';
 import { TaskDropSlotBiz } from '../biz/task-drop-slot.component.biz';
 import { Task } from '../entities/task.entity';
 import { TreeService } from '../services/tree.service';
@@ -27,7 +28,7 @@ export class TreeNodeDropSlot {
     @Input() task: Task;
     @Input() child: Task;
     @Input() _dropLocation: any;
-    constructor(public treeService: TreeService,private biz:TaskDropSlotBiz) { }
+    constructor(public treeService: TreeService,private biz:TaskDropSlotBiz,private posCalculationRule:PosCalculationRule) { }
     onDragOver($event) {
         $event.preventDefault();
         this.setDropLocation(this);
@@ -45,7 +46,7 @@ export class TreeNodeDropSlot {
         let index = dragTask.parent.children.indexOf(from_task);
         let fromTask = dragTask.parent.children.splice(index, 1)[0];
 
-        this.biz.moveTask(fromTask,this.task,this.child,this.treeService);
+        this.biz.moveTask(fromTask,this.task,this.child,this.treeService,this.posCalculationRule);
         //this formTask is a root Task, and it's parent is TaskBag( a virtual Task),
 
         //todo:judge is task or taskbag ?

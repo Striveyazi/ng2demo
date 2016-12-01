@@ -1,3 +1,5 @@
+import { PosCalculationRule } from '../biz/task-pos-calculation-rule.biz';
+import { TaskBagBiz } from '../biz/taskbag.component.biz';
 import { TaskDropSlotBiz } from '../biz/task-drop-slot.component.biz';
 import { TaskBiz } from '../biz/task.component.biz';
 import { TaskBag } from '../entities/taskbag.entity';
@@ -19,7 +21,7 @@ import { CommonModule } from '@angular/common';
 @Component({
     moduleId: module.id,
     selector: 'TreeContainer',
-    providers: [TreeService,TaskBiz,TaskDropSlotBiz],
+    providers: [TreeService,TaskBiz,TaskDropSlotBiz,TaskBagBiz,PosCalculationRule],
     styleUrls:['../templates/res/css/task/tree.css'],
     templateUrl: `
     <!-- -->

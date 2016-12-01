@@ -1,9 +1,10 @@
+import { PosCalculationRule } from './task-pos-calculation-rule.biz';
 import { Injectable } from '@angular/core';
 import { Task } from '../entities/task.entity';
 import { TreeService } from '../services/tree.service';
 @Injectable()
 export class TaskDropSlotBiz {
-    moveTask(fromTask: Task, toTask: Task, child: Task, service: TreeService) {
+    moveTask(fromTask: Task, toTask: Task, child: Task, service: TreeService,posCalculationRule:PosCalculationRule) {
         if ((<any>(fromTask.parent)).parent){ // fromTask'parent is task
             if (fromTask.parent.children.length === 0
                 && fromTask.parent.children_ids.length === 0) {
@@ -21,10 +22,12 @@ export class TaskDropSlotBiz {
             if (child === toTask) { // task and this task's frist_child
                 let first_task = toTask.children.sort((a, b) => a.pos - b.pos).slice(0, 1)[0];
                 if (first_task) {
-                    fromTask.pos = first_task.pos / 2 + Math.random() * first_task.pos * 0.01;
+                    //fromTask.pos = first_task.pos / 2 + Math.random() * first_task.pos * 0.01;
+                    fromTask.pos = posCalculationRule.Third_Rule(0,first_task.pos);
                 }
                 else {
-                    fromTask.pos = 65535;
+                    //fromTask.pos = 65535;
+                    fromTask.pos = posCalculationRule.First_Rule();
                 }
             }
             else {//it's task and task
@@ -33,10 +36,12 @@ export class TaskDropSlotBiz {
                 if (next_task) {
                     let target_pos2: number;
                     target_pos2 = next_task.pos;
-                    fromTask.pos = (target_pos1 + target_pos2) / 2 + Math.random() * (target_pos2 - target_pos1) * 0.01;
+                    //fromTask.pos = (target_pos1 + target_pos2) / 2 + Math.random() * (target_pos2 - target_pos1) * 0.01;
+                    fromTask.pos = posCalculationRule.Third_Rule(target_pos1,target_pos2);
                 }
                 else { //lasted
-                    fromTask.pos = child.pos + 65535;
+                    // fromTask.pos = child.pos + 65535;
+                    fromTask.pos = posCalculationRule.Second_Rule(child.pos);
                 }
 
             }
@@ -45,10 +50,12 @@ export class TaskDropSlotBiz {
 
             let first_task = toTask.children.sort((a, b) => a.pos - b.pos).slice(0, 1)[0];
             if (first_task) {
-                fromTask.pos = first_task.pos / 2 + Math.random() * first_task.pos * 0.01;
+                // fromTask.pos = first_task.pos / 2 + Math.random() * first_task.pos * 0.01;
+                fromTask.pos = posCalculationRule.Third_Rule(0,first_task.pos);
             }
             else {
-                fromTask.pos = 65535;
+                // fromTask.pos = 65535;
+                fromTask.pos = posCalculationRule.First_Rule();
             }
         }
         if (!(<any>toTask).parent) { // toTask is taskbag 

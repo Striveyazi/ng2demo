@@ -1,11 +1,11 @@
 
-<!--<div *ngIf="task.type=='folder'">
+<div *ngIf="task.type=='folder'">
   <i class="fa fa-folder" title=""></i>
-  <span class="" title="{{ task.name }}">{{ task.name }}</span>
+  <span class="" title="{{ task.name }}">{{ task.name }}{{task.type}}</span>
   <span class="progress-bar" title="">
 	<i class="bar"></i>
   </span>
-<div>-->
+<div>
 <div *ngIf="task.type=='task'">
 	<p class="" title="{{ task.name }}">{{ task.name }}{{task.type}}</p>
 	<div  class="badges fl">
