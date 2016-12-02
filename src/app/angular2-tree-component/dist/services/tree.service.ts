@@ -269,6 +269,7 @@ export class TreeService {
 
     createMock_Task_Child_Tasks(ptask: Task,id,pos:number) {
         let name = (Math.floor(Math.random() * 10000000000000)).toString();
+        let type:string='folder';
         let task: Task = {
             pid: '',
             bag_id: ptask.bag_id,
@@ -278,8 +279,16 @@ export class TreeService {
             allow_drag: true,
             is_hidden:false,
             parent: new Task(),
+            is_expanded: false,
+            is_focused:false,
+            hasChild: true,
             children: [],
             children_ids: [],
+            manhour:10,
+            children_manhour:0,
+            completedmanhour:5,
+            children_completedmanhour:0,
+            type:type
         }
         task.parent = ptask;
         ptask.children.push(task);
@@ -305,13 +314,14 @@ export class TreeService {
             allow_drag: true,
             children: [],
             children_ids: [],
+            manhour:10,
+            children_manhour:0,
+            completedmanhour:5,
+            children_completedmanhour:0,
             type:type
         }
         task.parent = taskbag;
         taskbag.children.push(task);
-
-
-
     }
 
     createMock_TaskBag_Children_ids(taskbag: TaskBag) {

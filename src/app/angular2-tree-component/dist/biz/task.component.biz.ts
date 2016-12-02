@@ -125,4 +125,9 @@ export class TaskBiz {
 
         }
     }
+    counter(children_manHour: number, children_completeManHour: number, task:any,this_parent:any) {
+        task.children_manhour += children_manHour;
+        task.children_completedmanhour += children_completeManHour;
+        this_parent.counter(task.children_manhour, task.children_completedmanhour, task.parent);
+    }
 }

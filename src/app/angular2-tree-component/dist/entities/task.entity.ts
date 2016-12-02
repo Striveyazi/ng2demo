@@ -30,7 +30,9 @@ export class Task{
     members?:any[];
     watchers?:any[];
     manhour?: number;
+    children_manhour?:number;
     completedmanhour?:number;
+    children_completedmanhour?:number;
     spenttime?:number;
 
     icon?:any;

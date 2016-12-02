@@ -49,7 +49,9 @@ export class MyTreeComponent {
                 name: childId_1,
                 pos: 100+i,
                 children:[],
-                children_ids:[]
+                children_ids:[],
+                children_manhour:0,
+                children_completedmanhour:0,
             }
             this.trees.push(obj);
             }

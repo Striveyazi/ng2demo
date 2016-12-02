@@ -10,7 +10,7 @@
                 <span class="progress-bar" title="">
 			        <i class="bar"></i>
 			    </span>
-                <span class="">30WH</span>
+                <span class="">{{taskbag.children_completedmanhour}}/{{taskbag.children_manhour}}</span>
                 <a class="fa fa-angle-down"></a>
             </div>
 
@@ -32,7 +32,10 @@
         </div>
         <div class="main-task">
             <TreeNodeDropSlot [task]="taskbag"></TreeNodeDropSlot>
-            <TreeNode *ngFor="let task of taskbag.children" [task]="task">
+            <TreeNode *ngFor="let task of taskbag.children" 
+                [task]="task" 
+                [this_parent] ="this" 
+                (_selfInfo)="getChildInfo($event)">
             </TreeNode>
         </div>
 

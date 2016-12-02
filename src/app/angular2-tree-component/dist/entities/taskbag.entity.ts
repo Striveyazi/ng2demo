@@ -9,8 +9,8 @@ export class TaskBag {
     update_time?: number;
     icon?:any;//?
     icon_color?:any//?
-    manhour_count?:number;
-    completed_manhour_count?:number;
+    children_manhour?:number;
+    children_completedmanhour?:number;
     
     children?:Task[];
     children_ids?: string[];

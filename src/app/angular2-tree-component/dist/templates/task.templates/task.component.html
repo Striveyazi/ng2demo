@@ -35,7 +35,7 @@
 
 				  <!--内容-->
 		      <div class="node-content-wrapper drop-down">
-		        <TreeNodeContent [task]="task"></TreeNodeContent>
+		        <TreeNodeContent [parent]="parent" [task]="task"></TreeNodeContent>
 		      </div>
 
       </div>
@@ -45,9 +45,11 @@
           [task]="task"
           [child]="task"
           ></TreeNodeDropSlot>
-          <TreeNode
+          <TreeNode 
             *ngFor="let child_task of task.children;"
-            [task]="child_task">
+            [this_parent] ="this"
+            [task]="child_task"
+            (_selfInfo)="getChildInfo($event)">
           </TreeNode>
         </div>
         <LoadingComponent

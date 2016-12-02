@@ -31,56 +31,57 @@ import * as _ from 'lodash'
     '(body: keydown)': "onKeydown($event)",
     '(body: mousedown)': "onMousedown($event)"
   },
-  styleUrls:['../templates/res/css/task/tree.css'],
-  templateUrl:'../templates/taskbag.templates/taskbag.component.html',
-  providers:[TaskBagContainer]
+  styleUrls: ['../templates/res/css/task/tree.css'],
+  templateUrl: '../templates/taskbag.templates/taskbag.component.html',
+  providers: [TaskBagContainer]
 })
 export class TreeComponent implements OnChanges {
-  constructor( public treeService: TreeService,public bagContainer:TaskBagContainer,private biz:TaskBagBiz,private posCalculationRule: PosCalculationRule) {
+  constructor(public treeService: TreeService, public bagContainer: TaskBagContainer, private biz: TaskBagBiz, private posCalculationRule: PosCalculationRule) {
   }
   _options: TreeOptions;
-  @Input() taskbag:TaskBag;
+  @Input() taskbag: TaskBag;
   @Input() set options(options: TreeOptions) { };
   @Input() set moved(value: boolean) {
-   
+
   }
 
   onKeydown($event) {
-   
+
   }
 
   onMousedown($event) {
-    
+
   }
-  moveUp(){
-    if(this.bagContainer._focusedTask){
+
+  moveUp() {
+    if (this.bagContainer._focusedTask) {
       this.biz.moveUp(this.bagContainer._focusedTask);
     }
-    return ;
+    return;
   }
-  moveDown(){
-    if(this.bagContainer._focusedTask){
+  moveDown() {
+    if (this.bagContainer._focusedTask) {
       this.biz.moveDown(this.bagContainer._focusedTask);
     }
   }
-  moveLeft(){
-    if(this.bagContainer._focusedTask){
-      this.biz.moveLeft(this.bagContainer._focusedTask,this.posCalculationRule);
+  moveLeft() {
+    if (this.bagContainer._focusedTask) {
+      this.biz.moveLeft(this.bagContainer._focusedTask, this.posCalculationRule);
     }
   }
-  moveRight(){
-    if(this.bagContainer._focusedTask){
-      this.biz.moveRight(this.bagContainer._focusedTask,this.posCalculationRule);
+  moveRight() {
+    if (this.bagContainer._focusedTask) {
+      this.biz.moveRight(this.bagContainer._focusedTask, this.posCalculationRule);
     }
   }
-  moveTop(){
-    if(this.bagContainer._focusedTask){
-      this.biz.moveTop(this.bagContainer._focusedTask,this.posCalculationRule);
+  moveTop() {
+    if (this.bagContainer._focusedTask) {
+      this.biz.moveTop(this.bagContainer._focusedTask, this.posCalculationRule);
     }
   }
-  moveBottom(){
-    if(this.bagContainer._focusedTask){
-      this.biz.moveBottom(this.bagContainer._focusedTask,this.posCalculationRule);
+  moveBottom() {
+    if (this.bagContainer._focusedTask) {
+      this.biz.moveBottom(this.bagContainer._focusedTask, this.posCalculationRule);
     }
   }
   ngOnChanges(changes) {
@@ -90,15 +91,32 @@ export class TreeComponent implements OnChanges {
      * use service  to get taskinfos;
      *  */
 
-    
-    let pos=100;
+
+    let pos = 100;
     for (let child_id of changes.taskbag.currentValue.children_ids) {
-      this.treeService.createMock_Bags_Child_Tasks(this.taskbag,child_id,pos)
+      this.treeService.createMock_Bags_Child_Tasks(this.taskbag, child_id, pos)
       // let child = this.treeService.getTaskInfos(child_id);
       // child.parent = this.taskbag;
       // this.taskbag.children.push(child);
       pos++;
     }
-   this.taskbag.children.sort((a,b)=>a.pos-b.pos);
+    this.taskbag.children.sort((a, b) => a.pos - b.pos);
+  }
+  counter(children_manHour: number, children_completeManHour: number, taskBag: TaskBag) {
+    taskBag.children_manhour += children_manHour;
+    taskBag.children_completedmanhour += children_completeManHour;
+    // it's root parent ,need't bubble
+  }
+  getChildInfo($event: { children_manHour: number, children_completeManHour: number }) {
+    this.counter($event.children_manHour, $event.children_completeManHour, this.taskbag);
+    // console.log($event);
+    // // this.task.children_manhour+=$event.children_manHour;
+    // // this.task.children_completedmanhour +=$event.children_completeManHour;
+    // console.log(this.task);
+  }
+  sub(children_manHour: number, children_completeManHour: number,taskBag:TaskBag){
+     taskBag.children_manhour -=children_manHour;
+     taskBag.children_completedmanhour -= children_completeManHour;
+     // it's root parent ,need't bubble
   }
 }
