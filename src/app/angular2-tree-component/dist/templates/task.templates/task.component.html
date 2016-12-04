@@ -1,64 +1,31 @@
-<div
-      [hidden]="task.is_hidden"
-      [class.tree-node-expanded]="task.is_expanded"
-      [class.tree-node-collapsed]="!task.is_expanded"
-      [class.tree-node-leaf]="!task.is_root"
-      [class.tree-node-active]="task.is_active"
-      [class.tree-node-focused]="task.is_focused"
-      >
-      <span [hidden]="true">{{task.pos}}</span>
-      <!--<TreeNodeDropSlot
+<div [hidden]="task.is_hidden" [class.tree-node-expanded]="task.is_expanded" [class.tree-node-collapsed]="!task.is_expanded" [class.tree-node-leaf]="!task.is_root" [class.tree-node-active]="task.is_active" [class.tree-node-focused]="task.is_focused">
+    <span [hidden]="true">{{task.pos}}</span>
+    <!--<TreeNodeDropSlot
         [task]="task.parent"
         [pos]="task.pos"
         ></TreeNodeDropSlot>-->
-        <div class="task-container"
-           #nodeContainer
-		        [class.is-dragging-over]="isDraggingOver(this)"
-		        (dblclick)="mouseAction()"
-		        (contextmenu)="mouseAction()"
-		        [draggable]="task.allow_drag"
-		        (dragstart)="onDragStart($event)"
-		        (drop)="onDrop($event)"
-		        (dragend)="onDragEnd()"
-		        (dragover)="onDragOver($event)"
-		        (dragleave)="onDragLeave(nodeContainer, $event)"
-            (click)="setFocus()">
-		      <!-- toggle -->
-		      <span
-		        *ngIf="task.hasChild"
-		        class="toggle-children-wrapper fl"
-		        (click)="expanded()">
-		         <span class="toggle-children fa fa-angle-down"></span>		
-		      </span>
-           <!--圆形进度条-->
-					<i class="circle fl" title="" *ngIf="task.type==='task'">20%</i>
+    <div class="task-container" #nodeContainer [class.is-dragging-over]="isDraggingOver(this)" (dblclick)="mouseAction()" (contextmenu)="mouseAction()" [draggable]="task.allow_drag" (dragstart)="onDragStart($event)" (drop)="onDrop($event)" (dragend)="onDragEnd()"
+        (dragover)="onDragOver($event)" (dragleave)="onDragLeave(nodeContainer, $event)" (click)="setFocus()">
+        <!-- toggle -->
+        <span *ngIf="task.hasChild" class="toggle-children-wrapper fl" (click)="expanded()">
+		         <span class="toggle-children fa fa-angle-down"></span>
+        </span>
+        <!--圆形进度条-->
+        <i class="circle fl" title="" *ngIf="task.type==='task'">20%</i>
 
-				  <!--内容-->
-		      <div class="node-content-wrapper drop-down">
-		        <TreeNodeContent [parent]="parent" [task]="task"></TreeNodeContent>
-		      </div>
-
-      </div>
-      <div class="tree-children" *ngIf="task.is_expanded">
-        <div *ngIf="task.hasChild">
-          <TreeNodeDropSlot
-          [task]="task"
-          [child]="task"
-          ></TreeNodeDropSlot>
-          <TreeNode 
-            *ngFor="let child_task of task.children;"
-            [this_parent] ="this"
-            [task]="child_task"
-            (_selfInfo)="getChildInfo($event)">
-          </TreeNode>
+        <!--内容-->
+        <div class="node-content-wrapper drop-down">
+            <TreeNodeContent [parent]="parent" [task]="task"></TreeNodeContent>
         </div>
-        <LoadingComponent
-          class="tree-node-loading"
-          *ngIf="!task.children"
-        ></LoadingComponent>
-      </div>
-      <TreeNodeDropSlot
-        [task]="task.parent"
-        [child]="task"
-        ></TreeNodeDropSlot>
+
+    </div>
+    <div class="tree-children" *ngIf="task.is_expanded">
+        <div *ngIf="task.hasChild">
+            <TreeNodeDropSlot [task]="task" [child]="task"></TreeNodeDropSlot>
+            <TreeNode *ngFor="let child_task of task.children;" [this_parent]="this" [task]="child_task" (_init)="initManHourInfo($event,child_task)" (_sum)="sumManHourInfo($event,child_task)" (_sub)="subManHourInfo($event,child_task)">
+            </TreeNode>
+        </div>
+        <LoadingComponent class="tree-node-loading" *ngIf="!task.children"></LoadingComponent>
+    </div>
+    <TreeNodeDropSlot [task]="task.parent" [child]="task"></TreeNodeDropSlot>
 </div>

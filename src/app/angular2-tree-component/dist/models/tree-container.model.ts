@@ -15,7 +15,8 @@ export type InteralStateType = {
 export class TreeContainer implements ITreeContainer {
     static _focusTask:Task;
     static _dragTask:Task;
-
+    _dragTask:Task;
+    _dragTaskComponent:any;
 
 
 

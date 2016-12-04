@@ -3,6 +3,7 @@ import { TaskBagBiz } from '../biz/taskbag.component.biz';
 import { TaskBagContainer } from '../entities/taskbag-container.entity';
 import { Jsonp } from '@angular/http';
 import { TaskBag } from '../entities/taskbag.entity';
+import { Task } from '../entities/task.entity';
 
 import { TreeService } from '../services/tree.service';
 import { TreeContainer } from '../models/tree-container.model';
@@ -102,21 +103,31 @@ export class TreeComponent implements OnChanges {
     }
     this.taskbag.children.sort((a, b) => a.pos - b.pos);
   }
-  counter(children_manHour: number, children_completeManHour: number, taskBag: TaskBag) {
+  counter(children_manHour: number, children_completeManHour: number, taskBag: TaskBag | Task) {
+    console.log('bag sum');
     taskBag.children_manhour += children_manHour;
     taskBag.children_completedmanhour += children_completeManHour;
     // it's root parent ,need't bubble
   }
-  getChildInfo($event: { children_manHour: number, children_completeManHour: number }) {
-    this.counter($event.children_manHour, $event.children_completeManHour, this.taskbag);
+  initManHourInfo($event: { children_manHour: number, children_completeManHour: number, this_component: any },task) {
+    this.counter($event.children_manHour, $event.children_completeManHour, task);
     // console.log($event);
     // // this.task.children_manhour+=$event.children_manHour;
     // // this.task.children_completedmanhour +=$event.children_completeManHour;
     // console.log(this.task);
   }
-  sub(children_manHour: number, children_completeManHour: number,taskBag:TaskBag){
-     taskBag.children_manhour -=children_manHour;
-     taskBag.children_completedmanhour -= children_completeManHour;
-     // it's root parent ,need't bubble
+  sumManHourInfo($event: { children_manHour: number, children_completeManHour: number, this_component: any },task) {
+    //console.log('bag sum');
+    $event.this_component.counter($event.children_manHour, $event.children_completeManHour, task);
+  }
+  subManHourInfo($event: { children_manHour: number, children_completeManHour: number, this_component: any },task) {
+    //console.log('bag sub');
+    $event.this_component.sub($event.children_manHour, $event.children_completeManHour, task);
+  }
+  sub(children_manHour: number, children_completeManHour: number, taskBag: TaskBag|Task) {
+    console.log('bag sub');
+    taskBag.children_manhour -= children_manHour;
+    taskBag.children_completedmanhour -= children_completeManHour;
+    // it's root parent ,need't bubble
   }
 }

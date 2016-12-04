@@ -11,6 +11,7 @@ import {
     ElementRef,
     EventEmitter,
     Input,
+    OnInit,
     OnChanges,
     Output,
     TemplateRef,
@@ -27,7 +28,7 @@ import { ITreeNodeTemplate } from './tree-node-content.component';
     templateUrl: '../templates/task.templates/task.component.html'
 })
 
-export class TreeNodeComponent implements OnChanges, AfterViewInit {
+export class TreeNodeComponent implements OnChanges, AfterViewInit,OnInit {
     @Input() task: Task;
     @Input()
     _dropLocation: any;
@@ -36,36 +37,49 @@ export class TreeNodeComponent implements OnChanges, AfterViewInit {
     this_parent: any;
 
     @Output()
-    _selfInfo = new EventEmitter<{ children_manHour: number, children_completeManHour: number }>();
-
-    constructor(public treeService: TreeService, private biz: TaskBiz, private container: TaskBagContainer, private posCalculationRule: PosCalculationRule) {
+    _init = new EventEmitter<{ children_manHour: number, children_completeManHour: number }>();
+    @Output()
+    _sub =  new EventEmitter<{ children_manHour: number, children_completeManHour: number }>();
+    @Output()
+    _sum =  new EventEmitter<{ children_manHour: number, children_completeManHour: number }>();
+    constructor(public treeService: TreeService,private treeContainer:TreeContainer, private biz: TaskBiz, private container: TaskBagContainer, private posCalculationRule: PosCalculationRule) {
 
     }
-
+    ngOnInit(){
+        console.log('init');
+        // let sum_obj = { children_manHour: this.task.manhour, children_completeManHour: this.task.completedmanhour, this_component: this }
+        // for (let child of this.task.children) {
+        //     sum_obj.children_manHour += (child.children_manhour);
+        //     sum_obj.children_completeManHour += (child.children_completedmanhour);
+        // }
+        // this._init.emit(sum_obj);
+    }
     ngOnChanges(changes) {
         this.biz.ngOnChanges(changes, this.task, this.treeService);
-        let sum_obj = { children_manHour: this.task.manhour, children_completeManHour: this.task.completedmanhour }
-        for (let child of this.task.children) {
-            sum_obj.children_manHour += (child.children_manhour);
-            sum_obj.children_completeManHour += (child.children_completedmanhour);
-        }
-        this._selfInfo.emit(sum_obj);
+        //child emit
         // this.task.children_manhour = sum_obj.children_manHour;
         // this.task.children_completedmanhour = sum_obj.children_completeManHour;
         // if ((<any>this.task.parent).parent) { // it's task
         //     if((<Task>this.task.parent).type==='folder'){
         //         // (<Task>this.task.parent).children_manhour += sum_obj.children_manHour;
         //         // (<Task>this.task.parent).children_completedmanhour += sum_obj.children_completeManHour;               
-        //         this._selfInfo.emit(sum_obj);
+        //         this._init.emit(sum_obj);
         //     }         
         // }
         // else {//it's taskbag
         //      (this.task.parent).children_manhour += sum_obj.children_manHour;
         //      (this.task.parent).children_completedmanhour += sum_obj.children_completeManHour;
-        //     this._selfInfo.emit(sum_obj);
+        //     this._init.emit(sum_obj);
         // }
     }
     ngAfterViewInit() {
+        console.log('ngAfterViewInit');
+        //let sum_obj = { children_manHour: this.task.manhour, children_completeManHour: this.task.completedmanhour, this_component:this }
+        // for (let child of this.task.children) {
+        //     sum_obj.children_manHour += (child.children_manhour);
+        //     sum_obj.children_completeManHour += (child.children_completedmanhour);
+        // }
+        //this._init.emit(sum_obj);
         //setTimeout( ()=>this.child=()=>this.chidrenInfo.task.children,2);
         //console.log(this.chidrenInfo);
     }
@@ -75,6 +89,7 @@ export class TreeNodeComponent implements OnChanges, AfterViewInit {
         // first 
         setTimeout(() => {
             TreeContainer._dragTask = this.task;
+            this.treeContainer._dragTaskComponent = this;
             this.task.is_hidden = true;
             //todo: need to do something like splice this node when dragstart
         }, 30)
@@ -86,7 +101,6 @@ export class TreeNodeComponent implements OnChanges, AfterViewInit {
         TreeContainer._dragTask.is_hidden = false;
         this.setDropLocation(null);
         console.log('end');
-        //TreeContainer._dragModel = null;
     }
 
     onDragOver($event) {
@@ -98,11 +112,15 @@ export class TreeNodeComponent implements OnChanges, AfterViewInit {
     onDrop($event) {
         $event.preventDefault();
         let dragTask = TreeContainer._dragTask;
-        this.biz.moveTask(dragTask, this.task, this.treeService, this.posCalculationRule);
+        let dragComponent = this.treeContainer._dragTaskComponent;
+        this.biz.moveTask(dragComponent,dragTask,this, this.task, this.treeService, this.posCalculationRule);
 
+       
         dragTask.is_hidden = false;
         this.setDropLocation(null);
         TreeContainer._dragModel = null;
+
+        
         //this.this_parent.counter(100);
     }
 
@@ -148,25 +166,46 @@ export class TreeNodeComponent implements OnChanges, AfterViewInit {
             this.container._focusedTask = this.task;
         }
     }
-    getChildInfo($event: { children_manHour: number, children_completeManHour: number }) {
-        this.counter($event.children_manHour, $event.children_completeManHour, this.task);
+    /**
+     *  @param
+     */
+    initManHourInfo($event: { children_manHour: number, children_completeManHour: number, this_component: any },task) { //parent trigger
+       $event.this_component.counter($event.children_manHour, $event.children_completeManHour, task);
         // console.log($event);
         // // this.task.children_manhour+=$event.children_manHour;
         // // this.task.children_completedmanhour +=$event.children_completeManHour;
         // console.log(this.task);
     }
+    /**
+     *  @param
+     */
+    sumManHourInfo($event: { children_manHour: number, children_completeManHour: number, this_component: any },task){
+         $event.this_component.counter($event.children_manHour, $event.children_completeManHour,task);
+    }
+    /**
+     *  @param
+     */
+    subManHourInfo($event: { children_manHour: number, children_completeManHour: number, this_component: any },task){
+        $event.this_component.sub($event.children_manHour, $event.children_completeManHour, task);
+    }
+    /**
+     *  @param
+     */
     counter(children_manHour: number, children_completeManHour: number, task: Task) {
-        //this.biz.counter(task.children_manhour, task.children_completedmanhour,task.parent,this.this_parent)
         task.children_manhour += children_manHour;
         task.children_completedmanhour += children_completeManHour;
 
-        this.this_parent.counter(task.children_manhour, task.children_completedmanhour, task.parent);
+        this.this_parent.counter(children_manHour, children_completeManHour, task.parent);
 
     }
-    sub(children_manHour: number, children_completeManHour: number, task: Task){
-        task.children_manhour -= children_manHour;
-        task.children_completedmanhour -= children_completeManHour;
-
-        this.this_parent.sub(task.children_manhour, task.children_completedmanhour, task.parent);
+    /**
+     * @param children_manHour:
+     */
+    sub(children_manHour: number, children_completeManHour: number, task: Task){          
+        if((<any>task.parent).parent){
+            task.parent.children_manhour -= children_manHour;
+           task.parent.children_completedmanhour -= children_completeManHour;
+        }
+        this.this_parent.sub(children_manHour, children_completeManHour, task.parent);
     }
 }

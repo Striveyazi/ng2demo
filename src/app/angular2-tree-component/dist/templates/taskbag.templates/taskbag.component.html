@@ -32,10 +32,7 @@
         </div>
         <div class="main-task">
             <TreeNodeDropSlot [task]="taskbag"></TreeNodeDropSlot>
-            <TreeNode *ngFor="let task of taskbag.children" 
-                [task]="task" 
-                [this_parent] ="this" 
-                (_selfInfo)="getChildInfo($event)">
+            <TreeNode *ngFor="let task of taskbag.children" [task]="task" [this_parent]="this" (_init)="initManHourInfo($event,task)" (_sum)="sumManHourInfo($event,task)" (_sub)="subManHourInfo($event,task)">
             </TreeNode>
         </div>
 

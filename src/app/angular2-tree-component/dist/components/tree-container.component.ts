@@ -21,7 +21,7 @@ import { CommonModule } from '@angular/common';
 @Component({
     moduleId: module.id,
     selector: 'TreeContainer',
-    providers: [TreeService,TaskBiz,TaskDropSlotBiz,TaskBagBiz,PosCalculationRule],
+    providers: [TreeService,TaskBiz,TaskDropSlotBiz,TaskBagBiz,PosCalculationRule,TreeContainer],
     styleUrls:['../templates/res/css/task/tree.css'],
     templateUrl: `
     <!-- -->

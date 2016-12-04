@@ -2,6 +2,7 @@ import { PosCalculationRule } from './task-pos-calculation-rule.biz';
 import { Injectable } from '@angular/core';
 import { Task } from '../entities/task.entity';
 import { TreeService } from '../services/tree.service';
+import { EventEmitter, } from '@angular/core';
 @Injectable()
 export class TaskBiz {
     expand(task: Task, service: TreeService) {
@@ -59,14 +60,15 @@ export class TaskBiz {
         }
         return true;
     }
-    moveTask(fromTask: Task, toTask: Task, service: TreeService,posCalculationRule:PosCalculationRule) {
-        // don't drag to self
+    moveTask(fromComponent: any, fromTask: Task, toComponent: any, toTask: Task, service: TreeService, posCalculationRule: PosCalculationRule,
+    ) {
+        // don't drag to self and parent can't drag to child
         if (!this.canMoveTask(fromTask, toTask, service)) {
             return;
         }
         let from_node = fromTask.parent.children.find((t) => t.tid === fromTask.tid);
-        let index = fromTask.parent.children.indexOf(from_node)
-        let fromnode = fromTask.parent.children.splice(index, 1)[0];
+        let index = fromTask.parent.children.indexOf(from_node);
+        fromTask.parent.children.splice(index, 1)[0];
 
         //todo:judge fromTask is  taskbag or task 
         if (!(<any>(fromTask.parent)).parent) { //it's taskbag
@@ -78,31 +80,41 @@ export class TaskBiz {
                 (<Task>fromTask.parent).hasChild = false;
             }
         }
+
+        let f_manHour = fromTask.manhour + fromTask.children_manhour;
+        let f_cManHour = fromTask.completedmanhour + fromTask.children_completedmanhour;
+       
+
+        let sub_obj = { children_manHour: f_manHour, children_completeManHour: f_cManHour,this_component:fromComponent }
+        fromComponent._sub.emit(sub_obj);
         fromTask.parent.children.sort((a, b) => (a.pos - b.pos));
         //set properties;
         let first_task = toTask.children.sort((a, b) => a.pos - b.pos).slice(0, 1)[0];
         let first_pos: number;
         if (first_task) {
             // fromTask.pos = first_task.pos / 2 + Math.random() * first_task.pos * 0.01;
-            fromTask.pos = posCalculationRule.Third_Rule(0,first_task.pos);
+            fromTask.pos = posCalculationRule.Third_Rule(0, first_task.pos);
         }
         else {
             // fromTask.pos = 65535;
             fromTask.pos = posCalculationRule.First_Rule();
         }
 
-        fromnode.parent = toTask;
-        fromnode.is_root = false;
-        fromnode.bag_id = toTask.bag_id;
+        fromComponent.this_parent = toComponent;
+        fromTask.parent = toTask;
+        fromTask.is_root = false;
+        fromTask.bag_id = toTask.bag_id;
 
         if (!toTask.hasChild || !toTask.is_expanded) {
             toTask.hasChild = true;
             toTask.is_expanded = true;
         }
-        toTask.children_ids.push(fromnode.tid);
+        toTask.children_ids.push(fromTask.tid);
         //todo: use service move the ceche's data
-        toTask.children.push(fromnode); //trigger the ngOnChanges
+        toTask.children.push(fromTask); //trigger the ngOnChanges
 
+        let sum_obj = { children_manHour: f_manHour, children_completeManHour: f_cManHour,this_component:toComponent }
+        toComponent._sum.emit(sum_obj);
         toTask.children.sort((a, b) => (a.pos - b.pos));
     }
     ngOnChanges(changes, task: Task, service: TreeService) {
@@ -125,7 +137,7 @@ export class TaskBiz {
 
         }
     }
-    counter(children_manHour: number, children_completeManHour: number, task:any,this_parent:any) {
+    counter(children_manHour: number, children_completeManHour: number, task: any, this_parent: any) {
         task.children_manhour += children_manHour;
         task.children_completedmanhour += children_completeManHour;
         this_parent.counter(task.children_manhour, task.children_completedmanhour, task.parent);
