@@ -96,35 +96,32 @@ export class TreeComponent implements OnChanges {
     let pos = 100;
     for (let child_id of changes.taskbag.currentValue.children_ids) {
       this.treeService.createMock_Bags_Child_Tasks(this.taskbag, child_id, pos)
-      // let child = this.treeService.getTaskInfos(child_id);
-      // child.parent = this.taskbag;
-      // this.taskbag.children.push(child);
       pos++;
     }
     this.taskbag.children.sort((a, b) => a.pos - b.pos);
   }
+  
+  initManHourInfo($event: { children_manHour: number, children_completeManHour: number, this_component: any }, task) {
+    $event.this_component.init($event.children_manHour, $event.children_completeManHour, task);
+  }
+  sumManHourInfo($event: { children_manHour: number, children_completeManHour: number, this_component: any }, task) {
+    //console.log('bag sum');
+    $event.this_component.counter($event.children_manHour, $event.children_completeManHour, task);
+  }
+  subManHourInfo($event: { children_manHour: number, children_completeManHour: number, this_component: any }, task) {
+    //console.log('bag sub');
+    $event.this_component.sub($event.children_manHour, $event.children_completeManHour, task);
+  }
+  init(children_manHour: number, children_completeManHour: number, taskBag: TaskBag | Task){
+    taskBag.children_manhour += children_manHour;
+    taskBag.children_completedmanhour += children_completeManHour;
+  }
   counter(children_manHour: number, children_completeManHour: number, taskBag: TaskBag | Task) {
-    console.log('bag sum');
     taskBag.children_manhour += children_manHour;
     taskBag.children_completedmanhour += children_completeManHour;
     // it's root parent ,need't bubble
   }
-  initManHourInfo($event: { children_manHour: number, children_completeManHour: number, this_component: any },task) {
-    this.counter($event.children_manHour, $event.children_completeManHour, task);
-    // console.log($event);
-    // // this.task.children_manhour+=$event.children_manHour;
-    // // this.task.children_completedmanhour +=$event.children_completeManHour;
-    // console.log(this.task);
-  }
-  sumManHourInfo($event: { children_manHour: number, children_completeManHour: number, this_component: any },task) {
-    //console.log('bag sum');
-    $event.this_component.counter($event.children_manHour, $event.children_completeManHour, task);
-  }
-  subManHourInfo($event: { children_manHour: number, children_completeManHour: number, this_component: any },task) {
-    //console.log('bag sub');
-    $event.this_component.sub($event.children_manHour, $event.children_completeManHour, task);
-  }
-  sub(children_manHour: number, children_completeManHour: number, taskBag: TaskBag|Task) {
+  sub(children_manHour: number, children_completeManHour: number, taskBag: TaskBag | Task) {
     console.log('bag sub');
     taskBag.children_manhour -= children_manHour;
     taskBag.children_completedmanhour -= children_completeManHour;

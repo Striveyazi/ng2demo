@@ -21,11 +21,11 @@
     </div>
     <div class="tree-children" *ngIf="task.is_expanded">
         <div *ngIf="task.hasChild">
-            <TreeNodeDropSlot [task]="task" [child]="task"></TreeNodeDropSlot>
+            <TreeNodeDropSlot [task]="task" [child]="task" [this_parent]="this" (_sum)="sumManHourInfo($event,task)"></TreeNodeDropSlot>
             <TreeNode *ngFor="let child_task of task.children;" [this_parent]="this" [task]="child_task" (_init)="initManHourInfo($event,child_task)" (_sum)="sumManHourInfo($event,child_task)" (_sub)="subManHourInfo($event,child_task)">
             </TreeNode>
         </div>
         <LoadingComponent class="tree-node-loading" *ngIf="!task.children"></LoadingComponent>
     </div>
-    <TreeNodeDropSlot [task]="task.parent" [child]="task"></TreeNodeDropSlot>
+    <TreeNodeDropSlot [task]="task.parent" [child]="task" [this_parent]="this.this_parent" (_sum)="sumManHourInfo($event,task)" (_sub)="subManHourInfo($event,task)"></TreeNodeDropSlot>
 </div>

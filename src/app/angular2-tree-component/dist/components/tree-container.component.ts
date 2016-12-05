@@ -30,30 +30,18 @@ import { CommonModule } from '@angular/common';
     
     [options] = "taskbag.options"
     >
-    
-    <!-- this template' content contain per tree's nodes -->
-    <!-- but  some function(such as chidrenCount()) need to write on this component(TreeContainerComponent)  
-        <template #treeNodeTemplate let-node>
-            <span title="{{node.data.name}}">{{ node.data.name }}</span>
-            <span class="pull-right">{{ childrenCount(node) }}</span>
-            <button (click)="go($event)">Custom Action</button>
-        </template>
-        <template #loadingTemplate>Loading, please hold....</template>
-        <template #taskbagTemplate let-taskInfod>
-            <span>{{taskInfod}}</span>
-        </template>
-    -->
-    </Tree>
     `,
 })
 export class TreeContainerComponent implements OnChanges {
 
     @Input()  trees:TaskBag[];
     
-    constructor(public treeService:TreeService) {
+    constructor(public treeService:TreeService,private treeContainer:TreeContainer) {
      
     }
     ngOnChanges(changes) {
+        console.log('tree container');
+        this.treeContainer._isFirstInit = true;
         // will comein twice ,first is inits ,second is the @input property has changes
         let hasValue=[];
         /**

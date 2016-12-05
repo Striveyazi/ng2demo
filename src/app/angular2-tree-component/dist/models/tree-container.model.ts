@@ -17,6 +17,7 @@ export class TreeContainer implements ITreeContainer {
     static _dragTask:Task;
     _dragTask:Task;
     _dragTaskComponent:any;
+    _isFirstInit:boolean;
 
 
 

@@ -3,7 +3,7 @@ import { TaskDropSlotBiz } from '../biz/task-drop-slot.component.biz';
 import { Task } from '../entities/task.entity';
 import { TreeService } from '../services/tree.service';
 import { TreeContainer } from '../models/tree-container.model';
-import { Component, Input, OnChanges, ViewEncapsulation } from '@angular/core';
+import { Component, Input,Output, OnChanges, ViewEncapsulation,EventEmitter, } from '@angular/core';
 import { TreeNode } from '../models/tree-node.model';
 @Component({
     selector: 'TreeNodeDropSlot',
@@ -28,7 +28,11 @@ export class TreeNodeDropSlot {
     @Input() task: Task;
     @Input() child: Task;
     @Input() _dropLocation: any;
-    constructor(public treeService: TreeService,private biz:TaskDropSlotBiz,private posCalculationRule:PosCalculationRule) { }
+    @Input() this_parent: any;
+    @Output()
+    _sum = new EventEmitter<{ children_manHour: number, children_completeManHour: number }>();
+
+    constructor(public treeService: TreeService,private treeContainer:TreeContainer, private biz:TaskDropSlotBiz,private posCalculationRule:PosCalculationRule) { }
     onDragOver($event) {
         $event.preventDefault();
         this.setDropLocation(this);
@@ -41,12 +45,12 @@ export class TreeNodeDropSlot {
     }
     onDrop($event) {
         $event.preventDefault();
-        let dragTask = TreeContainer._dragTask;
-        let from_task = dragTask.parent.children.find((t) => t.tid === dragTask.tid);
-        let index = dragTask.parent.children.indexOf(from_task);
-        let fromTask = dragTask.parent.children.splice(index, 1)[0];
+        let dragTask:any = this.treeContainer._dragTaskComponent.task;
+        let source_task = dragTask.parent.children.find((t) => t.tid === dragTask.tid);
+        let index = dragTask.parent.children.indexOf(source_task);
+        dragTask.parent.children.splice(index, 1)[0];
 
-        this.biz.moveTask(fromTask,this.task,this.child,this.treeService,this.posCalculationRule);
+        this.biz.moveTask(this.treeContainer._dragTaskComponent,this,this.treeService,this.posCalculationRule);
         //this formTask is a root Task, and it's parent is TaskBag( a virtual Task),
 
         //todo:judge is task or taskbag ?
@@ -59,5 +63,20 @@ export class TreeNodeDropSlot {
     }
     isDraggingOver(component: any) {
         return this._dropLocation === component;
+    }
+    /**
+     *  @param
+     */
+    counter(children_manHour: number, children_completeManHour: number, task: Task) {
+        //it's a slot needn't excute add, only bobble it's parent and excute add
+        let parent : any;
+        if(this.task === this.child){ //  drag to => between task and this task's frist_child
+           parent = task;
+        }
+        else{
+            parent = task.parent;
+        }
+        this.this_parent.counter(children_manHour, children_completeManHour, parent);
+
     }
 }
