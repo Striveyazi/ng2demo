@@ -120,6 +120,7 @@ export class TreeNodeComponent implements OnChanges, OnDestroy, OnInit {
     }
 
     mouseAction() {
+        // test git branch;
     }
 
     setDropLocation(component: any) {
